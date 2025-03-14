@@ -43,7 +43,7 @@ export default function TerminalFooter() {
               <span>Waleed Alghamdi</span>
             </h3>
             <p className="text-term-gray">
-              Senior Culture & Employee Experience Consultant with a passion for technology, AI, and innovative
+              Management Consultant with a passion for technology, AI, and innovative
               solutions.
             </p>
             <div className="flex space-x-3">

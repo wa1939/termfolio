@@ -39,7 +39,7 @@ export default function InteractiveTerminal() {
           <span className="text-term-cyan">skills</span> - View my skills
         </p>
         <p>
-          <span className="text-term-cyan">my_story</span> - Read my personal story
+          <span className="text-term-cyan">whoami</span> - Read my personal story
         </p>
         <p>
           <span className="text-term-cyan">what_i_do</span> - See what I can offer professionally
@@ -78,7 +78,7 @@ export default function InteractiveTerminal() {
         </p>
       </div>
     ),
-    my_story: () => (
+    whoami: () => (
       <div className="space-y-4 overflow-y-auto max-h-[400px] pr-2">
         <h2 className="text-xl font-bold text-term-cyan">Who I Am Today, And How I Got Here</h2>
 

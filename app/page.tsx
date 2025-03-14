@@ -9,7 +9,7 @@ import TypingAnimation from "@/components/typing-animation"
 import InteractiveTerminal from "@/components/interactive-terminal"
 import TerminalFooter from "@/components/terminal-footer"
 
-const typingWords = ["Waleed Alghamdi", "Consultant", "Tech Consultant", "Tech Enthusiast"]
+const typingWords = ["Waleed Alghamdi", "Consultant", "Dreamer", "Tech Enthusiast"]
 
 export default function Home() {
   const [time, setTime] = useState("")
@@ -57,7 +57,7 @@ export default function Home() {
                 </h1>
                 <div className="h-[1px] w-16 bg-term-cyan mb-4" />
                 <p className="text-term-gray text-lg">
-                  Digital craftsman, exploring the intersection of code and creativity.
+                I am a Ex Mechanical Engineer, Consultant, Dreamer! This is a website I created with the desire to share my knowledge with everyone. Thank you to everyone who visited. ❤️
                 </p>
               </motion.div>
 
@@ -72,7 +72,7 @@ export default function Home() {
                 </p>
                 <div className="pl-4 border-l border-term-dark space-y-2 text-term-gray">
                   <p>Development • Design • Consulting</p>
-                  <p>React • Next.js • Node.js • AWS</p>
+                  <p>Python • Digital Transformation • Product Management • Project Management</p>
                 </div>
               </motion.div>
 
