@@ -58,10 +58,10 @@ const CommentSection = ({ giscus }: CommentSectionProps) => {
         <div className="p-4 bg-gradient-to-br from-retro-black to-retro-dark-blue">
           <Giscus
             id="comments"
-            repo="wa1939/waleednotion_Q-A"
-            repoId="R_kgDONQHI9"
-            category="Q&A"
-            categoryId="DIC_kwDONQHI984CkUKd"
+            repo={process.env.NEXT_PUBLIC_GISCUS_REPO || ""}
+            repoId={process.env.NEXT_PUBLIC_GISCUS_REPO_ID || ""}
+            category={process.env.NEXT_PUBLIC_GISCUS_CATEGORY || ""}
+            categoryId={process.env.NEXT_PUBLIC_GISCUS_CATEGORY_ID || ""}
             mapping="pathname"
             strict="1"
             reactionsEnabled="1"
