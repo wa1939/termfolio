@@ -1,6 +1,6 @@
 import type React from "react"
-import { SpeedInsights } from "@vercel/speed-insights/next"
 import { Analytics } from "@vercel/analytics/react"
+import { SpeedInsights } from "@vercel/speed-insights/next"
 import { ThemeProvider } from "@/components/theme-provider"
 import "./globals.css"
 
@@ -22,9 +22,9 @@ export default function RootLayout({
           {children}
         </ThemeProvider>
 
-        {/* Always include analytics components without conditions */}
-        <Analytics />
-        <SpeedInsights />
+        {/* Analytics components placed outside of ThemeProvider */}
+        <Analytics debug={false} />
+        <SpeedInsights debug={false} />
       </body>
     </html>
   )
