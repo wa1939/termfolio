@@ -482,7 +482,7 @@ export default function AboutPage() {
                 </div>
               </section>
 
-              {/* Education section */}
+              {/* Education section
               <section className="space-y-4">
                 <div className="flex items-center mb-2">
                   <BookOpen className="text-term-cyan mr-2 h-5 w-5" />
@@ -498,7 +498,40 @@ export default function AboutPage() {
             </motion.div>
           </div>
         </div>
-      </main>
+      </main> */}
+
+          {/* Education section */}
+          <section className="space-y-4">
+            <div className="flex items-center mb-2">
+              <BookOpen className="text-term-cyan mr-2 h-5 w-5" />
+              <h2 className="text-xl font-bold text-term-cyan">Education</h2>
+            </div>
+
+            {/* New: M.B.A. — most recent, shown first */}
+            <div className="bg-term-dark border border-term-cyan/20 p-5 rounded-md">
+              <div className="border-l-2 border-term-cyan/30 pl-4">
+                <h3 className="text-term-white font-bold">
+                  Master of Business Administration – MBA
+                </h3>
+                <p className="text-term-cyan text-sm">
+                  University of Illinois Urbana-Champaign, Gies&nbsp;College&nbsp;of&nbsp;Business
+                </p>
+                <p className="text-term-white text-xs mt-1">
+                  May 2025 – Jul 2027
+                </p>
+              </div>
+            </div>
+
+            {/* B.E. - Mechanical Engineering */}
+            <div className="bg-term-dark border border-term-cyan/20 p-5 rounded-md">
+              <div className="border-l-2 border-term-cyan/30 pl-4">
+                <h3 className="text-term-white font-bold">
+                  Bachelor of Engineering – Mechanical Engineering
+                </h3>
+                <p className="text-term-cyan text-sm">University of Jeddah</p>
+              </div>
+            </div>
+          </section>            
 
       <TerminalFooter />
     </div>
