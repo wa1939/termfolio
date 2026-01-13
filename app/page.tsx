@@ -134,7 +134,7 @@ export default function Home() {
                   }}
                 >
                   <Image
-                    src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/hwz-ngMQ9Ilavq9IDnNyVCaXrFNVkgm4Ol.webp"
+                    src="/dbcf93d6-e01e-4308-bea1-11412058a5cd.webp"
                     alt="Waleed Alghamdi"
                     fill
                     className="object-cover"
