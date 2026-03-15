@@ -15,11 +15,14 @@ import {
   Embed,
   Video,
 } from "@/components/atoms"
-import nl2br from "react-nl2br"
+import type { ReactNode } from "react"
 
 interface NotionRenderProps {
   contents: Array<any>
 }
+
+const renderLineBreaks = (value: string): ReactNode[] =>
+  value.split("\n").flatMap((part, index, parts) => (index < parts.length - 1 ? [part, <br key={`br-${index}`} />] : [part]))
 
 const NotionRender = ({ contents }: NotionRenderProps) => {
   if (!contents || !Array.isArray(contents)) {
@@ -263,12 +266,12 @@ export const RichTextToReact = (contents: Array<any>, options: any = {}) => {
         if (content[type].link)
           return (
             <Link target="_blank" href={content[type].link.url} key={index} className="text-term-cyan hover:underline">
-              {nl2br(content[type].content)}
+              {renderLineBreaks(content[type].content)}
             </Link>
           )
         return (
           <Span key={index} annotations={annotations} className="text-term-white">
-            {nl2br(content[type].content)}
+            {renderLineBreaks(content[type].content)}
           </Span>
         )
       })}

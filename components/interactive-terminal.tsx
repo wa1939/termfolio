@@ -2,388 +2,274 @@
 
 import type React from "react"
 
-import { useState, useRef, useEffect } from "react"
+import { useEffect, useMemo, useRef, useState } from "react"
+import Link from "next/link"
 import { useRouter } from "next/navigation"
 
-interface Command {
+type Entry = {
   input: string
   output: React.ReactNode
 }
 
+const suggestions = ["help", "about", "blog", "contact", "skills", "whoami"] as const
+
 export default function InteractiveTerminal() {
+  const router = useRouter()
   const [input, setInput] = useState("")
-  const [commandHistory, setCommandHistory] = useState<Command[]>([])
+  const [entries, setEntries] = useState<Entry[]>([])
   const [historyIndex, setHistoryIndex] = useState(-1)
   const inputRef = useRef<HTMLInputElement>(null)
-  const terminalRef = useRef<HTMLDivElement>(null)
-  const router = useRouter()
+  const bodyRef = useRef<HTMLDivElement>(null)
 
-  // Available commands
-  const commands = {
-    help: () => (
-      <div className="pl-4 space-y-1">
-        <p>Available commands:</p>
-        <p>
-          <span className="text-term-cyan">help</span> - Show this help message
-        </p>
-        <p>
-          <span className="text-term-cyan">about</span> - Learn about me
-        </p>
-        <p>
-          <span className="text-term-cyan">blog</span> - Read my blog posts
-        </p>
-        <p>
-          <span className="text-term-cyan">contact</span> - Get in touch
-        </p>
-        <p>
-          <span className="text-term-cyan">skills</span> - View my skills
-        </p>
-        <p>
-          <span className="text-term-cyan">whoami</span> - Read my personal story
-        </p>
-        <p>
-          <span className="text-term-cyan">what_i_do</span> - See what I can offer professionally
-        </p>
-        <p>
-          <span className="text-term-cyan">clear</span> - Clear the terminal
-        </p>
-      </div>
-    ),
-    about: () => {
-      router.push("/about")
-      return <p>Navigating to about page...</p>
-    },
-    blog: () => {
-      router.push("/blog")
-      return <p>Navigating to blog page...</p>
-    },
-    contact: () => {
-      router.push("/contact")
-      return <p>Navigating to contact page...</p>
-    },
-    // skills: () => (
-    //   <div className="pl-4 space-y-1">
-    //     <p>My skills include:</p>
-    //     <p>
-    //       • <span className="text-term-cyan">Frontend</span>: React, Next.js, TypeScript
-    //     </p>
-    //     <p>
-    //       • <span className="text-term-cyan">Backend</span>: Node.js, Express, AWS
-    //     </p>
-    //     <p>
-    //       • <span className="text-term-cyan">Design</span>: UI/UX, Figma
-    //     </p>
-    //     <p>
-    //       • <span className="text-term-cyan">Other</span>: Technical consulting, Project management
-    //     </p>
-    //   </div>
-      skills: () => (
-    <div className="pl-4 space-y-1">
-      <p>My skills include:</p>
+  const aliases = useMemo(
+    () => ({
+      journal: "blog",
+      writing: "blog",
+      posts: "blog",
+      resume: "about",
+      cv: "about",
+      email: "contact",
+      hire: "contact",
+      "show me your work": "blog",
+      "tell me about yourself": "whoami",
+    }),
+    [],
+  )
 
-      {/* Core consulting & leadership */}
-      <p>• <span className="text-term-cyan">Project Management</span></p>
-      <p>• <span className="text-term-cyan">Transforming Organizational Culture</span></p>
-      <p>• <span className="text-term-cyan">Change Management</span></p>
-      <p>• <span className="text-term-cyan">Digital Transformation</span></p>
-
-      {/* Analytical & problem-solving */}
-      <p>• <span className="text-term-cyan">Analytical Skills</span></p>
-      <p>• <span className="text-term-cyan">Problem Solving</span></p>
-
-      {/* Business-driving capabilities */}
-      <p>• <span className="text-term-cyan">Business Development</span></p>
-      <p>• <span className="text-term-cyan">Client Satisfaction</span></p>
-
-      {/* Technical toolset */}
-      <p>• <span className="text-term-cyan">Advanced Microsoft Excel & PowerPoint</span></p>
-      <p>• <span className="text-term-cyan">Python & AI Integration</span></p>
-      <p>• <span className="text-term-cyan">Data Analysis</span></p>
-    </div>
-    ),
-    whoami: () => (
-      <div className="space-y-4 overflow-y-auto max-h-[400px] pr-2">
-        <h2 className="text-xl font-bold text-term-cyan">Who I Am Today, And How I Got Here</h2>
-
-        <blockquote className="border-l-2 border-term-cyan pl-3 italic text-term-gray">
-          <p>Curiosity was always my playground.</p>
-        </blockquote>
-
-        <h3 className="text-lg font-bold text-term-cyan">Here's the story:</h3>
-
-        <p>
-          Ever since I was a kid, I've been known as{" "}
-          <strong className="text-term-white font-bold">"Waleed the Breaker."</strong> Why? Because I couldn't resist
-          taking apart every toy to see what was inside. I was always curious about how things worked, and that
-          curiosity hasn't gone away.
-        </p>
-
-        <p>
-          In school, <strong className="text-term-white font-bold">physics was my thing</strong>. I loved it because it
-          was all about understanding concepts, not just memorizing facts. Biology? Not so much – too much memorization
-          without really grasping the <em className="italic">why</em> behind it all. Tech has always been a big part of
-          my life. From a young age, I was all about learning programming, editing – anything tech-related. When it was
-          time for college, I had a tough choice: Mechanical Engineering, Physics, or Computer Engineering. I went with
-          Mechanical Engineering because I've always been fascinated by how machines work, from cars to planes. But as I
-          got further into my studies at the University of Jeddah, I realized engineering wasn't just about gears and
-          engines—it was about learning to think critically, solve problems, and approach challenges in innovative ways.
-          That's what led me to shift into management consulting, where I focus on helping organizations and people
-          reach their goals.
-        </p>
-
-        <p>
-          Over the years, I've worked on more than <strong className="text-term-white font-bold">25</strong> major
-          projects for <strong className="text-term-white font-bold">top-tier clients</strong> across the Middle East.
-          But it's never been just about completing projects—it's about the impact, transformation, and evolution they
-          bring.
-        </p>
-
-        <p>
-          Outside of work, I'm all about learning new things—whether it's from podcasts, tech news, or talking to
-          interesting people. I'm not much for dreaming—I prefer setting solid goals centered on{" "}
-          <strong className="text-term-white font-bold">making people's lives easier</strong> and leaving a positive
-          mark. When I'm not working, I love to travel, meet new people, and tackle challenges—especially the kind that
-          make me think. I'm into everything from strategy and tech to marketing and finance. And yes, I'm pretty
-          ambitious!
-        </p>
-
-        <p>
-          So, that's a bit about me. <strong className="text-term-white font-bold">I'm Waleed</strong>, and I
-          believe in sharing knowledge, helping others, and doing whatever it takes to simplify life for the people
-          around me.
-        </p>
-      </div>
-    ),
-    what_i_do: () => (
-      <div className="space-y-4 overflow-y-auto max-h-[400px] pr-2">
-        <h2 className="text-xl font-bold text-term-cyan">What I Do</h2>
-
-        <div className="space-y-4">
-          <div>
-            <p className="font-bold text-term-white">🌐 Change Management & Organizational Culture</p>
-            <p className="text-term-gray pl-5">
-              I spearhead projects to revolutionize organizational culture, focusing on creating dynamic and positive
-              changes in premier companies across the Middle East.
-            </p>
-          </div>
-
-          <div>
-            <p className="font-bold text-term-white">📊 Business Analysis & Strategy</p>
-            <p className="text-term-gray pl-5">
-              I strategize and implement business solutions to enhance operational efficiency and drive growth in
-              competitive environments.
-            </p>
-          </div>
-
-          <div>
-            <p className="font-bold text-term-white">🚀 Client Relationships & Business Development</p>
-            <p className="text-term-gray pl-5">
-              I specialize in building and enhancing client relationships, steering business development, and refining
-              client journey and sales processes.
-            </p>
-          </div>
-
-          <div>
-            <p className="font-bold text-term-white">🏢 HR Consultation</p>
-            <p className="text-term-gray pl-5">
-              I develop versatile HR strategies, encompassing comprehensive operating models tailored to meet a wide
-              range of organizational needs—from strategic planning to employee engagement initiatives.
-            </p>
-          </div>
-
-          <div>
-            <p className="font-bold text-term-white">🔎 Customer Development</p>
-            <p className="text-term-gray pl-5">
-              I help businesses pinpoint the right problems to solve, ensuring they create solutions that customers
-              truly want to buy, all while gaining deeper insights into customer preferences.
-            </p>
-          </div>
-
-          <div>
-            <p className="font-bold text-term-white">💡 Digital Transformation</p>
-            <p className="text-term-gray pl-5">
-              I guide organizations through modernizing their processes and culture with advanced digital tools and
-              technologies, delivering tangible improvements in efficiency, innovation, and customer engagement.
-            </p>
-          </div>
-
-          <div>
-            <p className="font-bold text-term-white">✅ Project Management & Product Management</p>
-            <p className="text-term-gray pl-5">
-              I lead cross-functional teams to deliver projects on time and within scope, while overseeing the entire
-              product lifecycle—from ideation and roadmap planning to execution and market launch—ensuring strategic
-              alignment and measurable success.
-            </p>
-          </div>
+  const commands = useMemo(
+    () => ({
+      help: () => (
+        <div className="space-y-1 pl-4 text-term-gray">
+          <p>available commands</p>
+          <p>
+            <span className="text-term-cyan">about</span>
+            {" // open the dossier"}
+          </p>
+          <p>
+            <span className="text-term-cyan">blog</span>
+            {" // browse the journal"}
+          </p>
+          <p>
+            <span className="text-term-cyan">contact</span>
+            {" // open contact options"}
+          </p>
+          <p>
+            <span className="text-term-cyan">skills</span>
+            {" // show working set"}
+          </p>
+          <p>
+            <span className="text-term-cyan">whoami</span>
+            {" // read the short story"}
+          </p>
+          <p>
+            <span className="text-term-cyan">clear</span>
+            {" // clear previous commands"}
+          </p>
         </div>
-      </div>
-    ),
-    clear: () => {
-      // Return null as we handle clearing in the handleSubmit function
-      return null
-    },
-  }
-
-  // Process command input
-  const processCommand = (cmd: string) => {
-    const trimmedCmd = cmd.trim().toLowerCase()
-
-    if (trimmedCmd === "") {
-      return <span>&nbsp;</span>
-    }
-
-    if (trimmedCmd in commands) {
-      return commands[trimmedCmd as keyof typeof commands]()
-    }
-
-    if (trimmedCmd.startsWith("cd ")) {
-      const path = trimmedCmd.substring(3).trim()
-      if (path === "~" || path === "/") {
-        router.push("/")
-        return <p>Navigating to home...</p>
-      }
-      if (path === "about" || path === "./about") {
+      ),
+      about: () => {
         router.push("/about")
-        return <p>Navigating to about page...</p>
-      }
-      if (path === "blog" || path === "./blog") {
+        return <p className="text-term-gray">opening dossier...</p>
+      },
+      blog: () => {
         router.push("/blog")
-        return <p>Navigating to blog page...</p>
-      }
-      if (path === "contact" || path === "./contact") {
+        return <p className="text-term-gray">opening journal archive...</p>
+      },
+      contact: () => {
         router.push("/contact")
-        return <p>Navigating to contact page...</p>
+        return <p className="text-term-gray">opening contact channel...</p>
+      },
+      skills: () => (
+        <div className="space-y-1 pl-4 text-term-gray">
+          <p>working set</p>
+          <p>- strategy execution</p>
+          <p>- change management</p>
+          <p>- culture transformation</p>
+          <p>- product thinking</p>
+          <p>- python and ai integration</p>
+          <p>- dashboards, analysis, and decision support</p>
+        </div>
+      ),
+      whoami: () => (
+        <div className="space-y-3 pl-4 text-term-gray">
+          <p>
+            I started in engineering, moved into consulting, and kept following the same question: how do you make complex things usable for real people?
+          </p>
+          <p>
+            That question pulled me into systems, culture, digital transformation, product thinking, and AI-enabled internal tools.
+          </p>
+          <Link href="/about" className="cli-link inline-block">
+            read the longer version
+          </Link>
+        </div>
+      ),
+    }),
+    [router],
+  )
+
+  useEffect(() => {
+    if (bodyRef.current) {
+      bodyRef.current.scrollTop = bodyRef.current.scrollHeight
+    }
+  }, [entries])
+
+  const historyInputs = entries.map((entry) => entry.input)
+
+  const resolveCommand = (raw: string) => {
+    const normalized = raw.trim().toLowerCase()
+    if (!normalized) return <span>&nbsp;</span>
+
+    const mapped = aliases[normalized as keyof typeof aliases] ?? normalized
+
+    if (mapped === "clear") {
+      return null
+    }
+
+    if (mapped in commands) {
+      return commands[mapped as keyof typeof commands]()
+    }
+
+    if (mapped.startsWith("cd ")) {
+      const destination = mapped.replace(/^cd\s+/, "").trim()
+      if (destination === "~" || destination === "/") {
+        router.push("/")
+        return <p className="text-term-gray">returning home...</p>
+      }
+      if (destination === "about") {
+        router.push("/about")
+        return <p className="text-term-gray">opening dossier...</p>
+      }
+      if (destination === "blog" || destination === "posts") {
+        router.push("/blog")
+        return <p className="text-term-gray">opening journal archive...</p>
+      }
+      if (destination === "contact") {
+        router.push("/contact")
+        return <p className="text-term-gray">opening contact channel...</p>
       }
     }
 
     return (
-      <p>
-        Command not found: {trimmedCmd}. Type <span className="text-term-cyan">help</span> for available commands.
+      <p className="text-term-gray">
+        command not found: <span className="text-term-white">{normalized}</span>. type <span className="text-term-cyan">help</span> for available commands.
       </p>
     )
   }
 
-  // Handle command submission
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-
-    if (input.trim() === "") return
-
-    const trimmedInput = input.trim().toLowerCase()
-
-    // Special handling for clear command
-    if (trimmedInput === "clear") {
-      setCommandHistory([])
+  const runCommand = (value: string) => {
+    if (value.toLowerCase() === "clear") {
+      setEntries([])
       setInput("")
       setHistoryIndex(-1)
       return
     }
 
-    const newCommand: Command = {
-      input,
-      output: processCommand(input),
+    const output = resolveCommand(value)
+    if (output !== null) {
+      setEntries((current) => [...current, { input: value, output }])
     }
 
-    setCommandHistory([...commandHistory, newCommand])
     setInput("")
     setHistoryIndex(-1)
   }
 
-  // Handle keyboard navigation through command history
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "ArrowUp") {
-      e.preventDefault()
-      if (historyIndex < commandHistory.length - 1) {
-        const newIndex = historyIndex + 1
-        setHistoryIndex(newIndex)
-        setInput(commandHistory[commandHistory.length - 1 - newIndex].input)
-      }
-    } else if (e.key === "ArrowDown") {
-      e.preventDefault()
-      if (historyIndex > 0) {
-        const newIndex = historyIndex - 1
-        setHistoryIndex(newIndex)
-        setInput(commandHistory[commandHistory.length - 1 - newIndex].input)
-      } else if (historyIndex === 0) {
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault()
+    const value = input.trim()
+    if (!value) return
+    runCommand(value)
+  }
+
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "ArrowUp") {
+      event.preventDefault()
+      if (historyInputs.length === 0) return
+
+      const nextIndex = Math.min(historyIndex + 1, historyInputs.length - 1)
+      setHistoryIndex(nextIndex)
+      setInput(historyInputs[historyInputs.length - 1 - nextIndex])
+    }
+
+    if (event.key === "ArrowDown") {
+      event.preventDefault()
+      if (historyIndex <= 0) {
         setHistoryIndex(-1)
         setInput("")
+        return
       }
+
+      const nextIndex = historyIndex - 1
+      setHistoryIndex(nextIndex)
+      setInput(historyInputs[historyInputs.length - 1 - nextIndex])
     }
   }
-
-  // Auto-scroll to bottom when new commands are added
-  useEffect(() => {
-    if (terminalRef.current) {
-      terminalRef.current.scrollTop = terminalRef.current.scrollHeight
-    }
-  }, [commandHistory])
-
-  // Focus input when terminal is clicked
-  const focusInput = () => {
-    if (inputRef.current) {
-      inputRef.current.focus()
-    }
-  }
-
-  // Add welcome message on first render
-  useEffect(() => {
-    setCommandHistory([
-      {
-        input: "",
-        output: (
-          <div className="space-y-1">
-            <p>Welcome to my interactive terminal!</p>
-            <p>
-              Type <span className="text-term-cyan">help</span> to see available commands.
-            </p>
-          </div>
-        ),
-      },
-    ])
-  }, [])
 
   return (
-    <div className="bg-term-dark border border-term-cyan/30 rounded-md overflow-hidden" onClick={focusInput}>
-      {/* Terminal header */}
-      <div className="bg-term-darker px-4 py-2 flex items-center justify-between border-b border-term-cyan/20">
-        <div className="flex items-center space-x-2">
-          <div className="w-3 h-3 rounded-full bg-red-500"></div>
-          <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
-          <div className="w-3 h-3 rounded-full bg-green-500"></div>
-        </div>
-        <div className="text-xs text-term-gray">terminal@waok:~</div>
-        <div className="w-4"></div>
+    <div className="cli-frame overflow-hidden">
+      <div className="flex items-center justify-between border-b border-term-line px-4 py-3 text-xs uppercase tracking-[0.16em] text-term-gray">
+        <div>interactive terminal</div>
+        <div>type naturally or use commands</div>
       </div>
 
-      {/* Terminal content */}
-      <div ref={terminalRef} className="p-4 h-64 overflow-y-auto font-mono text-sm">
-        {commandHistory.map((cmd, i) => (
-          <div key={i} className="mb-2">
-            {cmd.input && (
-              <div className="flex">
-                <span className="text-term-green mr-2">$</span>
-                <span>{cmd.input}</span>
-              </div>
-            )}
-            <div className="text-term-white mt-1">{cmd.output}</div>
-          </div>
-        ))}
+      <div ref={bodyRef} className="max-h-[26rem] overflow-y-auto px-4 py-4 text-sm leading-7">
+        <div className="space-y-3 border-b border-term-line pb-4 text-term-gray">
+          <p>
+            <span className="text-term-white">welcome.</span> You can click around this site, or use the prompt below if you want a more command-line way in.
+          </p>
+          <p>
+            try <span className="text-term-cyan">about</span>, <span className="text-term-cyan">blog</span>, <span className="text-term-cyan">contact</span>, or plain language like <span className="text-term-cyan">show me your work</span>.
+          </p>
+        </div>
 
-        {/* Current input line */}
-        <form onSubmit={handleSubmit} className="flex items-center">
-          <span className="text-term-green mr-2">$</span>
-          <input
-            ref={inputRef}
-            type="text"
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            onKeyDown={handleKeyDown}
-            className="flex-1 bg-transparent outline-none text-term-white"
-            autoFocus
-          />
+        <div className="space-y-4 py-4">
+          {entries.map((entry, index) => (
+            <div key={`${entry.input}-${index}`} className="space-y-1.5">
+              <div className="flex items-start gap-3 text-term-white">
+                <span className="text-term-green">$</span>
+                <span>{entry.input}</span>
+              </div>
+              <div>{entry.output}</div>
+            </div>
+          ))}
+        </div>
+
+        <form onSubmit={handleSubmit} className="border-t border-term-line pt-4">
+          <label htmlFor="interactive-terminal" className="sr-only">
+            Terminal command input
+          </label>
+          <div className="flex items-center gap-3 text-term-white">
+            <span className="text-term-green">$</span>
+            <input
+              id="interactive-terminal"
+              ref={inputRef}
+              value={input}
+              onChange={(event) => setInput(event.target.value.slice(0, 100))}
+              onKeyDown={handleKeyDown}
+              placeholder="help, about, blog, contact, skills"
+              className="min-w-0 flex-1 bg-transparent text-term-white outline-none placeholder:text-term-gray"
+              autoCapitalize="none"
+              autoCorrect="off"
+              spellCheck={false}
+            />
+          </div>
+
+          <div className="mt-4 flex flex-wrap gap-2">
+            {suggestions.map((suggestion) => (
+              <button
+                key={suggestion}
+                type="button"
+                onClick={() => {
+                  runCommand(suggestion)
+                  inputRef.current?.focus()
+                }}
+                className="border border-term-line px-3 py-1.5 text-[11px] uppercase tracking-[0.18em] text-term-gray transition-colors hover:border-term-cyan/40 hover:text-term-white"
+              >
+                {suggestion}
+              </button>
+            ))}
+          </div>
         </form>
       </div>
     </div>
   )
 }
-

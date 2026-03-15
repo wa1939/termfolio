@@ -1,534 +1,192 @@
-"use client"
-
-import { useState, useEffect } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { motion } from "framer-motion"
-import {
-  ArrowLeft,
-  Terminal,
-  Code,
-  Server,
-  Cpu,
-  Award,
-  BookOpen,
-  Mail,
-  Github,
-  Twitter,
-  Linkedin,
-  Clock,
-} from "lucide-react"
+import { ArrowLeft } from "lucide-react"
 import MinimalNav from "@/components/minimal-nav"
 import TerminalFooter from "@/components/terminal-footer"
 
+const experience = [
+  {
+    period: "2023 - present",
+    role: "Senior Culture & Employee Experience Consultant",
+    company: "Elm Company",
+    summary:
+      "Leading culture, M&A, and AI-enabled experience work, including internal AI initiatives, capability frameworks, and integration playbooks.",
+  },
+  {
+    period: "2024 - 2025",
+    role: "Senior Consultant (SME engagements)",
+    company: "Independent and partner-led work",
+    summary:
+      "Supported targeted work in dashboards, operating manuals, manpower planning, process improvement, and system-enabled transformation.",
+  },
+  {
+    period: "2022 - 2023",
+    role: "Consultant / Business Analyst",
+    company: "Baseqat Arabia Consulting",
+    summary:
+      "Worked across culture transformation, HR strategy, leadership assessment, and change programs for major clients in the region.",
+  },
+] as const
+
+const credentials = [
+  "PMP",
+  "PMI-RMP",
+  "Prosci",
+  "Change Culture Leader",
+  "MBA (in progress)",
+  "Arabic + English",
+] as const
+
+const skills = [
+  "strategy execution",
+  "culture transformation",
+  "change management",
+  "project management",
+  "product thinking",
+  "problem framing",
+  "python and ai integration",
+  "data analysis",
+  "dashboarding",
+] as const
+
 export default function AboutPage() {
-  const [mounted, setMounted] = useState(false)
-
-  useEffect(() => {
-    setMounted(true)
-  }, [])
-
-  if (!mounted) return null
-
   return (
     <div className="min-h-screen bg-term-black text-term-white font-mono flex flex-col">
       <MinimalNav />
-
-      {/* Noise overlay */}
       <div className="fixed inset-0 pointer-events-none opacity-[0.015] bg-[url('/noise.png')] animate-noise" />
 
-      {/* Main content */}
-      <main className="relative pt-20 pb-16 flex-grow">
+      <main className="flex-grow pt-24 pb-12">
         <div className="container mx-auto px-4">
-          {/* Back navigation */}
-          <div className="mb-8">
-            <Link
-              href="/"
-              className="inline-flex items-center text-term-gray hover:text-term-cyan transition-colors duration-200 group"
-            >
-              <ArrowLeft className="mr-2 h-4 w-4 group-hover:-translate-x-1 transition-transform" />
-              <span className="text-term-green">$</span> cd ..
-            </Link>
-          </div>
+          <Link href="/" className="mb-8 inline-flex items-center gap-2 text-term-gray transition-colors hover:text-term-cyan">
+            <ArrowLeft className="h-4 w-4" />
+            <span className="text-term-green">$</span> cd ..
+          </Link>
 
-          {/* Terminal-style header */}
-          <div className="mb-8">
-            <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
-              <div className="flex items-center mb-2">
-                <span className="text-term-green">$</span>
-                <span className="text-term-cyan ml-2">cat</span>
-                <span className="text-term-white ml-2">resume.md</span>
-              </div>
-              <h1 className="text-3xl md:text-4xl font-bold text-term-cyan mb-4">About Me</h1>
-              <div className="h-[1px] w-16 bg-term-cyan mb-6" />
-            </motion.div>
-          </div>
+          <section className="cli-frame overflow-hidden">
+            <div className="flex items-center justify-between border-b border-term-line px-4 py-3 text-xs uppercase tracking-[0.16em] text-term-gray">
+              <span>resume.md</span>
+              <span>personal dossier</span>
+            </div>
 
-          {/* Main grid layout */}
-          <div className="grid md:grid-cols-3 gap-12">
-            {/* Left column - Profile */}
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              className="md:col-span-1"
-            >
-              <div className="sticky top-24 space-y-6">
-                {/* Profile image */}
-                <div className="relative w-48 h-48 mx-auto">
-                  {/* Water drop shape */}
-                  <div
-                    className="absolute inset-0"
-                    style={{
-                      borderRadius: "60% 40% 50% 50% / 40% 50% 50% 60%",
-                      transform: "rotate(-45deg)",
-                      overflow: "hidden",
-                    }}
-                  >
-                    <Image
-                      src="/dbcf93d6-e01e-4308-bea1-11412058a5cd.webp"
-                      alt="Waleed Alghamdi"
-                      fill
-                      className="object-cover"
-                      style={{ transform: "rotate(45deg) scale(1.2)" }}
-                    />
-
-                    {/* Scan line effect */}
-                    <div className="absolute inset-0 overflow-hidden pointer-events-none">
-                      <div className="w-full h-px bg-term-cyan/20 animate-scan" />
-                    </div>
+            <div className="grid gap-8 p-5 md:grid-cols-[300px_minmax(0,1fr)] md:p-6">
+              <aside className="space-y-6">
+                <div className="overflow-hidden border border-term-line bg-term-darker">
+                  <div className="relative aspect-[4/4.8]">
+                    <Image src="/dbcf93d6-e01e-4308-bea1-11412058a5cd.webp" alt="Waleed Alghamdi" fill priority className="object-cover" />
                   </div>
-
-                  {/* Water drop highlight */}
-                  <div className="absolute top-[15%] left-[20%] w-[15%] h-[15%] bg-white/20 rounded-full blur-sm" />
                 </div>
 
-                {/* Profile info */}
-                <div className="text-center">
-                  <h2 className="text-xl font-bold text-term-white">Waleed</h2>
-                  <p className="text-term-cyan">Consultant</p>
-                </div>
-
-                {/* Contact info */}
-                <div className="bg-term-dark border border-term-cyan/20 p-4 rounded-md">
-                  <h3 className="text-term-cyan mb-3 font-bold">Contact Info</h3>
-                  <div className="space-y-2 text-term-gray">
-                    <p className="flex items-center">
-                      <Mail className="h-4 w-4 mr-2 text-term-cyan" />
-                      <a href="mailto:waok@outlook.sa" className="hover:text-term-cyan transition-colors">
-                        waok@outlook.sa
+                <div className="space-y-3 text-sm leading-7 text-term-gray">
+                  <div>
+                    <div className="cli-topline">name</div>
+                    <div className="mt-1 text-term-white">Waleed Alghamdi</div>
+                  </div>
+                  <div>
+                    <div className="cli-topline">location</div>
+                    <div className="mt-1 text-term-white">Saudi Arabia</div>
+                  </div>
+                  <div>
+                    <div className="cli-topline">contact</div>
+                    <a href="mailto:waok@outlook.sa" className="mt-1 inline-block cli-link">
+                      waok@outlook.sa
+                    </a>
+                  </div>
+                  <div>
+                    <div className="cli-topline">links</div>
+                    <div className="mt-1 space-y-1">
+                      <a href="https://www.linkedin.com/in/waleedalghamdi/" target="_blank" rel="noopener noreferrer" className="block cli-link">
+                        linkedin
                       </a>
-                    </p>
-                    <p>Location: Saudi Arabia</p>
-                    <p>Languages: Arabic, English</p>
-                  </div>
-                </div>
-
-                {/* Social links */}
-                <div className="flex justify-center space-x-4">
-                  <a
-                    href="https://github.com/wa1939"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="p-2 bg-term-dark hover:bg-term-darker text-term-cyan border border-term-cyan/30 rounded transition-colors duration-200"
-                  >
-                    <Github className="h-5 w-5" />
-                    <span className="sr-only">GitHub</span>
-                  </a>
-                  <a
-                    href="https://www.linkedin.com/in/waleedalghamdi/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="p-2 bg-term-dark hover:bg-term-darker text-term-cyan border border-term-cyan/30 rounded transition-colors duration-200"
-                  >
-                    <Linkedin className="h-5 w-5" />
-                    <span className="sr-only">LinkedIn</span>
-                  </a>
-                  <a
-                    href="https://x.com/waleedpy"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="p-2 bg-term-dark hover:bg-term-darker text-term-cyan border border-term-cyan/30 rounded transition-colors duration-200"
-                  >
-                    <Twitter className="h-5 w-5" />
-                    <span className="sr-only">Twitter</span>
-                  </a>
-                </div>
-
-                {/* Download CV */}
-                <a
-                  href="https://file.notion.so/f/f/56a823ad-c36a-4a73-8857-b6e908259d81/ff4edff1-2438-424f-9689-6ee34c85b7b7/Waleed_H._Alghamdi_CV.pdf?table=block&id=1931d9ba-32c9-8083-9867-d7a88633de7e&spaceId=56a823ad-c36a-4a73-8857-b6e908259d81&expirationTimestamp=1741953600000&signature=GaDGb5ZB8FCSJTulhliMs2CvU3OAOBbHmAAPt3JwJdE&downloadName=Waleed+H.+Alghamdi+CV.pdf"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="block w-full text-center px-4 py-3 bg-term-darker hover:bg-term-darker/80 text-term-cyan border border-term-cyan/30 rounded-md transition-colors duration-200 hover:border-term-cyan/60"
-                >
-                  Download CV
-                </a>
-              </div>
-            </motion.div>
-
-            {/* Right column - Content */}
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5, delay: 0.3 }}
-              className="md:col-span-2 space-y-10"
-            >
-              {/* Bio section */}
-              <section className="space-y-4">
-                <div className="flex items-center mb-2">
-                  <Terminal className="text-term-cyan mr-2 h-5 w-5" />
-                  <h2 className="text-xl font-bold text-term-cyan">Professional Summary</h2>
-                </div>
-                <div className="bg-term-dark border border-term-cyan/20 p-5 rounded-md space-y-4 text-term-gray">
-                  <p>
-                    Transformation consultant experienced in strategy execution, culture & strategy alignment, project and product management, and AI-driven digital transformation. I’ve partnered with 20+ organizations across the MENA region, leading 15+ transformation projects that turned strategic ambitions into measurable results from aligning culture and strategy to implementing AI-enabled solutions that boost efficiency. I’m a certified Change Culture Leader, PMP®, PMI-RMP®, Prosci®, and currently pursuing my MBA.
-                  </p>
-                  <p>
-                    I’m an AI and technology enthusiast, passionate about using new technology and innovative solutions to make organizations run better and people’s work easier. My simple belief: every work I do should leave a positive, lasting impact, helping organizations, and people become better than before.
-                  </p>
-                </div>
-              </section>
-
-              {/* Experience section */}
-              <section className="space-y-4">
-                <div className="flex items-center mb-2">
-                  <Server className="text-term-cyan mr-2 h-5 w-5" />
-                  <h2 className="text-xl font-bold text-term-cyan">Experience</h2>
-                </div>
-                <div className="bg-term-dark border border-term-cyan/20 p-5 rounded-md space-y-6">
-                  <div className="border-l-2 border-term-cyan/30 pl-4">
-                    <h3 className="text-term-white font-bold">Senior Culture & Employee Experience Consultant</h3>
-                    <p className="text-term-cyan text-sm mb-2">Elm Company (PIF subsidiary) | Oct 2023 - Present</p>
-                    <ul className="space-y-2 text-term-gray list-disc pl-5">
-                      <li>
-                        <strong className="text-term-white">Led the Innovative "Najd" Project:</strong> Directed a
-                        cross-functional team to develop Najd, Elm's first fully Saudi, on-premise AI chatbot integrated
-                        with Microsoft Teams, tailored to local business needs and managing HR information through a RAG
-                        system.
-                      </li>
-                      <li>
-                        <strong className="text-term-white">Achieved Significant Impact:</strong> Saved approximately
-                        SAR 1 million by building the solution internally, transformed Najd into a marketable product
-                        generating new revenue streams, and streamlined client operations with a user-friendly
-                        interface.
-                      </li>
-                      <li>
-                        Designed and implemented the M&A Playbook, covering all aspects of mergers and acquisitions to
-                        ensure seamless integration and alignment with company objectives.
-                      </li>
-                      <li>
-                        Developed a comprehensive due diligence assessment framework tailored to Elm's specific needs,
-                        enhancing the accuracy and efficiency of acquisition evaluations.
-                      </li>
-                      <li>
-                        Refined Elm's values and identified core and leadership competencies, aligning them with the
-                        company's strategic culture goals.
-                      </li>
-                    </ul>
-                  </div>
-
-                  <div className="border-l-2 border-term-cyan/30 pl-4">
-                    <h3 className="text-term-white font-bold">Consultant</h3>
-                    <p className="text-term-cyan text-sm mb-2">Baseqat Arabia Consulting | Sep 2023 - Oct 2023</p>
-                    <ul className="space-y-2 text-term-gray list-disc pl-5">
-                      <li>
-                        Led all Denison organizational culture projects in MENA, focusing on improving workplace
-                        dynamics and fostering positive change.
-                      </li>
-                      <li>
-                        Led projects to evaluate leadership competencies for major clients in Saudi Arabia, ensuring
-                        alignment with organizational culture and strategic goals.
-                      </li>
-                      <li>
-                        Revisited and fixed processes to improve overall employee and organizational experience,
-                        ensuring sustained cultural alignment and operational efficiency.
-                      </li>
-                    </ul>
-                  </div>
-
-                  <div className="border-l-2 border-term-cyan/30 pl-4">
-                    <h3 className="text-term-white font-bold">Business Analyst</h3>
-                    <p className="text-term-cyan text-sm mb-2">Baseqat Arabia Consulting | Jul 2022 - Sep 2023</p>
-                    <ul className="space-y-2 text-term-gray list-disc pl-5">
-                      <li>
-                        Led 15+ organizational culture transformation projects for top-tier Middle East firms (STC
-                        Group, Mobily, SANS, GEA, and more) in partnership with Denison Consulting company.
-                      </li>
-                      <li>
-                        Crafted tailored change culture action plans for diverse organizations, optimizing employee
-                        adoption and minimizing resistance.
-                      </li>
-                      <li>
-                        Designed HR strategy and operating model for Weqaa Center's separation from Ministry of
-                        Environment, Water, and Agriculture.
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </section>
-
-              {/* Freelance section */}
-              <section className="space-y-4">
-                <div className="flex items-center mb-2">
-                  <Code className="text-term-cyan mr-2 h-5 w-5" />
-                  <h2 className="text-xl font-bold text-term-cyan">Freelance & SME Engagements</h2>
-                </div>
-                <div className="bg-term-dark border border-term-cyan/20 p-5 rounded-md space-y-6">
-                  <div className="border-l-2 border-term-cyan/30 pl-4">
-                    <h3 className="text-term-white font-bold">Senior Consultant</h3>
-                    <p className="text-term-cyan text-sm mb-2">
-                      HR Leaders Consulting & Baseqat Arabia Consulting | Jan 2024 - Dec 2024
-                    </p>
-                    <p className="text-term-white mb-1">Royal Commission for Jubail and Yanbu (RCJY):</p>
-                    <ul className="space-y-2 text-term-gray list-disc pl-5">
-                      <li>
-                        Developed a Power BI dashboard to analyze employee turnover across four cities, identifying key
-                        challenges and data-driven solutions.
-                      </li>
-                      <li>Contributed to manpower planning strategies to address workforce gaps.</li>
-                      <li>
-                        Provided SME insights on multiple strategic projects, focusing on process optimization and
-                        cultural transformation initiatives.
-                      </li>
-                    </ul>
-                  </div>
-
-                  <div className="border-l-2 border-term-cyan/30 pl-4">
-                    <h3 className="text-term-white font-bold">Senior Consultant (SME)</h3>
-                    <p className="text-term-cyan text-sm mb-2">Cornerstone Consulting | Nov 2024 - Jan 2025</p>
-                    <ul className="space-y-2 text-term-gray list-disc pl-5">
-                      <li>
-                        Created an interactive operations manual for the Sectoral skills councils (SSC) initiative under
-                        HRSD, enhancing user engagement and reducing implementation time.
-                      </li>
-                      <li>
-                        Optimized processes by capturing and resolving workflow bottlenecks, delivering tangible
-                        improvements in organizational output.
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </section>
-
-              {/* Skills section */}
-              <section className="space-y-4">
-                <div className="flex items-center mb-2">
-                  <Cpu className="text-term-cyan mr-2 h-5 w-5" />
-                  <h2 className="text-xl font-bold text-term-cyan">Skills</h2>
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="bg-term-dark border border-term-cyan/20 p-4 rounded-md">
-                    <h3 className="text-term-cyan mb-3 font-bold">Professional</h3>
-                    <ul className="space-y-2 text-term-gray">
-                      <li className="flex items-center">
-                        <span className="text-term-green mr-2">•</span>
-                        Project Management
-                      </li>
-                      <li className="flex items-center">
-                        <span className="text-term-green mr-2">•</span>
-                        Change Culture
-                      </li>
-                      <li className="flex items-center">
-                        <span className="text-term-green mr-2">•</span>
-                        Change Management
-                      </li>
-                      <li className="flex items-center">
-                        <span className="text-term-green mr-2">•</span>
-                        Analytical Skills
-                      </li>
-                      <li className="flex items-center">
-                        <span className="text-term-green mr-2">•</span>
-                        Problem Solving
-                      </li>
-                    </ul>
-                  </div>
-                  <div className="bg-term-dark border border-term-cyan/20 p-4 rounded-md">
-                    <h3 className="text-term-cyan mb-3 font-bold">Technical</h3>
-                    <ul className="space-y-2 text-term-gray">
-                      <li className="flex items-center">
-                        <span className="text-term-green mr-2">•</span>
-                        Python and AI Integration
-                      </li>
-                      <li className="flex items-center">
-                        <span className="text-term-green mr-2">•</span>
-                        Data Analysis
-                      </li>
-                      <li className="flex items-center">
-                        <span className="text-term-green mr-2">•</span>
-                        Advanced Microsoft Excel & PPT
-                      </li>
-                      <li className="flex items-center">
-                        <span className="text-term-green mr-2">•</span>
-                        Business Development
-                      </li>
-                      <li className="flex items-center">
-                        <span className="text-term-green mr-2">•</span>
-                        Communication
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </section>
-
-              {/* Certifications section */}
-              <section className="space-y-4">
-                <div className="flex items-center mb-2">
-                  <Award className="text-term-cyan mr-2 h-5 w-5" />
-                  <h2 className="text-xl font-bold text-term-cyan">Certifications</h2>
-                </div>
-
-                {/* Certification badges row */}
-                <div className="flex flex-nowrap justify-center gap-4 mb-6 overflow-x-auto pb-2">
-                  <div className="flex-shrink-0">
-                    <Image
-                      src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/pmp-600px-2eKqqRiTulSRuZefG1l7MwF0UGQXtf.webp"
-                      alt="PMP Certification"
-                      width={120}
-                      height={120}
-                      className="hover:scale-105 transition-transform"
-                    />
-                  </div>
-                  <div className="flex-shrink-0">
-                    <Image
-                      src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/twitter_thumb_201604_pmi-rmp-600px-RJiobHS4HTvWedCML1XiwzNa5kfcvU.webp"
-                      alt="PMI-RMP Certification"
-                      width={120}
-                      height={120}
-                      className="hover:scale-105 transition-transform"
-                    />
-                  </div>
-                  <div className="flex-shrink-0">
-                    <Image
-                      src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Prosci_certified-Fa1e2a7tYuuhabGDjBC0jm7zE2O5PY.webp"
-                      alt="Prosci Certification"
-                      width={120}
-                      height={120}
-                      className="hover:scale-105 transition-transform"
-                    />
-                  </div>
-                  <div className="flex-shrink-0">
-                    <Image
-                      src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/green-belt-formation-ZxLReO0r1CWlV2q8PPKXx8JOfVRAft.webp"
-                      alt="Lean Six Sigma Green Belt"
-                      width={120}
-                      height={120}
-                      className="hover:scale-105 transition-transform"
-                    />
-                  </div>
-                  <div className="flex-shrink-0">
-                    <Image
-                      src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-fAxr6RxvxxnXpcQ3dWEApFWLimfkdp.webp"
-                      alt="McKinsey Forward Program"
-                      width={120}
-                      height={120}
-                      className="hover:scale-105 transition-transform rounded-xl"
-                    />
-                  </div>
-
-                  {/* Coming Soon Badge */}
-                  <div className="flex-shrink-0">
-                    <div className="relative w-[120px] h-[120px] flex items-center justify-center bg-term-darker border border-term-cyan/30 rounded-xl hover:scale-105 transition-transform group">
-                      <div className="absolute inset-0 bg-term-cyan/5 rounded-xl animate-pulse"></div>
-                      <div className="text-center z-10">
-                        <Clock className="h-10 w-10 mx-auto mb-2 text-term-cyan/70 group-hover:text-term-cyan transition-colors" />
-                        <p className="text-term-cyan font-bold">Coming Soon</p>
-                        <p className="text-term-gray text-xs mt-1">More certifications</p>
-                      </div>
+                      <a href="https://github.com/wa1939" target="_blank" rel="noopener noreferrer" className="block cli-link">
+                        github
+                      </a>
+                      <a href="https://x.com/waleedpy" target="_blank" rel="noopener noreferrer" className="block cli-link">
+                        x
+                      </a>
                     </div>
                   </div>
                 </div>
+              </aside>
 
-                <div className="bg-term-dark border border-term-cyan/20 p-5 rounded-md">
-                  <ul className="space-y-3 text-term-gray">
-                    <li className="flex items-center">
-                      <span className="text-term-green mr-2">•</span>
-                      Certified Project Management Professional (PMP®)
-                    </li>
-                    <li className="flex items-center">
-                      <span className="text-term-green mr-2">•</span>
-                      PMI Risk Management Professional (PMI-RMP)
-                    </li>
-                    <li className="flex items-center">
-                      <span className="text-term-green mr-2">•</span>
-                      Prosci® Certified Change Practitioner
-                    </li>
-                    <li className="flex items-center">
-                      <span className="text-term-green mr-2">•</span>
-                      Certified Change Culture Consultant - Denison
-                    </li>
-                    <li className="flex items-center">
-                      <span className="text-term-green mr-2">•</span>
-                      Lean Six Sigma Green Belt - Kaizen Institute Global
-                    </li>
-                    <li className="flex items-center">
-                      <span className="text-term-green mr-2">•</span>
-                      Strategic Innovation - University of Illinois
-                    </li>
-                    <li className="flex items-center">
-                      <span className="text-term-green mr-2">•</span>
-                      Design-Led Strategy - The University of Sydney Business School
-                    </li>
-                    <li className="flex items-center">
-                      <span className="text-term-green mr-2">•</span>
-                      McKinsey Forward Program - McKinsey & Company
-                    </li>
-                  </ul>
-                </div>
-              </section>
-
-              {/* Education section
-              <section className="space-y-4">
-                <div className="flex items-center mb-2">
-                  <BookOpen className="text-term-cyan mr-2 h-5 w-5" />
-                  <h2 className="text-xl font-bold text-term-cyan">Education</h2>
-                </div>
-                <div className="bg-term-dark border border-term-cyan/20 p-5 rounded-md">
-                  <div className="border-l-2 border-term-cyan/30 pl-4">
-                    <h3 className="text-term-white font-bold">Bachelor of Engineering - BE, Mechanical Engineering</h3>
-                    <p className="text-term-cyan text-sm">University of Jeddah</p>
+              <div className="space-y-8">
+                <div>
+                  <div className="text-sm text-term-gray">
+                    <span className="text-term-green">$</span> <span className="text-term-cyan">cat</span> about.txt
                   </div>
-                </div>
-              </section> */}
-
-              {/* Education section */}
-              <section className="space-y-4">
-                <div className="flex items-center mb-2">
-                  <BookOpen className="text-term-cyan mr-2 h-5 w-5" />
-                  <h2 className="text-xl font-bold text-term-cyan">Education</h2>
-                </div>
-
-                {/* MBA – show most-recent first */}
-                <div className="bg-term-dark border border-term-cyan/20 p-5 rounded-md">
-                  <div className="border-l-2 border-term-cyan/30 pl-4">
-                    <h3 className="text-term-white font-bold">
-                      Master of Business Administration – MBA
-                    </h3>
-                    <p className="text-term-cyan text-sm">
-                      University of Illinois&nbsp;Urbana-Champaign, Gies&nbsp;College&nbsp;of&nbsp;Business
+                  <h1 className="mt-4 text-3xl font-semibold tracking-[-0.04em] text-term-white md:text-4xl">
+                    Consultant, systems thinker, and product-minded builder.
+                  </h1>
+                  <div className="mt-5 space-y-4 cli-soft-copy max-w-4xl">
+                    <p>
+                      My path started in engineering and kept pulling me toward how systems behave, why people adopt change, and what makes complex work actually usable. That led me into consulting, organizational transformation, product thinking, and AI-enabled internal tools.
                     </p>
-                    <p className="text-term-white text-xs mt-1">
-                      May&nbsp;2025&nbsp;–&nbsp;Jul&nbsp;2027
+                    <p>
+                      I like work that sits between vision and execution: taking strategy, operational friction, or a messy problem and turning it into a structure people can understand, trust, and use.
                     </p>
                   </div>
                 </div>
 
-                {/* B.E. – Mechanical Engineering */}
-                <div className="bg-term-dark border border-term-cyan/20 p-5 rounded-md">
-                  <div className="border-l-2 border-term-cyan/30 pl-4">
-                    <h3 className="text-term-white font-bold">
-                      Bachelor of Engineering – Mechanical Engineering
-                    </h3>
-                    <p className="text-term-cyan text-sm">University of Jeddah</p>
+                <div className="grid gap-4 md:grid-cols-3">
+                  {[
+                    ["organizations served", "20+"],
+                    ["transformation projects", "15+"],
+                    ["working style", "strategy x execution"],
+                  ].map(([label, value]) => (
+                    <div key={label} className="cli-panel px-4 py-4">
+                      <div className="cli-topline">{label}</div>
+                      <div className="mt-2 text-lg text-term-white">{value}</div>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="overflow-hidden border border-term-line">
+                  <div className="grid gap-4 border-b border-term-line px-4 py-3 text-xs uppercase tracking-[0.16em] text-term-gray md:grid-cols-[140px_190px_minmax(0,1fr)]">
+                    <span>period</span>
+                    <span>role</span>
+                    <span>summary</span>
+                  </div>
+                  <div className="space-y-0">
+                    {experience.map((item) => (
+                      <div key={`${item.period}-${item.role}`} className="cli-table-row grid gap-3 px-4 py-4 md:grid-cols-[140px_190px_minmax(0,1fr)] md:items-start">
+                        <div className="text-xs uppercase tracking-[0.14em] text-term-gray">{item.period}</div>
+                        <div>
+                          <div className="text-sm font-semibold text-term-white">{item.role}</div>
+                          <div className="mt-1 text-xs uppercase tracking-[0.14em] text-term-cyan">{item.company}</div>
+                        </div>
+                        <div className="text-sm leading-7 text-term-gray">{item.summary}</div>
+                      </div>
+                    ))}
                   </div>
                 </div>
-              </section>
-            </motion.div>
-          </div>
+
+                <div className="grid gap-6 md:grid-cols-[1.05fr_0.95fr]">
+                  <div className="cli-panel px-4 py-4">
+                    <div className="cli-topline">skills</div>
+                    <div className="mt-3 flex flex-wrap gap-2">
+                      {skills.map((skill) => (
+                        <span key={skill} className="border border-term-line px-3 py-1.5 text-xs uppercase tracking-[0.14em] text-term-gray">
+                          {skill}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="cli-panel px-4 py-4">
+                    <div className="cli-topline">credentials</div>
+                    <div className="mt-3 space-y-2 text-sm leading-7 text-term-gray">
+                      {credentials.map((credential) => (
+                        <div key={credential}>- {credential}</div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
         </div>
       </main>
+
       <TerminalFooter />
     </div>
   )
 }
-

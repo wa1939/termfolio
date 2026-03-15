@@ -1,4 +1,12 @@
 import { Client } from "@notionhq/client"
+import type {
+  BlockObjectResponse,
+  DatabaseObjectResponse,
+  PageObjectResponse,
+  PartialBlockObjectResponse,
+  PartialDatabaseObjectResponse,
+  PartialPageObjectResponse,
+} from "@notionhq/client/build/src/api-endpoints"
 
 // Use the environment variables
 const NOTION_API_KEY = process.env.NOTION_API_KEY || ""
@@ -8,6 +16,16 @@ const NAVIGATION_DATABASE_ID = process.env.NAVIGATION_DATABASE_ID || ""
 
 // Initialize Notion client with the API key
 const notion = new Client({ auth: NOTION_API_KEY })
+
+type NotionResult = PageObjectResponse | PartialPageObjectResponse | PartialDatabaseObjectResponse | DatabaseObjectResponse
+type NotionResultWithProperties = PageObjectResponse | DatabaseObjectResponse
+
+const hasProperties = (result: NotionResult): result is NotionResultWithProperties => "properties" in result
+
+const isMultiSelectProperty = (property: { type?: string }): property is { type: "multi_select"; multi_select: { options: Array<{ name: string }> } } =>
+  property.type === "multi_select"
+
+const isFullBlock = (block: PartialBlockObjectResponse | BlockObjectResponse): block is BlockObjectResponse => "has_children" in block
 
 export interface Post {
   id: string
@@ -277,6 +295,9 @@ export async function updateViewsBySlug(slug: string, language = "en") {
     }
 
     const post = response.results[0]
+    if (!hasProperties(post)) {
+      return { success: false }
+    }
 
     // Get current views and increment
     let views = getProperties(post.properties.views)
@@ -312,7 +333,7 @@ export async function getTags() {
     })
 
     const tags_raw = response.properties.tags
-    const tags = tags_raw.multi_select.options.map((x) => x.name) || []
+    const tags = isMultiSelectProperty(tags_raw) ? tags_raw.multi_select.options.map((x: { name: string }) => x.name) : []
 
     return tags
   } catch (error) {
@@ -451,6 +472,7 @@ async function getNavigation() {
 
     // Convert and sort navigation items
     let navigation = response.results
+      .filter(hasProperties)
       .sort((a, b) => {
         const aParent = getProperties(a.properties.parent)?.id || null
         const bParent = getProperties(b.properties.parent)?.id || null
@@ -521,9 +543,9 @@ async function getChildren(id: string) {
     // Recursively get children of children
     for (const i in results) {
       const item = results[i]
-      if (item.has_children) {
+      if (isFullBlock(item) && item.has_children) {
         const children = await getChildren(item.id)
-        results[i].children = children
+        ;(results[i] as BlockObjectResponse & { children?: Awaited<ReturnType<typeof getChildren>> }).children = children
       }
     }
 

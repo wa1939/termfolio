@@ -1,81 +1,94 @@
 import Link from "next/link"
-import { ArrowLeft, Terminal } from "lucide-react"
+import { ArrowLeft } from "lucide-react"
 import MinimalNav from "@/components/minimal-nav"
-import TerminalFooter from "@/components/terminal-footer"
-import BlogPostCard from "@/components/blog-post-card"
 import SearchPosts from "@/components/search-posts"
+import TerminalFooter from "@/components/terminal-footer"
+import { formatPostDate } from "@/lib/format-post-date"
 import { getPosts } from "@/lib/notion"
 
-export default async function BlogPage() {
-  const posts = await getPosts()
+interface BlogPageProps {
+  searchParams?: Promise<{ q?: string }>
+}
+
+export default async function BlogPage({ searchParams }: BlogPageProps) {
+  const resolvedSearchParams = searchParams ? await searchParams : undefined
+  const query = resolvedSearchParams?.q?.trim().toLowerCase() ?? ""
+  const allPosts = await getPosts()
+
+  const posts = query
+    ? allPosts.filter((post) => {
+        const haystack = [post.title, post.excerpt, post.author, ...post.tags].join(" ").toLowerCase()
+        return haystack.includes(query)
+      })
+    : allPosts
 
   return (
     <div className="min-h-screen bg-term-black text-term-white font-mono flex flex-col">
       <MinimalNav />
-
-      {/* Noise overlay */}
       <div className="fixed inset-0 pointer-events-none opacity-[0.015] bg-[url('/noise.png')] animate-noise" />
 
-      <main className="flex-grow pt-24 pb-16">
+      <main className="flex-grow pt-24 pb-12">
         <div className="container mx-auto px-4">
-          <Link
-            href="/"
-            className="inline-flex items-center text-term-gray hover:text-term-cyan transition-colors duration-200 group mb-8"
-          >
-            <ArrowLeft className="mr-2 h-4 w-4 group-hover:-translate-x-1 transition-transform" />
+          <Link href="/" className="mb-8 inline-flex items-center gap-2 text-term-gray transition-colors hover:text-term-cyan">
+            <ArrowLeft className="h-4 w-4" />
             <span className="text-term-green">$</span> cd ..
           </Link>
 
-          <div className="mb-12">
-            <div className="flex items-center mb-2">
-              <span className="text-term-green">$</span>
-              <span className="text-term-cyan ml-2">ls</span>
-              <span className="text-term-white ml-2">posts/</span>
-            </div>
-            <h1 className="text-3xl md:text-4xl font-bold text-term-cyan mb-4">Blog Posts</h1>
-            <div className="h-[1px] w-16 bg-term-cyan mb-6" />
-            <p className="text-term-gray max-w-2xl">
-              Thoughts, tutorials, and insights on web development, design, and technology. All content is synced from
-              my Notion workspace.
-            </p>
-          </div>
-
-          <div className="mb-8">
-            <SearchPosts />
-          </div>
-
-          <div className="bg-term-dark border border-term-cyan/20 p-6 mb-12 rounded-lg">
-            <div className="bg-term-darker px-4 py-2 flex items-center justify-between border-b border-term-cyan/20 mb-6 rounded-t-lg">
-              <div className="flex items-center space-x-2">
-                <div className="w-3 h-3 rounded-full bg-red-500"></div>
-                <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
-                <div className="w-3 h-3 rounded-full bg-green-500"></div>
-              </div>
-              <div className="text-xs text-term-gray flex items-center">
-                <Terminal className="h-3 w-3 mr-2 text-term-cyan" />
-                posts.sh
-              </div>
-              <div className="w-4"></div>
+          <section className="cli-frame overflow-hidden">
+            <div className="flex items-center justify-between border-b border-term-line px-4 py-3 text-xs uppercase tracking-[0.16em] text-term-gray">
+              <span>posts.sh</span>
+              <span>{query ? `search // ${query}` : "journal archive"}</span>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {posts.map((post) => (
-                <BlogPostCard key={post.id} post={post} />
-              ))}
-            </div>
-
-            {posts.length === 0 && (
-              <div className="text-center py-12 border-2 border-dashed border-term-cyan/20 bg-term-darker rounded-lg">
-                <h3 className="text-xl font-bold mb-2 text-term-cyan">No posts found</h3>
-                <p className="text-term-gray mb-4">There are no blog posts available at the moment.</p>
-                <div className="flex justify-center">
-                  <button className="px-4 py-2 bg-term-dark hover:bg-term-dark/80 text-term-cyan border border-term-cyan/30 rounded-md transition-colors duration-200">
-                    Refresh
-                  </button>
+            <div className="space-y-6 p-5 md:p-6">
+              <div className="space-y-3">
+                <div className="text-sm text-term-gray">
+                  <span className="text-term-green">$</span> <span className="text-term-cyan">ls</span> posts/
                 </div>
+                <h1 className="text-3xl font-semibold tracking-[-0.04em] text-term-white md:text-4xl">Journal archive</h1>
+                <p className="cli-soft-copy max-w-3xl">
+                  Thoughts, essays, tutorials, and field notes on strategy, technology, digital transformation, and the craft of making complicated things feel clear.
+                </p>
               </div>
-            )}
-          </div>
+
+              <SearchPosts />
+
+              {posts.length === 0 ? (
+                <div className="cli-panel px-4 py-5 text-sm leading-7 text-term-gray">
+                  no entries match this query yet. try a broader phrase or clear the search and browse the full archive.
+                </div>
+              ) : (
+                <div className="overflow-hidden border border-term-line">
+                  <div className="hidden grid-cols-[140px_minmax(0,1fr)_130px_140px] gap-4 border-b border-term-line px-4 py-3 text-xs uppercase tracking-[0.16em] text-term-gray md:grid">
+                    <span>date</span>
+                    <span>entry</span>
+                    <span>time</span>
+                    <span>topic</span>
+                  </div>
+
+                  <div className="space-y-0">
+                    {posts.map((post, index) => (
+                      <Link
+                        key={post.id}
+                        href={`/blog/${post.slug}`}
+                        className={`cli-table-row block px-4 py-4 ${index === 0 ? "cli-table-row--active" : ""}`}
+                      >
+                        <div className="grid gap-3 md:grid-cols-[140px_minmax(0,1fr)_130px_140px] md:items-start">
+                          <div className="text-xs uppercase tracking-[0.14em] text-term-gray">{formatPostDate(post.date)}</div>
+                          <div>
+                            <h2 className="text-base font-semibold text-term-white md:text-lg">{post.title}</h2>
+                            <p className="mt-2 text-sm leading-7 text-term-gray">{post.excerpt}</p>
+                          </div>
+                          <div className="text-sm text-term-gray">{post.readingTime} min read</div>
+                          <div className="text-sm text-term-cyan">{post.tags[0] ?? "journal"}</div>
+                        </div>
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          </section>
         </div>
       </main>
 
@@ -83,4 +96,3 @@ export default async function BlogPage() {
     </div>
   )
 }
-

@@ -1,148 +1,66 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useEffect, useState } from "react"
 import Link from "next/link"
-import { Github, Twitter, Linkedin, Mail, Terminal, Heart, Code } from "lucide-react"
 
 export default function TerminalFooter() {
-  const [showSubscribeForm, setShowSubscribeForm] = useState(true)
-  const [subscribeStatus, setSubscribeStatus] = useState<null | "success" | "error" | "loading">(null)
+  const [time, setTime] = useState("")
 
-  // Check if user has already subscribed
   useEffect(() => {
-    const hasSubscribed = localStorage.getItem("subscribed")
-    if (hasSubscribed) {
-      setSubscribeStatus("success")
-      setShowSubscribeForm(false)
-    }
-  }, [])
-
-  // Handle message from iframe
-  useEffect(() => {
-    const handleMessage = (event: MessageEvent) => {
-      // Check if the message is from Chilipepper
-      if (event.data && event.data.type === "chilipepper-form-submit-success") {
-        setSubscribeStatus("success")
-        setShowSubscribeForm(false)
-        localStorage.setItem("subscribed", "true")
-      }
+    const update = () => {
+      const now = new Date()
+      setTime(now.toLocaleTimeString("en-US", { hour12: false }))
     }
 
-    window.addEventListener("message", handleMessage)
-    return () => window.removeEventListener("message", handleMessage)
+    update()
+    const timer = window.setInterval(update, 1000)
+    return () => window.clearInterval(timer)
   }, [])
 
   return (
-    <footer className="bg-term-darker border-t border-term-cyan/10 py-12 mt-auto">
-      <div className="container mx-auto px-4">
-        <div className="grid md:grid-cols-3 gap-8">
-          {/* About column */}
-          <div className="space-y-4">
-            <h3 className="text-term-cyan font-bold text-lg flex items-center">
-              <Terminal className="mr-2 h-5 w-5" />
-              <span>Waleed Alghamdi</span>
-            </h3>
-            <p className="text-term-gray">
-              Management Consultant with a passion for technology, AI, and innovative
-              solutions.
-            </p>
-            <div className="flex space-x-3">
-              <a
-                href="https://github.com/wa1939"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-2 bg-term-dark hover:bg-term-darker text-term-cyan border border-term-cyan/30 rounded transition-colors duration-200"
-                aria-label="GitHub"
-              >
-                <Github className="h-5 w-5" />
-              </a>
-              <a
-                href="https://www.linkedin.com/in/waleedalghamdi/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-2 bg-term-dark hover:bg-term-darker text-term-cyan border border-term-cyan/30 rounded transition-colors duration-200"
-                aria-label="LinkedIn"
-              >
-                <Linkedin className="h-5 w-5" />
-              </a>
-              <a
-                href="https://x.com/waleedpy"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-2 bg-term-dark hover:bg-term-darker text-term-cyan border border-term-cyan/30 rounded transition-colors duration-200"
-                aria-label="Twitter"
-              >
-                <Twitter className="h-5 w-5" />
-              </a>
-              <a
-                href="mailto:waok@outlook.sa"
-                className="p-2 bg-term-dark hover:bg-term-darker text-term-cyan border border-term-cyan/30 rounded transition-colors duration-200"
-                aria-label="Email"
-              >
-                <Mail className="h-5 w-5" />
+    <footer className="mt-auto px-4 pb-6 pt-8">
+      <div className="container mx-auto max-w-7xl px-0">
+        <div className="cli-frame overflow-hidden">
+          <div className="grid gap-0 md:grid-cols-[1.05fr_0.95fr_0.8fr]">
+            <div className="border-b border-term-line px-4 py-4 text-sm leading-7 text-term-gray md:border-b-0 md:border-r">
+              <div className="cli-topline">Stay on the line</div>
+              <p className="mt-2">This site is a living terminal journal for strategy, systems, writing, and experiments.</p>
+            </div>
+
+            <div className="border-b border-term-line px-4 py-4 text-sm leading-7 text-term-gray md:border-b-0 md:border-r">
+              <div className="cli-topline">Routes</div>
+              <div className="mt-2 space-y-1">
+                <Link href="/" className="block hover:text-term-cyan">
+                  (01) home // cd ~
+                </Link>
+                <Link href="/blog" className="block hover:text-term-cyan">
+                  (02) journal // ls posts/
+                </Link>
+                <Link href="/about" className="block hover:text-term-cyan">
+                  (03) about // cat resume.md
+                </Link>
+                <Link href="/contact" className="block hover:text-term-cyan">
+                  (04) contact // ping me
+                </Link>
+              </div>
+            </div>
+
+            <div className="px-4 py-4 text-sm leading-7 text-term-gray">
+              <div className="cli-topline">Manual updates</div>
+              <p className="mt-2">If you want the next dispatch, email me and I will share it when it is ready.</p>
+              <a href="mailto:waok@outlook.sa" className="mt-3 inline-block text-term-cyan hover:text-term-cyan-bright">
+                waok@outlook.sa
               </a>
             </div>
           </div>
 
-          {/* Quick links */}
-          <div className="space-y-4">
-            <h3 className="text-term-cyan font-bold text-lg">Quick Links</h3>
-            <nav className="grid grid-cols-1 gap-2">
-              {[
-                { name: "Home", path: "/" },
-                { name: "About", path: "/about" },
-                { name: "Blog", path: "/blog" },
-                { name: "Contact", path: "/contact" },
-              ].map((link) => (
-                <Link
-                  key={link.path}
-                  href={link.path}
-                  className="text-term-gray hover:text-term-cyan transition-colors duration-200 flex items-center group"
-                >
-                  <span className="text-term-green mr-2">$</span>
-                  <span className="text-term-cyan mr-1">cd</span>
-                  <span className="group-hover:translate-x-1 transition-transform duration-200">
-                    {link.path === "/" ? "~" : link.path}
-                  </span>
-                </Link>
-              ))}
-            </nav>
+          <div className="cli-statusbar flex flex-col gap-2 px-4 py-3 md:flex-row md:items-center md:justify-between">
+            <span>by waleed alghamdi // {time || "--:--:--"}</span>
+            <span>status: online // dark mode</span>
+            <span>:help for commands</span>
           </div>
-
-          {/* Subscribe column */}
-          <div className="space-y-4">
-            <h3 className="text-term-cyan font-bold text-lg">Subscribe to My Blog</h3>
-            {subscribeStatus === "success" ? (
-              <div className="bg-term-dark border border-term-cyan/20 p-4 rounded-md">
-                <p className="text-term-green mb-1">✓ Subscribed!</p>
-                <p className="text-term-gray text-sm">Thank you for subscribing to my blog updates.</p>
-              </div>
-            ) : (
-              <>
-                <p className="text-term-gray mb-2">Get notified about new articles and updates.</p>
-                <div className="bg-term-dark border border-term-cyan/30 rounded-md overflow-hidden">
-                  <iframe
-                    src="https://chilipepper.io/form/xhot-burntorange-bannapepper-bd77d157-c186-4b9b-9e39-920efb45f22a?embed=true&theme=dark"
-                    width="100%"
-                    height="140"
-                    style={{ border: "none", overflow: "hidden" }}
-                    title="Newsletter Subscription"
-                  ></iframe>
-                </div>
-              </>
-            )}
-          </div>
-        </div>
-
-        <div className="mt-8 pt-6 border-t border-term-cyan/10 text-center text-term-gray text-sm">
-          <p className="flex items-center justify-center">
-            © {new Date().getFullYear()} Waleed. Made with
-            <Heart className="h-4 w-4 mx-1 text-term-cyan" /> and
-            <Code className="h-4 w-4 mx-1 text-term-cyan" />
-          </p>
         </div>
       </div>
     </footer>
   )
 }
-
