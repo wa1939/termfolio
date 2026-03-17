@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Waleed Alghamdi",
     description: "Problem Solver · Product Builder · Strategy to Execution",
-    creator: "@walahamed",
+    creator: "@walalhamed",
   },
 }
 

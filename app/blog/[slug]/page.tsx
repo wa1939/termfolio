@@ -9,6 +9,7 @@ import MarkdownRender from "@/components/markdown-render"
 import TerminalCommentSection from "@/components/terminal-comment-section"
 import BlogPostCard from "@/components/blog-post-card"
 import ReadingControls from "@/components/reading-controls"
+import NewsletterSignup from "@/components/newsletter-signup"
 import { formatPostDate } from "@/lib/format-post-date"
 import { getPostBySlug, getAllPosts } from "@/lib/posts"
 
@@ -41,7 +42,7 @@ export async function generateMetadata({
       card: "summary_large_image",
       title: post.title,
       description: post.excerpt,
-      creator: "@walahamed",
+      creator: "@walalhamed",
     },
   }
 }
@@ -156,6 +157,21 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
             </div>
           </article>
 
+          <section className="mt-10 max-w-[65ch] mx-auto">
+            <div className="text-sm text-[var(--term-gray)] mb-3">
+              <span className="text-[var(--term-green)]">$</span> <span className="text-[var(--term-cyan)]">cat</span> subscribe.txt
+            </div>
+            <p className="text-sm text-[var(--term-gray)] mb-4">Enjoyed this post? Get notified of new ones.</p>
+            <NewsletterSignup />
+          </section>
+
+          <section className="mt-10 space-y-5">
+            <div className="text-sm text-[var(--term-gray)]">
+              <span className="text-[var(--term-green)]">$</span> <span className="text-[var(--term-cyan)]">node</span> comments.js
+            </div>
+            <TerminalCommentSection />
+          </section>
+
           {relatedPosts.length > 0 && (
             <section className="mt-10 space-y-5">
               <div className="text-sm text-[var(--term-gray)]">
@@ -168,13 +184,6 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
               </div>
             </section>
           )}
-
-          <section className="mt-10 space-y-5">
-            <div className="text-sm text-[var(--term-gray)]">
-              <span className="text-[var(--term-green)]">$</span> <span className="text-[var(--term-cyan)]">node</span> comments.js
-            </div>
-            <TerminalCommentSection />
-          </section>
         </div>
       </main>
 

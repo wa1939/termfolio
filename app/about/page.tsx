@@ -137,7 +137,7 @@ export default function AboutPage() {
 
                 {/* Experience Timeline */}
                 <AnimateOnScroll>
-                <div className="rounded-lg border border-[var(--term-line)] bg-[var(--term-darker)] px-4 py-5 whitespace-pre font-mono text-sm leading-[1.8] overflow-x-auto text-[var(--term-gray)]">
+                <div className="rounded-lg border border-[var(--term-line)] bg-[var(--term-darker)] px-4 py-5 whitespace-pre-wrap font-mono text-sm leading-[1.8] text-[var(--term-gray)]">
                   <div className="text-[var(--term-white)] mb-4">
                     <span className="text-[var(--term-green)]">$</span> tree ./experience
                   </div>
@@ -173,9 +173,9 @@ export default function AboutPage() {
                 <AnimateOnScroll>
                 <div>
                   <div className="text-[10px] uppercase tracking-widest text-[var(--term-gray)] mb-3">Certifications</div>
-                  <div className="flex gap-4 overflow-x-auto pb-2 -mx-1 px-1">
+                  <div className="flex flex-wrap gap-4 pb-2">
                     {siteConfig.certifications.map((badge) => (
-                      <div key={badge.name} className="flex-shrink-0 group text-center">
+                      <div key={badge.name} className="group text-center">
                         <div className="w-[120px] h-[120px] rounded-xl border border-[var(--term-line)] bg-[var(--term-darker)] overflow-hidden hover:border-[var(--term-cyan)] transition-all duration-300">
                           {/* eslint-disable-next-line @next/next/no-img-element */}
                           <img

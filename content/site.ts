@@ -12,7 +12,7 @@ export const siteConfig = {
   socials: {
     github: { url: "https://github.com/wa1939", label: "GitHub", icon: "</>" },
     linkedin: { url: "https://www.linkedin.com/in/waleedalghamdi/", label: "LinkedIn", icon: "[in]" },
-    x: { url: "https://x.com/waleedpy", label: "X", icon: "𝕏" },
+    x: { url: "https://x.com/walalhamed", label: "X", icon: "𝕏" },
   },
   stats: [
     { label: "products built", value: "10+" },
@@ -76,4 +76,5 @@ export const siteConfig = {
     { name: "BE Mechanical Engineering", icon: "🏗", desc: "University of Jeddah" },
     { name: "Arabic + English", icon: "🌍", desc: "Bilingual Fluency" },
   ],
+  spotifyPlaylistId: "37i9dQZF1DXcBWIGoYBM5M",
 } as const
