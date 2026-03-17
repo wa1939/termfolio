@@ -1,9 +1,28 @@
+import type { Metadata } from "next"
 import Link from "next/link"
 import { ArrowLeft, ArrowUpRight } from "lucide-react"
 import MinimalNav from "@/components/minimal-nav"
 import TerminalFooter from "@/components/terminal-footer"
 import CalEmbed from "@/components/cal-embed"
 import NewsletterSignup from "@/components/newsletter-signup"
+
+export const metadata: Metadata = {
+  title: "Contact — Waleed Alghamdi",
+  description:
+    "Get in touch for transformation, product building, or advisory engagements. Book a 30-minute session or send an email.",
+  openGraph: {
+    title: "Contact — Waleed Alghamdi",
+    description: "Get in touch for transformation, product building, or advisory engagements.",
+    url: "https://waleedalghamdi.com/contact",
+    siteName: "Waleed Alghamdi",
+    type: "website",
+  },
+  twitter: {
+    card: "summary",
+    title: "Contact — Waleed Alghamdi",
+    description: "Get in touch for transformation, product building, or advisory engagements.",
+  },
+}
 
 export default function ContactPage() {
   return (

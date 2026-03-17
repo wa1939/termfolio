@@ -1,14 +1,13 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { NotionToHeading } from "@/components/notion-render"
+import type { PostHeading } from "@/lib/posts"
 
 interface TableOfContentsProps {
-  contents: any[]
+  headings: PostHeading[]
 }
 
-export default function TableOfContents({ contents }: TableOfContentsProps) {
-  const headings = NotionToHeading(contents)
+export default function TableOfContents({ headings }: TableOfContentsProps) {
   const [activeId, setActiveId] = useState("")
 
   useEffect(() => {
@@ -52,7 +51,7 @@ export default function TableOfContents({ contents }: TableOfContentsProps) {
               href={`#${heading.id}`}
               className={`block border-t border-term-line px-4 py-3 leading-7 ${active ? "cli-table-row--active text-term-white" : "text-term-gray hover:bg-term-dark hover:text-term-white"}`}
             >
-              {heading.type === "heading_2" ? "|-- " : "\\-- "}
+              {heading.level <= 2 ? "|-- " : "\\-- "}
               {heading.text}
             </a>
           )

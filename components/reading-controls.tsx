@@ -1,13 +1,15 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import type { PostHeading } from "@/lib/posts"
 
 type FontSize = "sm" | "md" | "lg"
 type ReadingTheme = "terminal" | "sepia" | "light"
 type LineSpacing = "compact" | "comfortable" | "spacious"
 
 interface ReadingControlsProps {
-  contents: Array<{ type?: string; [key: string]: unknown }>
+  headings: PostHeading[]
+  wordCount: number
 }
 
 const FONT_SIZES: Record<FontSize, { label: string; px: string }> = {
@@ -28,7 +30,7 @@ const LINE_SPACINGS: { key: LineSpacing; label: string }[] = [
   { key: "spacious", label: "Airy" },
 ]
 
-export default function ReadingControls({ contents }: ReadingControlsProps) {
+export default function ReadingControls({ headings, wordCount }: ReadingControlsProps) {
   const [fontSize, setFontSize] = useState<FontSize>("md")
   const [readingMode, setReadingMode] = useState(false)
   const [readingTheme, setReadingTheme] = useState<ReadingTheme>("terminal")
@@ -103,9 +105,8 @@ export default function ReadingControls({ contents }: ReadingControlsProps) {
     }
   }, [readingMode])
 
-  const headingCount = contents?.filter((c) => c.type?.toString().includes("heading")).length || 0
-  const wordEstimate = contents?.length ? contents.length * 40 : 0
-  const readingTime = Math.max(1, Math.ceil(wordEstimate / 200))
+  const headingCount = headings.length
+  const readingTime = Math.max(1, Math.ceil(wordCount / 200))
 
   return (
     <div className="space-y-4 sticky top-24">
@@ -214,7 +215,7 @@ export default function ReadingControls({ contents }: ReadingControlsProps) {
           <span className="text-[var(--term-gray)]">Sections</span>
           <span className="text-[var(--term-white)] text-right">{headingCount}</span>
           <span className="text-[var(--term-gray)]">~Words</span>
-          <span className="text-[var(--term-white)] text-right">{wordEstimate.toLocaleString()}</span>
+          <span className="text-[var(--term-white)] text-right">{wordCount.toLocaleString()}</span>
         </div>
       </div>
     </div>

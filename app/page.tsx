@@ -1,17 +1,37 @@
+import type { Metadata } from "next"
 import Link from "next/link"
 import MinimalNav from "@/components/minimal-nav"
 import TerminalFooter from "@/components/terminal-footer"
 import LiveClock from "@/components/live-clock"
 import { formatPostDate } from "@/lib/format-post-date"
-import { getPosts } from "@/lib/notion"
+import { getAllPosts } from "@/lib/posts"
 import BootTerminal from "@/components/boot-terminal"
 import HalftoneImage from "@/components/halftone-image"
 import SpotifyWidget from "@/components/spotify-widget"
 import ApodWidget from "@/components/apod-widget"
 import AnimateOnScroll from "@/components/animate-on-scroll"
 
+export const metadata: Metadata = {
+  title: "Waleed Alghamdi — Problem Solver · Product Builder · Strategy to Execution",
+  description:
+    "I build products, lead teams, and turn strategy into execution. Consultant, builder, and AI product maker based in Saudi Arabia.",
+  openGraph: {
+    title: "Waleed Alghamdi",
+    description: "Problem Solver · Product Builder · Strategy to Execution",
+    url: "https://waleedalghamdi.com",
+    siteName: "Waleed Alghamdi",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Waleed Alghamdi",
+    description: "Problem Solver · Product Builder · Strategy to Execution",
+    creator: "@walahamed",
+  },
+}
+
 export default async function Home() {
-  const posts = await getPosts(4)
+  const posts = (await getAllPosts()).slice(0, 4)
 
   return (
     <div className="min-h-screen bg-term-black text-term-white font-mono flex flex-col">

@@ -1,9 +1,28 @@
+import type { Metadata } from "next"
 import Link from "next/link"
 import MinimalNav from "@/components/minimal-nav"
 import SearchPosts from "@/components/search-posts"
 import TerminalFooter from "@/components/terminal-footer"
-import { getPosts } from "@/lib/notion"
+import { getAllPosts } from "@/lib/posts"
 import JournalClient from "@/components/journal-client"
+
+export const metadata: Metadata = {
+  title: "Journal — Waleed Alghamdi",
+  description:
+    "Thoughts on strategy, technology, digital transformation, and the craft of making complicated things feel clear.",
+  openGraph: {
+    title: "Journal — Waleed Alghamdi",
+    description: "Thoughts on strategy, technology, and digital transformation.",
+    url: "https://waleedalghamdi.com/blog",
+    siteName: "Waleed Alghamdi",
+    type: "website",
+  },
+  twitter: {
+    card: "summary",
+    title: "Journal — Waleed Alghamdi",
+    description: "Thoughts on strategy, technology, and digital transformation.",
+  },
+}
 
 interface BlogPageProps {
   searchParams?: Promise<{ q?: string }>
@@ -12,7 +31,7 @@ interface BlogPageProps {
 export default async function BlogPage({ searchParams }: BlogPageProps) {
   const resolvedSearchParams = searchParams ? await searchParams : undefined
   const query = resolvedSearchParams?.q?.trim().toLowerCase() ?? ""
-  const allPosts = await getPosts()
+  const allPosts = await getAllPosts()
 
   const posts = query
     ? allPosts.filter((post) => {

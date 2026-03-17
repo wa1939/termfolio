@@ -1,8 +1,28 @@
+import type { Metadata } from "next"
 import Image from "next/image"
 import Link from "next/link"
 import MinimalNav from "@/components/minimal-nav"
 import TerminalFooter from "@/components/terminal-footer"
 import AnimateOnScroll from "@/components/animate-on-scroll"
+import { siteConfig } from "@/content/site"
+
+export const metadata: Metadata = {
+  title: "About — Waleed Alghamdi",
+  description:
+    "Builder, strategist, and problem solver. Leading culture & employee experience at Elm Company. MBA candidate at UIUC Gies.",
+  openGraph: {
+    title: "About — Waleed Alghamdi",
+    description: "Builder, strategist, and problem solver.",
+    url: "https://waleedalghamdi.com/about",
+    siteName: "Waleed Alghamdi",
+    type: "profile",
+  },
+  twitter: {
+    card: "summary",
+    title: "About — Waleed Alghamdi",
+    description: "Builder, strategist, and problem solver.",
+  },
+}
 
 const WALEED_ART = [
   "██╗    ██╗  █████╗  ██╗     ███████╗███████╗██████╗ ",
@@ -12,66 +32,6 @@ const WALEED_ART = [
   "╚███╔███╔╝ ██║  ██║ ███████╗███████╗███████╗██████╔╝",
   " ╚══╝╚══╝  ╚═╝  ╚═╝ ╚══════╝╚══════╝╚══════╝╚═════╝ ",
 ]
-
-const experience = [
-  {
-    period: "2025 - present",
-    role: "Culture & Employee Experience Lead",
-    company: "Elm Company (PIF subsidiary)",
-    summary:
-      "Built and shipped an AI product that saved SAR 1M+ and cut ticket volume by 48%. Leading EX for ~7,000 employees. Driving M&A integration across ~3,000 employees — building the playbooks, teams, and systems from scratch.",
-  },
-  {
-    period: "2023 - 2025",
-    role: "Culture & Employee Experience Consultant",
-    company: "Elm Company",
-    summary:
-      "Built people analytics dashboards, prediction models, and AI capability programs. Led a data science team to deliver workforce insights and launched multiple internal products from zero.",
-  },
-  {
-    period: "2022 - 2023",
-    role: "Consultant & Business Analyst",
-    company: "Baseqat Arabia Consulting",
-    summary:
-      "Shipped 15+ transformation projects for STC Group, Mobily, SANS, and GEA. Built strategy execution frameworks, led cross-functional teams, and delivered data-driven solutions end-to-end.",
-  },
-  {
-    period: "2021 - 2022",
-    role: "Independent Consultant (SME)",
-    company: "Freelance & partner-led engagements",
-    summary:
-      "Built Power BI dashboards and analytics products for RCJY. Authored operations systems for SSC/HRSD. Solved complex process problems with data-first approaches.",
-  },
-] as const
-
-const certBadges = [
-  { name: "PMP", desc: "Project Management Professional", image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/pmp-600px-2eKqqRiTulSRuZefG1l7MwF0UGQXtf.webp" },
-  { name: "PMI-RMP", desc: "Risk Management Professional", image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/twitter_thumb_201604_pmi-rmp-600px-RJiobHS4HTvWedCML1XiwzNa5kfcvU.webp" },
-  { name: "Prosci", desc: "Change Management Certified", image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Prosci_certified-Fa1e2a7tYuuhabGDjBC0jm7zE2O5PY.webp" },
-  { name: "Lean Six Sigma", desc: "Green Belt Certified", image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/green-belt-formation-ZxLReO0r1CWlV2q8PPKXx8JOfVRAft.webp" },
-  { name: "McKinsey Forward", desc: "McKinsey Leadership Program", image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-fAxr6RxvxxnXpcQ3dWEApFWLimfkdp.webp" },
-] as const
-
-const credentials = [
-  { name: "MBA (in progress)", icon: "🎓", desc: "UIUC Gies College of Business" },
-  { name: "BE Mechanical Engineering", icon: "🏗", desc: "University of Jeddah" },
-  { name: "Arabic + English", icon: "🌍", desc: "Bilingual Fluency" },
-] as const
-
-const skills = [
-  "product building",
-  "ai & ml products",
-  "people analytics",
-  "predictive dashboards",
-  "strategy execution",
-  "team leadership",
-  "python & automation",
-  "data science",
-  "power bi",
-  "problem solving",
-  "digital transformation",
-  "innovation",
-] as const
 
 export default function AboutPage() {
   return (
@@ -91,7 +51,7 @@ export default function AboutPage() {
               {WALEED_ART.join("\n")}
             </pre>
             <div className="text-xs uppercase tracking-[0.3em] text-[var(--term-gray)] mt-2">
-              problem solver · product builder · strategy to execution
+              {siteConfig.title.toLowerCase()}
             </div>
           </div>
 
@@ -105,40 +65,48 @@ export default function AboutPage() {
               <aside className="space-y-6">
                 <div className="overflow-hidden rounded-xl border border-[var(--term-line)] bg-[var(--term-darker)]">
                   <div className="relative aspect-[4/4.8]">
-                    <Image src="/dbcf93d6-e01e-4308-bea1-11412058a5cd.webp" alt="Waleed Alghamdi" fill priority className="object-cover" />
+                    <Image src={siteConfig.avatar} alt={siteConfig.name} fill priority className="object-cover" />
                   </div>
                 </div>
 
                 <div className="space-y-3 text-sm leading-7 text-[var(--term-gray)]">
                   <div>
                     <div className="text-[10px] uppercase tracking-widest text-[var(--term-gray)] mb-1">name</div>
-                    <div className="text-[var(--term-white)]">Waleed Alghamdi</div>
+                    <div className="text-[var(--term-white)]">{siteConfig.name}</div>
                   </div>
                   <div>
                     <div className="text-[10px] uppercase tracking-widest text-[var(--term-gray)] mb-1">location</div>
-                    <div className="text-[var(--term-white)]">Saudi Arabia</div>
+                    <div className="text-[var(--term-white)]">{siteConfig.location}</div>
                   </div>
                   <div>
                     <div className="text-[10px] uppercase tracking-widest text-[var(--term-gray)] mb-1">contact</div>
-                    <a href="mailto:waok@outlook.sa" className="text-[var(--term-cyan)] hover:underline">
-                      waok@outlook.sa
+                    <a href={`mailto:${siteConfig.email}`} className="text-[var(--term-cyan)] hover:underline">
+                      {siteConfig.email}
                     </a>
                   </div>
                   <div>
                     <div className="text-[10px] uppercase tracking-widest text-[var(--term-gray)] mb-1">links</div>
                     <div className="mt-1 space-y-1">
-                      <a href="https://www.linkedin.com/in/waleedalghamdi/" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-[var(--term-cyan)] hover:underline">
-                        <span className="font-bold">[in]</span> LinkedIn
-                      </a>
-                      <a href="https://github.com/wa1939" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-[var(--term-cyan)] hover:underline">
-                        <span className="font-bold">&lt;/&gt;</span> GitHub
-                      </a>
-                      <a href="https://x.com/waleedpy" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-[var(--term-cyan)] hover:underline">
-                        <span className="font-bold">𝕏</span> X
-                      </a>
+                      {Object.values(siteConfig.socials).map((social) => (
+                        <a key={social.label} href={social.url} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-[var(--term-cyan)] hover:underline">
+                          <span className="font-bold">{social.icon}</span> {social.label}
+                        </a>
+                      ))}
                     </div>
                   </div>
                 </div>
+
+                {/* CV Download */}
+                <a
+                  href="/cv.pdf"
+                  download="waleed-alghamdi-cv.pdf"
+                  className="flex items-center gap-3 rounded-lg border border-[var(--term-line)] bg-[var(--term-darker)] px-4 py-3 hover:border-[var(--term-cyan)] hover:bg-[var(--term-cyan)]/5 transition-all group"
+                >
+                  <div className="text-sm text-[var(--term-gray)] group-hover:text-[var(--term-cyan)] transition-colors">
+                    <span className="text-[var(--term-green)]">$</span> download --resume
+                  </div>
+                  <span className="ml-auto text-[var(--term-cyan)] text-xs">↓ PDF</span>
+                </a>
               </aside>
 
               <div className="space-y-8">
@@ -147,29 +115,21 @@ export default function AboutPage() {
                     <span className="text-[var(--term-green)]">$</span> <span className="text-[var(--term-cyan)]">cat</span> about.txt
                   </div>
                   <h1 className="mt-4 text-3xl font-bold tracking-tight text-[var(--term-white)] md:text-4xl">
-                    I build products, lead teams, and turn strategy into execution.
+                    {siteConfig.headline}
                   </h1>
                   <div className="mt-5 space-y-4 text-sm leading-7 text-[var(--term-gray)] max-w-3xl">
-                    <p>
-                      I solve hard problems. Whether it&apos;s building AI-powered products, leading data science teams, or launching new departments from zero — I move from idea to shipped outcome. I&apos;ve built people analytics platforms, predictive dashboards, AI capabilities, and transformation frameworks across 20+ organizations.
-                    </p>
-                    <p>
-                      My work sits where innovation meets execution: designing products people actually use, leading cross-functional teams, and deploying data-driven strategies that create measurable impact. I don&apos;t just consult — I build, ship, and iterate.
-                    </p>
+                    {siteConfig.bio.map((paragraph, i) => (
+                      <p key={i}>{paragraph}</p>
+                    ))}
                   </div>
                 </div>
 
                 <div className="grid gap-4 md:grid-cols-4">
-                  {[
-                    ["products built", "10+"],
-                    ["organizations impacted", "20+"],
-                    ["hackathon wins", "3"],
-                    ["approach", "build × ship × iterate"],
-                  ].map(([label, value], index) => (
-                    <AnimateOnScroll key={label} delay={index * 80}>
+                  {siteConfig.stats.map((stat, index) => (
+                    <AnimateOnScroll key={stat.label} delay={index * 80}>
                     <div className="rounded-lg border border-[var(--term-line)] bg-[var(--term-darker)] px-4 py-4">
-                      <div className="text-[10px] uppercase tracking-widest text-[var(--term-gray)]">{label}</div>
-                      <div className="mt-2 text-lg text-[var(--term-white)] font-bold">{value}</div>
+                      <div className="text-[10px] uppercase tracking-widest text-[var(--term-gray)]">{stat.label}</div>
+                      <div className="mt-2 text-lg text-[var(--term-white)] font-bold">{stat.value}</div>
                     </div>
                     </AnimateOnScroll>
                   ))}
@@ -182,8 +142,8 @@ export default function AboutPage() {
                     <span className="text-[var(--term-green)]">$</span> tree ./experience
                   </div>
                   <div className="text-[var(--term-white)]">./experience</div>
-                  {experience.map((item, idx) => {
-                    const isLast = idx === experience.length - 1
+                  {siteConfig.experience.map((item, idx) => {
+                    const isLast = idx === siteConfig.experience.length - 1
                     return (
                       <div key={`${item.period}-${item.role}`}>
                         <div>{isLast ? "└──" : "├──"} <span className="text-[var(--term-gray)]">[{item.period}]</span> <span className="text-[var(--term-cyan)] uppercase tracking-wider text-xs">{item.company}</span></div>
@@ -200,7 +160,7 @@ export default function AboutPage() {
                 <div className="rounded-lg border border-[var(--term-line)] bg-[var(--term-darker)] px-4 py-4">
                   <div className="text-[10px] uppercase tracking-widest text-[var(--term-gray)] mb-3">Skills</div>
                   <div className="flex flex-wrap gap-2">
-                    {skills.map((skill) => (
+                    {siteConfig.skills.map((skill) => (
                       <span key={skill} className="border border-[var(--term-line)] px-3 py-1.5 text-xs uppercase tracking-[0.12em] text-[var(--term-gray)] rounded-full hover:border-[var(--term-cyan)] hover:text-[var(--term-cyan)] transition-colors">
                         {skill}
                       </span>
@@ -214,7 +174,7 @@ export default function AboutPage() {
                 <div>
                   <div className="text-[10px] uppercase tracking-widest text-[var(--term-gray)] mb-3">Certifications</div>
                   <div className="flex gap-4 overflow-x-auto pb-2 -mx-1 px-1">
-                    {certBadges.map((badge) => (
+                    {siteConfig.certifications.map((badge) => (
                       <div key={badge.name} className="flex-shrink-0 group text-center">
                         <div className="w-[120px] h-[120px] rounded-xl border border-[var(--term-line)] bg-[var(--term-darker)] overflow-hidden hover:border-[var(--term-cyan)] transition-all duration-300">
                           {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -234,7 +194,7 @@ export default function AboutPage() {
                 {/* Additional Credentials */}
                 <AnimateOnScroll>
                 <div className="flex gap-2">
-                  {credentials.map((cred) => (
+                  {siteConfig.credentials.map((cred) => (
                     <div key={cred.name} className="flex items-center gap-2 rounded-lg border border-[var(--term-line)] bg-[var(--term-darker)] px-3 py-2 hover:border-[var(--term-cyan)] transition-colors group">
                       <span className="text-lg flex-shrink-0">{cred.icon}</span>
                       <div>

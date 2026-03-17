@@ -2,7 +2,7 @@ import Link from "next/link"
 import Image from "next/image"
 import { Calendar, Clock } from "lucide-react"
 import { formatPostDate } from "@/lib/format-post-date"
-import type { Post } from "@/lib/notion"
+import type { Post } from "@/lib/posts"
 
 interface BlogPostCardProps {
   post: Post

@@ -1,18 +1,53 @@
+import type { Metadata } from "next"
 import Link from "next/link"
 import Image from "next/image"
 import { notFound } from "next/navigation"
 import MinimalNav from "@/components/minimal-nav"
 import TerminalFooter from "@/components/terminal-footer"
 import TableOfContents from "@/components/table-of-contents"
-import NotionRender from "@/components/notion-render"
+import MarkdownRender from "@/components/markdown-render"
 import TerminalCommentSection from "@/components/terminal-comment-section"
 import BlogPostCard from "@/components/blog-post-card"
 import ReadingControls from "@/components/reading-controls"
 import { formatPostDate } from "@/lib/format-post-date"
-import { getPostBySlug, getPosts } from "@/lib/notion"
+import { getPostBySlug, getAllPosts } from "@/lib/posts"
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>
+}): Promise<Metadata> {
+  const { slug } = await params
+  const post = await getPostBySlug(slug)
+  if (!post) return { title: "Post Not Found" }
+
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://waleedalghamdi.com"
+
+  return {
+    title: `${post.title} — Waleed Alghamdi`,
+    description: post.excerpt || `Read ${post.title} on Waleed Alghamdi's journal.`,
+    openGraph: {
+      title: post.title,
+      description: post.excerpt,
+      type: "article",
+      publishedTime: post.date,
+      authors: [post.author],
+      tags: post.tags,
+      url: `${siteUrl}/blog/${post.slug}`,
+      siteName: "Waleed Alghamdi",
+      ...(post.coverImage ? { images: [{ url: post.coverImage }] } : {}),
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: post.title,
+      description: post.excerpt,
+      creator: "@walahamed",
+    },
+  }
+}
 
 export async function generateStaticParams() {
-  const posts = await getPosts()
+  const posts = await getAllPosts()
   return posts.map((post) => ({ slug: post.slug }))
 }
 
@@ -24,7 +59,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
     notFound()
   }
 
-  const allPosts = await getPosts()
+  const allPosts = await getAllPosts()
   const relatedPosts = allPosts.filter((candidate) => candidate.id !== post.id && candidate.tags.some((tag: string) => post.tags.includes(tag))).slice(0, 2)
 
   return (
@@ -69,14 +104,19 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                     ))}
                   </div>
 
-                  <h1 className="text-3xl font-bold tracking-tight text-[var(--term-white)] md:text-4xl leading-tight">{post.title}</h1>
+                  <h1
+                    className={`text-3xl font-bold tracking-tight text-[var(--term-white)] md:text-4xl leading-tight${post.language === "ar" ? " font-arabic text-right" : ""}`}
+                    dir={post.language === "ar" ? "rtl" : undefined}
+                    lang={post.language === "ar" ? "ar" : undefined}
+                  >
+                    {post.title}
+                  </h1>
 
                   {/* Meta info */}
                   <div className="flex flex-wrap gap-4 text-xs text-[var(--term-gray)]">
                     <span>📅 {formatPostDate(post.date)}</span>
                     <span>✍ {post.author}</span>
                     <span>⏱ {post.readingTime} min read</span>
-                    <span>👁 {post.views || 0} views</span>
                   </div>
 
                   {post.excerpt && <p className="text-sm leading-7 text-[var(--term-gray)] max-w-3xl">{post.excerpt}</p>}
@@ -86,17 +126,21 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                   begin document parsing
                 </div>
 
-                <div className="post-content max-w-[65ch] mx-auto text-base">
-                  <NotionRender contents={post.contents} />
+                <div
+                  className={`post-content max-w-[65ch] mx-auto text-base${post.language === "ar" ? " font-arabic" : ""}`}
+                  dir={post.language === "ar" ? "rtl" : undefined}
+                  lang={post.language === "ar" ? "ar" : undefined}
+                >
+                  <MarkdownRender content={post.content} />
+                </div>
 
-                  <div className="mt-16 flex flex-wrap items-center justify-center gap-2 border-t border-[var(--term-line)] pt-8 text-xs uppercase tracking-[0.14em] text-[var(--term-gray)]">
-                    <span className="mr-2">tags:</span>
-                    {post.tags.map((tag: string, index: number) => (
-                      <span key={`${tag}-${index}`} className="border border-[var(--term-line)] px-2.5 py-1 rounded-full">
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
+                <div className="mt-16 flex flex-wrap items-center justify-center gap-2 border-t border-[var(--term-line)] pt-8 text-xs uppercase tracking-[0.14em] text-[var(--term-gray)] max-w-[65ch] mx-auto">
+                  <span className="mr-2">tags:</span>
+                  {post.tags.map((tag: string, index: number) => (
+                    <span key={`${tag}-${index}`} className="border border-[var(--term-line)] px-2.5 py-1 rounded-full">
+                      {tag}
+                    </span>
+                  ))}
                 </div>
 
                 <div className="border-y-[3px] border-double border-[var(--term-line)] py-1.5 my-8 text-center text-[10px] uppercase tracking-[0.3em] text-[var(--term-gray)]">
@@ -106,8 +150,8 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
 
               {/* Sidebar */}
               <aside className="space-y-4">
-                <ReadingControls contents={post.contents} />
-                <TableOfContents contents={post.contents} />
+                <ReadingControls headings={post.headings} wordCount={post.content.split(/\s+/).filter(Boolean).length} />
+                <TableOfContents headings={post.headings} />
               </aside>
             </div>
           </article>

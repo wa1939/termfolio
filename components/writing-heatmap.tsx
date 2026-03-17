@@ -39,7 +39,7 @@ export default function WritingHeatmap({ posts }: WritingHeatmapProps) {
       if (v.count > maxCount) maxCount = v.count
     })
 
-    // Last 26 weeks (~6 months), each week = 1 column of 7 rows
+    // Last 26 weeks (~6 months), each week = 1 row of 7 cells
     const today = new Date()
     const weeks: string[][] = []
     const startDay = new Date(today)
@@ -59,15 +59,15 @@ export default function WritingHeatmap({ posts }: WritingHeatmapProps) {
       weeks.push(week)
     }
 
-    // Build month labels for header
+    // Build month labels — mark first week of each month
     const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
-    const monthLabels: { label: string; col: number }[] = []
+    const monthLabels: { label: string; row: number }[] = []
     let lastMonth = -1
     weeks.forEach((week, wi) => {
       const firstDay = new Date(week[0])
       const month = firstDay.getMonth()
       if (month !== lastMonth) {
-        monthLabels.push({ label: MONTHS[month], col: wi })
+        monthLabels.push({ label: MONTHS[month], row: wi })
         lastMonth = month
       }
     })
@@ -96,7 +96,7 @@ export default function WritingHeatmap({ posts }: WritingHeatmapProps) {
             ? "color-mix(in srgb, var(--term-green) 80%, var(--term-line))"
             : "var(--term-green, #98C379)"
 
-  const DAYS = ["", "M", "", "W", "", "F", ""]
+  const DAYS = ["S", "M", "T", "W", "T", "F", "S"]
   const totalPosts = posts.length
 
   return (
@@ -110,48 +110,69 @@ export default function WritingHeatmap({ posts }: WritingHeatmapProps) {
         </div>
       </div>
 
-      {/* Horizontal GitHub-style heatmap */}
+      {/* Vertical heatmap: weeks as rows, days as columns */}
       <div className="flex gap-[2px]">
-        {/* Day labels column */}
+        {/* Month labels column */}
         <div className="flex flex-col gap-[2px] mr-[2px]" style={{ flexShrink: 0 }}>
-          {DAYS.map((d, i) => (
-            <div
-              key={i}
-              className="text-[8px] text-term-gray flex items-center justify-end"
-              style={{ width: 14, height: 10 }}
-            >
-              {d}
-            </div>
-          ))}
+          {/* Spacer for day header row */}
+          <div style={{ height: 12 }} />
+          {weeks.map((_, wi) => {
+            const monthLabel = monthLabels.find((m) => m.row === wi)
+            return (
+              <div
+                key={wi}
+                className="text-[8px] text-term-gray flex items-center justify-end"
+                style={{ width: 24, height: 10 }}
+              >
+                {monthLabel ? monthLabel.label : ""}
+              </div>
+            )
+          })}
         </div>
 
-        {/* Grid area: month labels + cells */}
+        {/* Grid area: day labels + cells */}
         <div className="flex-1 overflow-hidden">
-          {/* Month labels */}
-          <div className="flex relative mb-[2px]" style={{ height: 12 }}>
-            {monthLabels.map((m) => (
+          {/* Day labels row (S M T W T F S) */}
+          <div
+            className="grid mb-[2px]"
+            style={{
+              gridTemplateColumns: "repeat(7, 10px)",
+              gap: "2px",
+              height: 12,
+            }}
+          >
+            {DAYS.map((d, i) => (
               <div
-                key={`${m.label}-${m.col}`}
-                className="text-[8px] text-term-gray absolute"
-                style={{ left: m.col * 12 }}
+                key={i}
+                className="text-[8px] text-term-gray flex items-center justify-center"
+                style={{ width: 10 }}
               >
-                {m.label}
+                {d}
               </div>
             ))}
           </div>
 
-          {/* Heatmap grid: rows = 7 days, columns = weeks (left to right) */}
+          {/* Heatmap grid: rows = weeks (top-to-bottom), columns = 7 days */}
           <div
             className="grid"
             style={{
-              gridTemplateRows: "repeat(7, 10px)",
-              gridAutoFlow: "column",
-              gridAutoColumns: "10px",
+              gridTemplateColumns: "repeat(7, 10px)",
+              gridAutoFlow: "row",
               gap: "2px",
             }}
           >
-            {weeks.map((week) =>
-              week.map((day) => {
+            {weeks.map((week, wi) =>
+              // Pad incomplete weeks so grid stays aligned
+              Array.from({ length: 7 }, (_, di) => {
+                const day = week[di]
+                if (!day) {
+                  return (
+                    <div
+                      key={`empty-${wi}-${di}`}
+                      style={{ width: 10, height: 10 }}
+                    />
+                  )
+                }
                 const info = dateMap.get(day)
                 const count = info?.count || 0
                 const level = getLevel(count)
