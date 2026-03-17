@@ -40,7 +40,7 @@ export default function AboutPage() {
       <div className="fixed inset-0 pointer-events-none opacity-[0.015] bg-[url('/noise.png')] animate-noise" />
 
       <main className="flex-grow pt-24 pb-12">
-        <div className="container mx-auto px-4 max-w-5xl">
+        <div className="container mx-auto px-4 max-w-6xl">
           <Link href="/" className="mb-8 inline-flex items-center gap-2 text-[var(--term-gray)] transition-colors hover:text-[var(--term-cyan)]">
             ← back to home
           </Link>
@@ -196,7 +196,12 @@ export default function AboutPage() {
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
                   {siteConfig.credentials.map((cred) => (
                     <div key={cred.name} className="flex items-center gap-2 rounded-lg border border-[var(--term-line)] bg-[var(--term-darker)] px-3 py-2 hover:border-[var(--term-cyan)] transition-colors group">
-                      <span className="text-lg flex-shrink-0">{cred.icon}</span>
+                      {"image" in cred && cred.image ? (
+                        /* eslint-disable-next-line @next/next/no-img-element */
+                        <img src={cred.image} alt={cred.desc} className="h-6 w-auto flex-shrink-0 object-contain" />
+                      ) : (
+                        <span className="text-lg flex-shrink-0">{cred.icon}</span>
+                      )}
                       <div>
                         <div className="text-xs font-bold text-[var(--term-white)] group-hover:text-[var(--term-cyan)] transition-colors">{cred.name}</div>
                         <div className="text-[10px] text-[var(--term-gray)]">{cred.desc}</div>

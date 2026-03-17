@@ -167,14 +167,6 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
             </div>
           </article>
 
-          <section className="mt-10 max-w-2xl mx-auto">
-            <div className="text-sm text-[var(--term-gray)] mb-3">
-              <span className="text-[var(--term-green)]">$</span> <span className="text-[var(--term-cyan)]">cat</span> subscribe.txt
-            </div>
-            <p className="text-sm text-[var(--term-gray)] mb-4">Enjoyed this post? Get notified of new ones.</p>
-            <NewsletterSignup />
-          </section>
-
           <section className="mt-10 space-y-5">
             <div className="text-sm text-[var(--term-gray)]">
               <span className="text-[var(--term-green)]">$</span> <span className="text-[var(--term-cyan)]">node</span> comments.js
@@ -194,6 +186,27 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
               </div>
             </section>
           )}
+
+          <section className="mt-10 max-w-2xl mx-auto">
+            <div className="cli-frame rounded-xl overflow-hidden border border-[var(--term-line)]">
+              <div className="flex items-center justify-between border-b border-[var(--term-line)] px-4 py-3 text-xs uppercase tracking-[0.14em] text-[var(--term-gray)]">
+                <span><span className="text-[var(--term-green)]">$</span> subscribe --no-spam --pinky-promise</span>
+                <span>newsletter</span>
+              </div>
+              <div className="p-5 space-y-4">
+                <p className="text-sm text-[var(--term-white)] leading-relaxed">
+                  I write about building products, leading teams, and the things I figure out along the way. Honestly? It{"'"}s some of my best thinking.
+                </p>
+                <p className="text-xs text-[var(--term-gray)] leading-relaxed">
+                  I solemnly swear: no spam, no selling your email, no {'"'}weekly digest{'"'} nonsense. Just a quiet ping when I publish something new. That{"'"}s literally it.
+                </p>
+                <NewsletterSignup />
+                <p className="text-[10px] text-[var(--term-gray)] text-center tracking-wide">
+                  Your inbox is sacred. I respect that.
+                </p>
+              </div>
+            </div>
+          </section>
         </div>
       </main>
 
