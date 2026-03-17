@@ -10,6 +10,7 @@ import TerminalCommentSection from "@/components/terminal-comment-section"
 import BlogPostCard from "@/components/blog-post-card"
 import ReadingControls from "@/components/reading-controls"
 import NewsletterSignup from "@/components/newsletter-signup"
+import PostEngagement from "@/components/post-engagement"
 import { formatPostDate } from "@/lib/format-post-date"
 import { getPostBySlug, getAllPosts } from "@/lib/posts"
 
@@ -147,17 +148,26 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                 <div className="border-y-[3px] border-double border-[var(--term-line)] py-1.5 my-8 text-center text-[10px] uppercase tracking-[0.3em] text-[var(--term-gray)]">
                   eof
                 </div>
+
+                {/* Engagement Bar */}
+                <div className="max-w-[65ch] mx-auto">
+                  <PostEngagement slug={post.slug} />
+                </div>
               </div>
 
-              {/* Sidebar */}
-              <aside className="space-y-4">
-                <ReadingControls headings={post.headings} wordCount={post.content.split(/\s+/).filter(Boolean).length} />
-                <TableOfContents headings={post.headings} />
+              {/* Sidebar: reading controls on mobile appear first via order */}
+              <aside className="order-first lg:order-none">
+                <div className="lg:sticky lg:top-24 space-y-4 lg:max-h-[calc(100vh-8rem)] lg:overflow-y-auto">
+                  <ReadingControls headings={post.headings} wordCount={post.content.split(/\s+/).filter(Boolean).length} />
+                  <div className="hidden lg:block">
+                    <TableOfContents headings={post.headings} />
+                  </div>
+                </div>
               </aside>
             </div>
           </article>
 
-          <section className="mt-10 max-w-[65ch] mx-auto">
+          <section className="mt-10 max-w-2xl mx-auto">
             <div className="text-sm text-[var(--term-gray)] mb-3">
               <span className="text-[var(--term-green)]">$</span> <span className="text-[var(--term-cyan)]">cat</span> subscribe.txt
             </div>

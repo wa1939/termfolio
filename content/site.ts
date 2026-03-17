@@ -76,5 +76,4 @@ export const siteConfig = {
     { name: "BE Mechanical Engineering", icon: "🏗", desc: "University of Jeddah" },
     { name: "Arabic + English", icon: "🌍", desc: "Bilingual Fluency" },
   ],
-  spotifyPlaylistId: "37i9dQZF1DXcBWIGoYBM5M",
 } as const

@@ -124,7 +124,7 @@ export default function AboutPage() {
                   </div>
                 </div>
 
-                <div className="grid gap-4 md:grid-cols-4">
+                <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
                   {siteConfig.stats.map((stat, index) => (
                     <AnimateOnScroll key={stat.label} delay={index * 80}>
                     <div className="rounded-lg border border-[var(--term-line)] bg-[var(--term-darker)] px-4 py-4">
@@ -173,10 +173,10 @@ export default function AboutPage() {
                 <AnimateOnScroll>
                 <div>
                   <div className="text-[10px] uppercase tracking-widest text-[var(--term-gray)] mb-3">Certifications</div>
-                  <div className="flex flex-wrap gap-4 pb-2">
+                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 pb-2">
                     {siteConfig.certifications.map((badge) => (
                       <div key={badge.name} className="group text-center">
-                        <div className="w-[120px] h-[120px] rounded-xl border border-[var(--term-line)] bg-[var(--term-darker)] overflow-hidden hover:border-[var(--term-cyan)] transition-all duration-300">
+                        <div className="aspect-square rounded-xl border border-[var(--term-line)] bg-[var(--term-darker)] overflow-hidden hover:border-[var(--term-cyan)] transition-all duration-300">
                           {/* eslint-disable-next-line @next/next/no-img-element */}
                           <img
                             src={badge.image}
@@ -193,7 +193,7 @@ export default function AboutPage() {
 
                 {/* Additional Credentials */}
                 <AnimateOnScroll>
-                <div className="flex gap-2">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
                   {siteConfig.credentials.map((cred) => (
                     <div key={cred.name} className="flex items-center gap-2 rounded-lg border border-[var(--term-line)] bg-[var(--term-darker)] px-3 py-2 hover:border-[var(--term-cyan)] transition-colors group">
                       <span className="text-lg flex-shrink-0">{cred.icon}</span>
