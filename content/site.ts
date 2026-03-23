@@ -6,7 +6,7 @@ export const siteConfig = {
     "I solve hard problems. Whether it's building AI-powered products, leading data science teams, or launching new departments from zero — I move from idea to shipped outcome. I've built people analytics platforms, predictive dashboards, AI capabilities, and transformation frameworks across 20+ organizations.",
     "My work sits where innovation meets execution: designing products people actually use, leading cross-functional teams, and deploying data-driven strategies that create measurable impact. I don't just consult — I build, ship, and iterate.",
   ],
-  avatar: "/dbcf93d6-e01e-4308-bea1-11412058a5cd.webp",
+  avatar: "/profile.jpg",
   location: "Saudi Arabia",
   email: "waok@outlook.sa",
   socials: {

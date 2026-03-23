@@ -72,7 +72,7 @@ export default async function Home() {
                   <div className="border border-term-line bg-term-darker rounded-lg overflow-hidden">
                     <div className="relative aspect-[5/4] border-b border-term-line overflow-hidden">
                       <HalftoneImage
-                        src="/dbcf93d6-e01e-4308-bea1-11412058a5cd.webp"
+                        src="/profile.jpg"
                         alt="Waleed Alhamed"
                       />
                     </div>
