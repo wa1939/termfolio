@@ -34,23 +34,31 @@ export default function SpotifyWidget() {
   const [playing, setPlaying] = useState(false)
   const [currentTime, setCurrentTime] = useState(0)
   const [duration, setDuration] = useState(0)
+  const wantsToPlayRef = useRef(true) // user intent: should music be playing?
+  const mountedRef = useRef(true)
 
   const track = TRACKS[trackIdx]
 
-  const play = useCallback(() => {
-    audioRef.current?.play().catch(() => {
-      /* blocked by browser autoplay policy */
+  // Single play function that respects user intent
+  const startPlaying = useCallback(() => {
+    const audio = audioRef.current
+    if (!audio) return
+    wantsToPlayRef.current = true
+    audio.play().catch(() => {
+      // Browser blocked — will retry on interaction
     })
   }, [])
 
   const togglePlay = useCallback(() => {
-    if (!audioRef.current) return
+    const audio = audioRef.current
+    if (!audio) return
     if (playing) {
-      audioRef.current.pause()
+      wantsToPlayRef.current = false
+      audio.pause()
     } else {
-      play()
+      startPlaying()
     }
-  }, [playing, play])
+  }, [playing, startPlaying])
 
   const prevTrack = useCallback(() => {
     setTrackIdx((i) => (i - 1 + TRACKS.length) % TRACKS.length)
@@ -70,60 +78,47 @@ export default function SpotifyWidget() {
     [duration],
   )
 
-  // Sync play state when track changes
-  useEffect(() => {
-    const audio = audioRef.current
-    if (!audio) return
-    audio.load()
-    if (playing) {
-      play()
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [trackIdx])
-
-  // Autoplay: start muted (browsers allow this), unmute on first interaction
+  // Load and play when track changes (including initial mount)
   useEffect(() => {
     const audio = audioRef.current
     if (!audio) return
 
-    // Browsers allow muted autoplay — start playing silently
-    audio.muted = true
-    audio.volume = 0
-
-    const startMuted = () => {
-      audio.play().catch(() => {})
-    }
-
-    if (audio.readyState >= 2) {
-      startMuted()
-    } else {
-      audio.addEventListener("canplay", startMuted, { once: true })
-    }
-
-    // Unmute on first user interaction
-    const unmute = () => {
-      audio.muted = false
-      audio.volume = 1
-      // If somehow not playing yet, start now
-      if (audio.paused) {
-        audio.play().catch(() => {})
+    const onCanPlay = () => {
+      if (wantsToPlayRef.current && mountedRef.current) {
+        audio.play().catch(() => {
+          // Blocked by browser — interaction listener will handle it
+        })
       }
-      document.removeEventListener("click", unmute)
-      document.removeEventListener("touchstart", unmute)
-      document.removeEventListener("keydown", unmute)
-      document.removeEventListener("scroll", unmute)
     }
 
-    document.addEventListener("click", unmute)
-    document.addEventListener("touchstart", unmute)
-    document.addEventListener("keydown", unmute)
-    document.addEventListener("scroll", unmute)
+    audio.src = track.src
+    audio.load()
+    audio.addEventListener("canplay", onCanPlay, { once: true })
 
     return () => {
-      document.removeEventListener("click", unmute)
-      document.removeEventListener("touchstart", unmute)
-      document.removeEventListener("keydown", unmute)
-      document.removeEventListener("scroll", unmute)
+      audio.removeEventListener("canplay", onCanPlay)
+    }
+  }, [trackIdx, track.src])
+
+  // On first user interaction anywhere, start playing if we haven't yet
+  useEffect(() => {
+    const onInteraction = () => {
+      const audio = audioRef.current
+      if (audio && audio.paused && wantsToPlayRef.current) {
+        audio.play().catch(() => {})
+      }
+    }
+
+    document.addEventListener("click", onInteraction)
+    document.addEventListener("touchstart", onInteraction)
+    document.addEventListener("keydown", onInteraction)
+    document.addEventListener("scroll", onInteraction, { passive: true })
+
+    return () => {
+      document.removeEventListener("click", onInteraction)
+      document.removeEventListener("touchstart", onInteraction)
+      document.removeEventListener("keydown", onInteraction)
+      document.removeEventListener("scroll", onInteraction)
     }
   }, [])
 
@@ -156,6 +151,13 @@ export default function SpotifyWidget() {
     }
   }, [])
 
+  // Cleanup
+  useEffect(() => {
+    return () => {
+      mountedRef.current = false
+    }
+  }, [])
+
   const progress = duration > 0 ? (currentTime / duration) * 100 : 0
   const barLen = 24
   const filled = Math.floor((progress / 100) * barLen)
@@ -163,7 +165,7 @@ export default function SpotifyWidget() {
 
   return (
     <div className="border border-term-line bg-term-darker font-mono text-xs">
-      <audio ref={audioRef} src={track.src} preload="metadata" />
+      <audio ref={audioRef} preload="auto" />
 
       <div className="flex items-center justify-between px-3 py-2 text-term-gray uppercase tracking-[0.14em] border-b border-term-line">
         <span>♫ now playing</span>
