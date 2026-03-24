@@ -217,7 +217,38 @@ New-Item -ItemType SymbolicLink -Path content\posts -Target C:\Users\you\obsidia
 <details>
 <summary><strong>Option C: GitHub Action</strong> (automated)</summary>
 
-Set up a workflow that copies posts from your vault repo on push.
+A ready-made workflow is included at `.github/workflows/sync-obsidian.yml`. It syncs posts from a separate Obsidian vault repo automatically.
+
+**Setup:**
+
+1. Store your Obsidian posts in a separate GitHub repo (e.g. `your-username/obsidian-vault`)
+2. Create a [Personal Access Token](https://github.com/settings/tokens) with `repo` scope
+3. In **this** repo, go to **Settings > Secrets > Actions** and add:
+   - `VAULT_REPO` — `your-username/obsidian-vault`
+   - `VAULT_PAT` — your PAT
+   - `VAULT_PATH` — folder inside the vault repo (default: `published`)
+4. The workflow runs daily at 6 AM UTC, or you can trigger it manually
+
+**Optional — trigger on push to vault repo:**
+
+Add this workflow to your vault repo so it triggers a sync whenever you push:
+
+```yaml
+name: Trigger site sync
+on:
+  push:
+    paths: ['published/**']
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          curl -X POST \
+            -H "Accept: application/vnd.github.v3+json" \
+            -H "Authorization: token ${{ secrets.SITE_REPO_PAT }}" \
+            https://api.github.com/repos/YOUR_USERNAME/Notion-terminal/dispatches \
+            -d '{"event_type":"sync-obsidian"}'
+```
 
 </details>
 
