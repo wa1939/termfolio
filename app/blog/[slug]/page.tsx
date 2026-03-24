@@ -70,7 +70,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
       <div className="fixed inset-0 pointer-events-none opacity-[0.015] bg-[url('/noise.png')] animate-noise" />
 
       <main className="flex-grow pt-24 pb-12">
-        <div className="container mx-auto px-4 max-w-6xl">
+        <div className="container mx-auto px-3 sm:px-4 max-w-6xl">
           <Link href="/blog" className="mb-8 inline-flex items-center gap-2 text-[var(--term-gray)] transition-colors hover:text-[var(--term-cyan)]">
             ← back to journal
           </Link>
@@ -81,7 +81,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
               <span>journal entry</span>
             </div>
 
-            <div className="grid gap-8 p-5 lg:grid-cols-[minmax(0,1fr)_240px] lg:p-6">
+            <div className="grid gap-8 px-3 py-5 sm:px-5 lg:grid-cols-[minmax(0,1fr)_240px] lg:p-6">
               <div className="space-y-8">
                 <header className="space-y-5 border-b border-[var(--term-line)] pb-6">
                   {/* Cover Image - Full Width, Rounded */}
@@ -129,7 +129,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                 </div>
 
                 <div
-                  className={`post-content max-w-[65ch] mx-auto text-base${post.language === "ar" ? " font-arabic" : ""}`}
+                  className={`post-content max-w-[65ch] mx-auto text-base overflow-x-hidden${post.language === "ar" ? " font-arabic" : ""}`}
                   dir={post.language === "ar" ? "rtl" : undefined}
                   lang={post.language === "ar" ? "ar" : undefined}
                 >

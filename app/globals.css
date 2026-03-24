@@ -90,6 +90,8 @@
     border: 1px solid var(--term-line);
     background: var(--term-black);
     box-shadow: 6px 6px 0px var(--term-line);
+    overflow: hidden;
+    max-width: 100%;
   }
 
   .cli-panel {
@@ -157,6 +159,8 @@
     font-family: var(--font-reading-serif), Georgia, serif;
     font-size: 1.1rem;
     line-height: 1.95;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
   }
 
   .post-content h1,
@@ -220,11 +224,14 @@
     background-color: #121217;
     border: 1px solid rgba(243, 234, 219, 0.1);
     overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    max-width: 100%;
   }
 
   .post-content code {
     color: #efc5a2;
     font-family: var(--font-ui-mono), "IBM Plex Mono", monospace;
+    word-break: break-word;
   }
 
   .post-content blockquote {
@@ -250,12 +257,16 @@
     width: 100%;
     margin: 1.5rem 0;
     border-collapse: collapse;
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
   }
 
   .post-content table th,
   .post-content table td {
     border: 1px solid rgba(243, 234, 219, 0.1);
     padding: 0.75rem 1rem;
+    white-space: nowrap;
   }
 
   .post-content table th {
@@ -265,6 +276,7 @@
     font-size: 0.95rem;
     text-align: left;
   }
+
 }
 
 /* ── Smooth cursor pulse animation ─────────────────── */
