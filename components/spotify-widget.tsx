@@ -86,6 +86,43 @@ export default function SpotifyWidget() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [trackIdx])
 
+  // Autoplay: try immediately, fall back to first user interaction
+  useEffect(() => {
+    const audio = audioRef.current
+    if (!audio) return
+
+    let cleanupInteraction: (() => void) | null = null
+
+    const tryAutoplay = () => {
+      audio.play().catch(() => {
+        // Browser blocked autoplay — start on first user interaction
+        const startOnInteraction = () => {
+          audio.play().catch(() => {})
+          cleanup()
+        }
+        const cleanup = () => {
+          document.removeEventListener("click", startOnInteraction)
+          document.removeEventListener("touchstart", startOnInteraction)
+          document.removeEventListener("keydown", startOnInteraction)
+        }
+        document.addEventListener("click", startOnInteraction)
+        document.addEventListener("touchstart", startOnInteraction)
+        document.addEventListener("keydown", startOnInteraction)
+        cleanupInteraction = cleanup
+      })
+    }
+
+    if (audio.readyState >= 2) {
+      tryAutoplay()
+    } else {
+      audio.addEventListener("canplay", tryAutoplay, { once: true })
+    }
+
+    return () => {
+      cleanupInteraction?.()
+    }
+  }, [])
+
   // Audio event listeners
   useEffect(() => {
     const audio = audioRef.current
