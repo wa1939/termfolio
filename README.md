@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="docs/screenshots/hero-home.png" alt="Terminal Portfolio" width="100%" />
+<img src="docs/screenshots/hero-home.png" alt="termfolio" width="100%" />
 
 <br />
 <br />
@@ -9,9 +9,14 @@
 
 **Your portfolio should boot like a terminal, not load like a Squarespace.**
 
-Write in Obsidian. Push to GitHub. Your site updates. No database. No CMS. No writing in two places.
+Write in Obsidian. Push to GitHub. Your site updates.<br />
+No database. No CMS. No writing in two places.
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fwa1939%2Ftermfolio&env=RESEND_API_KEY,RESEND_AUDIENCE_ID,NOTIFY_SECRET&envDescription=API%20keys%20for%20newsletter%20and%20notifications&envLink=https%3A%2F%2Fgithub.com%2Fwa1939%2Ftermfolio%23-environment-variables)
+<br />
+
+[Live Demo](https://waleedalghamdi.com) &bull; [Deploy Your Own](#-deploy-in-3-minutes) &bull; [Full Tutorial](https://waleedalghamdi.com/blog/building-terminal-website)
+
+<br />
 
 [![Stars](https://img.shields.io/github/stars/wa1939/termfolio?style=flat&logo=github&color=7dd3fc&labelColor=0B0B0F)](https://github.com/wa1939/termfolio/stargazers)
 [![Forks](https://img.shields.io/github/forks/wa1939/termfolio?style=flat&logo=github&color=8FD4A7&labelColor=0B0B0F)](https://github.com/wa1939/termfolio/network/members)
@@ -19,19 +24,51 @@ Write in Obsidian. Push to GitHub. Your site updates. No database. No CMS. No wr
 [![Last Commit](https://img.shields.io/github/last-commit/wa1939/termfolio?style=flat&color=E8B87E&labelColor=0B0B0F)](https://github.com/wa1939/termfolio/commits/main)
 [![Visitors](https://api.visitorbadge.io/api/visitors?path=https%3A%2F%2Fgithub.com%2Fwa1939%2Ftermfolio&label=visitors&labelColor=%230B0B0F&countColor=%237dd3fc)](https://visitorbadge.io/status?path=https%3A%2F%2Fgithub.com%2Fwa1939%2Ftermfolio)
 
-[Live Demo](https://waleedalghamdi.com) &bull; [Report Bug](https://github.com/wa1939/termfolio/issues) &bull; [Request Feature](https://github.com/wa1939/termfolio/issues)
-
 </div>
+
+---
+
+## Deploy in 3 Minutes
+
+No local setup needed. Click, paste, done.
+
+| Step | Action | Time |
+|:----:|--------|:----:|
+| **1** | Click **Deploy with Vercel** below. It forks the repo and creates your project. | 30s |
+| **2** | Vercel asks for 3 env variables. Get them from [resend.com](https://resend.com) (free tier). Paste them in. | 90s |
+| **3** | Click **Deploy**. Your site is live. | 60s |
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fwa1939%2Ftermfolio&env=RESEND_API_KEY,RESEND_AUDIENCE_ID,NOTIFY_SECRET&envDescription=API%20keys%20for%20newsletter%20and%20notifications&envLink=https%3A%2F%2Fgithub.com%2Fwa1939%2Ftermfolio%23-environment-variables)
+
+<details>
+<summary><strong>Getting the env variables (takes 2 minutes)</strong></summary>
+
+1. Go to [resend.com](https://resend.com) and sign up (free)
+2. **RESEND_API_KEY** — Go to API Keys → Create API Key → copy it
+3. **RESEND_AUDIENCE_ID** — Go to Audiences → Create Audience → copy the ID
+4. **NOTIFY_SECRET** — Any random string. Generate one:
+   ```
+   openssl rand -hex 32
+   ```
+   Or just type something long and random.
+
+That's it. The newsletter and email notifications now work.
+
+</details>
+
+After deploy, clone your forked repo and edit **one file** — `content/site.ts` — to replace the demo content with yours. Push. Done.
+
+> **Want the full walkthrough?** Read the [step-by-step tutorial](https://waleedalghamdi.com/blog/building-terminal-website) with screenshots.
 
 ---
 
 ## Why termfolio?
 
-Most portfolio templates make you choose: **look good** or **easy to maintain**. Termfolio gives you both.
+Most portfolio templates make you choose: **look good** or **easy to maintain**.
 
 | | Traditional portfolio | termfolio |
 |---|:---:|:---:|
-| Write content | CMS dashboard | Obsidian / any markdown editor |
+| Write content | CMS dashboard | Obsidian / VS Code / any editor |
 | Content storage | Database (Postgres, Notion, Contentful) | Plain `.md` files in your repo |
 | Write in one place | No — CMS + code | Yes — just markdown |
 | Vendor lock-in | Tied to CMS provider | Zero — it's just files |
@@ -39,196 +76,201 @@ Most portfolio templates make you choose: **look good** or **easy to maintain**.
 | Deploy | Complex pipeline | `git push` |
 | Customize | Dig through 50+ files | Edit **one file** (`content/site.ts`) |
 
+---
+
+## What's Inside
+
 <div align="center">
 
 | | |
 |:---:|:---:|
 | ![Home](docs/screenshots/hero-home.png) | ![Blog](docs/screenshots/blog.png) |
-| **Home — Boot sequence & terminal** | **Journal — Search, heatmap, filters** |
+| **Home — Boot sequence & interactive terminal** | **Journal — Search, heatmap, tag filters** |
 | ![Blog Post](docs/screenshots/blog-post.png) | ![About](docs/screenshots/about.png) |
-| **Blog Post — Reading controls, ToC, themes** | **About — Experience, skills, certs** |
+| **Blog Post — 3 reading themes, ToC, progress** | **About — Experience, skills, certifications** |
 | ![Contact](docs/screenshots/contact.png) | ![Mobile](docs/screenshots/mobile-home.png) |
-| **Contact — Cal.com embed, newsletter** | **Mobile — Fully responsive** |
+| **Contact — Cal.com scheduling, newsletter** | **Mobile — Fully responsive on all devices** |
 
 </div>
 
-## How It Works
+### The Best Reading Experience
+
+We obsessed over reading UX so your visitors actually finish your posts.
+
+- **3 reading themes** — Terminal (dark), Light, and Sepia. Readers switch mid-article without losing their place
+- **Adjustable font size** — Small, medium, large. Readers pick what's comfortable
+- **Focus mode** — Hides everything except the article. No nav, no sidebar, no distractions
+- **Reading progress bar** — Shows how far through the post they are
+- **Table of contents** — Auto-generated from headings, highlights current section as you scroll
+- **Estimated reading time** — Shown before they start
+- **Syntax highlighting** — Code blocks with proper language coloring
+- **Full RTL/Arabic support** — Set `language: "ar"` in frontmatter and the entire post flips — layout, fonts, everything
+
+### 7 Built-in Terminal Games & Tools
+
+Your visitors won't just read — they'll play. The home page terminal is a real command parser:
+
+| Command | What it does |
+|---------|-------------|
+| `snake` | Classic Snake game — playable right in the terminal |
+| `pokedex` | Browse Pokemon with stats, types, and pixel art |
+| `typing-test` | Speed typing challenge with WPM tracking |
+| `starmap` | Interactive constellation map based on your coordinates |
+| `worldmap` | SVG world map highlighting your city |
+| `json` | Paste and format/validate JSON instantly |
+| `dashboard` | System dashboard with live clock and stats |
+| `base64` | Encode/decode Base64 strings |
+| `wordcount` | Count words, characters, and lines |
+| `epoch` | Convert Unix timestamps to human dates |
+| `uuid` | Generate random UUIDs |
+| `whoami` | Shows your identity (reads from config) |
+| `skills` | Shows your skills (reads from config) |
+| `theme` | Toggle light/dark mode |
+
+Every command reads from `content/site.ts` — so `whoami` outputs **your** name, and `starmap` shows **your** sky.
+
+### Write in Obsidian, Publish Everywhere
 
 ```
-Obsidian (write) → content/posts/*.md → git push → Vercel (live)
+Obsidian (write) → content/posts/*.md → git push → Live site
 ```
 
-1. **Write** in Obsidian (or any markdown editor)
-2. **Save** — your `.md` files live in `content/posts/`
-3. **Push** — Vercel auto-deploys on every `git push`
+Your markdown files **are** the blog. No database. No CMS. No API calls to fetch content.
 
-That's it. No database to provision. No CMS dashboard to learn. No API keys for content. Your markdown files **are** the blog.
+- **Symlink your vault** → posts update when you save in Obsidian
+- **GitHub Action included** → auto-syncs from a separate vault repo on push
+- **Works with any editor** → VS Code, Vim, iA Writer — if it saves `.md` files, it works
 
-> **Already using Obsidian?** Symlink your vault's published folder to `content/posts/` and your blog updates every time you save. Or use the included [GitHub Action](#obsidian-integration) to sync automatically from a vault repo.
+### Comments via GitHub Discussions
 
-## Features
+Readers comment on your posts using their GitHub account. No database, no moderation dashboard — comments live in your repo's Discussions tab.
 
-```
-$ cat features.md
-```
+**Setup (2 minutes):**
 
-**Content & Writing**
-- **Markdown Blog** — Local `.md` files with frontmatter, syntax highlighting, table of contents, reading progress
-- **3 Reading Themes** — Terminal (dark), Light, and Sepia — switch mid-read
-- **Full RTL/Arabic Support** — `language: "ar"` in frontmatter flips everything
-- **Writing Heatmap** — GitHub-style contribution graph for your blog activity
-- **Newsletter** — Email subscriptions + new-post notifications via Resend
-- **Comments** — Giscus (GitHub Discussions) integration
-- **Obsidian Sync** — Symlink, copy, or GitHub Action — write once, publish everywhere
-
-**Interactive Terminal**
-- Real command parser: `help`, `whoami`, `skills`, `snake`, `pokedex`, `starmap`, `worldmap`, `typing-test`, `json`, and more
-- Boot sequence animation on page load
-- All commands read from config — your identity, your output
-
-**Visuals & Widgets**
-- **Halftone Image Effect** — Canvas-based halftone rendering on profile photos
-- **Star Field Background** — Animated starfield on the home page
-- **Interactive Star Map** — Real constellation rendering based on your coordinates
-- **World Map** — SVG world map highlighting your location
-- **Cal.com Embed** — Scheduling widget on the contact page
-- **Spotify Widget** — Link to your profile
-
-**Developer Experience**
-- **One file config** — `content/site.ts` controls everything
-- **SEO Optimized** — Dynamic OG images, sitemap, robots.txt, structured metadata
-- **Vercel Analytics** — Built-in analytics and speed insights
-- **One-Click Deploy** — Fork, edit one file, deploy to Vercel
-- **No database** — zero infrastructure to maintain
-
-## Tech Stack
-
-<div align="center">
-
-[![Next.js](https://img.shields.io/badge/Next.js_15-0B0B0F?style=for-the-badge&logo=next.js&logoColor=white)](https://nextjs.org/)
-[![React](https://img.shields.io/badge/React_19-0B0B0F?style=for-the-badge&logo=react&logoColor=61DAFB)](https://react.dev/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-0B0B0F?style=for-the-badge&logo=typescript&logoColor=3178C6)](https://www.typescriptlang.org/)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-0B0B0F?style=for-the-badge&logo=tailwindcss&logoColor=06B6D4)](https://tailwindcss.com/)
-[![Resend](https://img.shields.io/badge/Resend-0B0B0F?style=for-the-badge&logo=resend&logoColor=white)](https://resend.com/)
-[![Vercel](https://img.shields.io/badge/Vercel-0B0B0F?style=for-the-badge&logo=vercel&logoColor=white)](https://vercel.com/)
-
-</div>
-
-| Layer | Technology |
-|-------|-----------|
-| Framework | Next.js 15 (App Router) |
-| UI | React 19, Tailwind CSS 3, CSS custom properties (`--term-*` design tokens) |
-| Content | Local Markdown with gray-matter frontmatter |
-| Markdown Pipeline | unified &rarr; remark-parse &rarr; remark-gfm &rarr; remark-rehype &rarr; rehype-slug &rarr; rehype-highlight &rarr; rehype-react |
-| Email | Resend API (newsletter + notifications) |
-| Comments | Giscus (GitHub Discussions) |
-| Analytics | Vercel Analytics + Speed Insights |
-| Fonts | IBM Plex Mono (UI), Source Serif 4 (reading), Noto Naskh Arabic (RTL) |
-
-## Quick Start
-
-### 1. Fork & Clone
+1. Go to [giscus.app](https://giscus.app)
+2. Enter your repo name → it checks if Discussions are enabled
+3. Pick a category (use "Announcements")
+4. Copy the 4 values it gives you
+5. Add them to your `.env.local`:
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/termfolio.git
-cd termfolio
-npm install
+NEXT_PUBLIC_GISCUS_REPO=your-username/termfolio
+NEXT_PUBLIC_GISCUS_REPO_ID=R_xxxxxxxxxx
+NEXT_PUBLIC_GISCUS_CATEGORY=Announcements
+NEXT_PUBLIC_GISCUS_CATEGORY_ID=DIC_xxxxxxxxxx
 ```
 
-### 2. Configure Everything from One File
+Done. Comments appear at the bottom of every blog post. You moderate them from GitHub Discussions — same place you manage issues and PRs.
 
-Open **`content/site.ts`** and make it yours:
+### Everything Else
+
+- **Newsletter** — Email subscriptions + new-post notifications via [Resend](https://resend.com) (free tier: 3,000 emails/month)
+- **Halftone image effect** — Your profile photo renders as a canvas-based halftone
+- **Star field background** — Animated starfield on the home page
+- **Writing heatmap** — GitHub-style contribution graph showing your blog activity
+- **Cal.com embed** — Scheduling widget on the contact page
+- **Spotify widget** — Links to your music profile
+- **SEO optimized** — Dynamic OG images, sitemap, robots.txt, structured metadata
+- **Vercel Analytics** — Built-in analytics and speed insights
+- **Security hardened** — HSTS, CSP headers, rate limiting, timing-safe auth, input validation
+
+---
+
+## Configure from One File
+
+Open **`content/site.ts`** and make it yours. This single file controls your entire site:
 
 ```typescript
 export const siteConfig = {
-  name: "Your Name",
-  handle: "yourhandle",
-  title: "Your Title",
-  tagline: "your · tagline · here",
-  email: "you@example.com",
-  siteUrl: "https://yourdomain.com",
-  // ... see file for all options
+  name: "Your Name",           // site title, metadata, emails, footer
+  handle: "you",               // terminal prompt, top bar
+  tagline: "your · tagline",   // below ASCII art
+  email: "you@example.com",    // contact page, comment fallback
+  siteUrl: "https://you.com",  // metadata, sitemap, emails
+
+  // Terminal commands read from these:
+  whoami: { focus: "what you do", status: "what you're up to" },
+  terminalSkills: ["skill1 // skill2 // skill3"],
+
+  // Your location powers the star map and world map:
+  coordinates: { lat: 40.7128, lon: -74.0060, label: "New York" },
+
+  // Social links appear in the nav bar:
+  socials: {
+    github: { url: "https://github.com/you", label: "GitHub", icon: "</>" },
+    linkedin: { url: "https://linkedin.com/in/you", label: "LinkedIn", icon: "[in]" },
+  },
+
+  // Generate ASCII art at patorjk.com/software/taag
+  asciiArt: { home: [...], about: [...] },
+
+  // About page content:
+  bio: [...], experience: [...], skills: [...], certifications: [...],
 }
 ```
 
 <details>
-<summary><strong>Full configuration reference</strong></summary>
+<summary><strong>Full field reference</strong></summary>
 
-| Field | What it controls |
-|-------|-----------------|
+| Field | Controls |
+|-------|----------|
 | `name` | Site title, metadata, email sender, footer |
-| `handle` | Terminal prompt display, top bar |
+| `handle` | Terminal prompt, top bar display |
 | `title` | Meta title, about page header |
-| `tagline` | Below ASCII art on home page |
+| `tagline` | Text below ASCII art on home page |
 | `description` | Meta/OG description across all pages |
 | `email` | Contact page, comment fallback |
 | `siteUrl` | Metadata, sitemap, robots.txt, email links |
 | `twitterHandle` | Twitter/X card metadata |
 | `calUrl` / `calEmbedUrl` | Contact page calendar widget |
 | `spotifyUrl` | Music widget link |
-| `coordinates` | Star map and world map location |
-| `asciiArt.home` / `asciiArt.about` | ASCII art banners (generate at [patorjk.com](https://patorjk.com/software/taag/#p=display&f=ANSI%20Shadow)) |
-| `socials` | Navigation bar links (GitHub, LinkedIn, X, etc.) |
+| `coordinates` | Star map location, world map pin |
+| `asciiArt.home` / `asciiArt.about` | ASCII art banners ([generate here](https://patorjk.com/software/taag/#p=display&f=ANSI%20Shadow)) |
+| `socials` | Nav bar links (GitHub, LinkedIn, X, etc.) |
 | `whoami` | Terminal `whoami` command output |
 | `terminalSkills` | Terminal `skills` command output |
 | `terminalPrompt` | Shell prompt string (e.g. `root@you:~`) |
 | `developedBy` | Footer attribution (links to this repo) |
-| `customizedBy` | **Your attribution** — set `{ name: "You", url: "..." }` |
-| `bio`, `stats`, `experience`, `skills`, `certifications`, `credentials` | About page content |
+| `customizedBy` | Your attribution — set `{ name: "You", url: "..." }` |
+| `bio`, `stats`, `experience`, `skills` | About page content |
+| `certifications`, `credentials` | About page badges and degrees |
 
 </details>
 
-### 3. Add Your Blog Posts
+---
 
-Delete the example posts in `content/posts/` and create your own:
+## Blog Posts
+
+Create `.md` files in `content/posts/`. That's your entire CMS:
 
 ```markdown
 ---
 title: "My First Post"
 date: "2026-01-15"
-excerpt: "A brief description"
-tags: ["topic"]
+excerpt: "A brief description for cards and SEO"
+tags: ["topic", "another"]
 status: "published"
 language: "en"
 ---
 
-Your markdown content here...
+Your markdown content here. Supports GFM: tables, task lists,
+strikethrough, footnotes, syntax-highlighted code blocks.
 ```
 
-### 4. Set Up Environment Variables
+| Frontmatter | Required | Notes |
+|-------------|:--------:|-------|
+| `title` | Yes | Post title |
+| `date` | Yes | ISO date (YYYY-MM-DD) |
+| `status` | Yes | `"published"` or `"draft"` (drafts are hidden) |
+| `excerpt` | No | Used in cards, SEO, and email notifications |
+| `tags` | No | Array of strings for filtering |
+| `language` | No | `"en"` (default) or `"ar"` for RTL Arabic |
+| `coverImage` | No | Path relative to `public/` |
+| `author` | No | Defaults to your `siteConfig.name` |
 
-```bash
-cp .env.example .env.local
-```
-
-### 5. Run
-
-```bash
-npm run dev
-```
-
-### 6. Deploy
-
-Click the **Deploy with Vercel** button at the top, or push to your repo and connect it to [Vercel](https://vercel.com).
-
-## Environment Variables
-
-| Variable | Required | Description |
-|----------|:--------:|-------------|
-| `RESEND_API_KEY` | Yes | [Resend](https://resend.com) API key for email |
-| `RESEND_AUDIENCE_ID` | Yes | Resend audience ID for subscribers |
-| `NOTIFY_SECRET` | Yes | Secret for the `/api/notify` endpoint |
-| `RESEND_FROM_EMAIL` | No | Sender email (default derived from config) |
-| `NEXT_PUBLIC_SITE_URL` | No | Site URL override (default from `siteConfig.siteUrl`) |
-| `NEXT_PUBLIC_NASA_API_KEY` | No | NASA APOD widget API key |
-| `NEXT_PUBLIC_GISCUS_REPO` | No | Giscus repo for comments |
-| `NEXT_PUBLIC_GISCUS_REPO_ID` | No | Giscus repo ID |
-| `NEXT_PUBLIC_GISCUS_CATEGORY` | No | Giscus category |
-| `NEXT_PUBLIC_GISCUS_CATEGORY_ID` | No | Giscus category ID |
+---
 
 ## Obsidian Integration
-
-If you write posts in Obsidian, you have three options:
 
 <details>
 <summary><strong>Option A: Copy files</strong> (simplest)</summary>
@@ -238,7 +280,9 @@ Copy `.md` files from your Obsidian vault to `content/posts/`.
 </details>
 
 <details>
-<summary><strong>Option B: Symlink</strong> (auto-sync)</summary>
+<summary><strong>Option B: Symlink</strong> (best for local dev)</summary>
+
+Point `content/posts/` at your vault folder. Posts update live when you save in Obsidian:
 
 ```bash
 # macOS/Linux
@@ -251,7 +295,7 @@ New-Item -ItemType SymbolicLink -Path content\posts -Target C:\Users\you\obsidia
 </details>
 
 <details>
-<summary><strong>Option C: GitHub Action</strong> (automated)</summary>
+<summary><strong>Option C: GitHub Action</strong> (fully automated)</summary>
 
 A ready-made workflow is included at `.github/workflows/sync-obsidian.yml`. It syncs posts from a separate Obsidian vault repo automatically.
 
@@ -263,11 +307,11 @@ A ready-made workflow is included at `.github/workflows/sync-obsidian.yml`. It s
    - `VAULT_REPO` — `your-username/obsidian-vault`
    - `VAULT_PAT` — your PAT
    - `VAULT_PATH` — folder inside the vault repo (default: `published`)
-4. The workflow runs daily at 6 AM UTC, or you can trigger it manually
+4. The workflow runs daily at 6 AM UTC, or trigger it manually from the Actions tab
 
-**Optional — trigger on push to vault repo:**
+**Optional — auto-trigger on vault push:**
 
-Add this workflow to your vault repo so it triggers a sync whenever you push:
+Add this workflow to your vault repo:
 
 ```yaml
 name: Trigger site sync
@@ -286,9 +330,14 @@ jobs:
             -d '{"event_type":"sync-obsidian"}'
 ```
 
+Now every time you push your vault, your site auto-updates.
+
 </details>
 
-### Obsidian Frontmatter Template
+<details>
+<summary><strong>Obsidian frontmatter template</strong></summary>
+
+Save this as a template in Obsidian for new posts:
 
 ```yaml
 ---
@@ -303,71 +352,103 @@ language: "en"
 ---
 ```
 
-## Terminal Commands
+</details>
 
-The interactive terminal on the home page supports these commands:
+---
 
-| Command | Description |
-|---------|-------------|
-| `help` | List all available commands |
-| `whoami` | Display identity info (from config) |
-| `skills` | Show skills (from config) |
-| `snake` | Play Snake in the terminal |
-| `pokedex` | Browse Pokemon (Pokedex) |
-| `starmap` | Interactive star constellation map |
-| `worldmap` | SVG world map with your location |
-| `typing-test` | Test your typing speed |
-| `json` | JSON formatter/validator |
-| `clear` | Clear the terminal |
-| `theme` | Toggle light/dark theme |
+## Environment Variables
+
+| Variable | Required | Description |
+|----------|:--------:|-------------|
+| `RESEND_API_KEY` | Yes | [Resend](https://resend.com) API key — free tier gives 3,000 emails/month |
+| `RESEND_AUDIENCE_ID` | Yes | Resend audience ID (Audiences → Create → copy ID) |
+| `NOTIFY_SECRET` | Yes | Any random string — protects the notification endpoint |
+| `RESEND_FROM_EMAIL` | No | Sender address (default: `Your Name <noreply@yourdomain.com>`) |
+| `NEXT_PUBLIC_SITE_URL` | No | Override site URL (default from `siteConfig.siteUrl`) |
+| `NEXT_PUBLIC_NASA_API_KEY` | No | [NASA API key](https://api.nasa.gov/) for APOD widget |
+| `NEXT_PUBLIC_GISCUS_REPO` | No | Your repo name for [Giscus](https://giscus.app) comments |
+| `NEXT_PUBLIC_GISCUS_REPO_ID` | No | Giscus repo ID |
+| `NEXT_PUBLIC_GISCUS_CATEGORY` | No | Giscus category (use "Announcements") |
+| `NEXT_PUBLIC_GISCUS_CATEGORY_ID` | No | Giscus category ID |
+
+---
+
+## Tech Stack
+
+<div align="center">
+
+[![Next.js](https://img.shields.io/badge/Next.js_15-0B0B0F?style=for-the-badge&logo=next.js&logoColor=white)](https://nextjs.org/)
+[![React](https://img.shields.io/badge/React_19-0B0B0F?style=for-the-badge&logo=react&logoColor=61DAFB)](https://react.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-0B0B0F?style=for-the-badge&logo=typescript&logoColor=3178C6)](https://www.typescriptlang.org/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-0B0B0F?style=for-the-badge&logo=tailwindcss&logoColor=06B6D4)](https://tailwindcss.com/)
+[![Resend](https://img.shields.io/badge/Resend-0B0B0F?style=for-the-badge&logo=resend&logoColor=white)](https://resend.com/)
+[![Vercel](https://img.shields.io/badge/Vercel-0B0B0F?style=for-the-badge&logo=vercel&logoColor=white)](https://vercel.com/)
+
+</div>
+
+| Layer | Technology |
+|-------|-----------|
+| Framework | Next.js 15 (App Router) |
+| UI | React 19, Tailwind CSS 3, CSS design tokens (`--term-*`) |
+| Content | Local Markdown files with gray-matter frontmatter |
+| Markdown | unified &rarr; remark-parse &rarr; remark-gfm &rarr; remark-rehype &rarr; rehype-slug &rarr; rehype-highlight &rarr; rehype-react |
+| Email | Resend API (newsletter + new-post notifications) |
+| Comments | Giscus (GitHub Discussions — no database needed) |
+| Analytics | Vercel Analytics + Speed Insights |
+| Fonts | IBM Plex Mono (UI), Source Serif 4 (reading), Noto Naskh Arabic (RTL) |
+
+---
 
 ## Project Structure
 
 ```
+content/
+  site.ts               ← THE file. Your entire site config.
+  posts/*.md            ← Your blog posts. That's your CMS.
+
 app/
   page.tsx              Home (boot terminal, hero, recent posts)
   about/page.tsx        About/resume page
-  blog/page.tsx         Journal listing (search, heatmap, filters)
+  blog/page.tsx         Journal (search, heatmap, tag filters)
   blog/[slug]/          Blog post (reading controls, ToC, comments)
   contact/page.tsx      Contact (Cal.com embed, newsletter)
   api/subscribe/        Newsletter subscription endpoint
   api/notify/           New-post notification endpoint
 
 components/
-  boot-terminal.tsx     Interactive terminal with commands
+  boot-terminal.tsx     Interactive terminal with 14+ commands
   markdown-render.tsx   Markdown-to-React renderer
-  reading-controls.tsx  Reading theme, font size, focus mode
-  writing-heatmap.tsx   GitHub-style writing activity heatmap
+  reading-controls.tsx  3 themes, font size, focus mode, progress
+  writing-heatmap.tsx   GitHub-style contribution graph
   halftone-image.tsx    Canvas-based halftone image effect
-  ...and more
-
-content/
-  site.ts               Single-file site configuration
-  posts/*.md            Blog posts (markdown + frontmatter)
-
-lib/
-  posts.ts              Markdown post loader
+  ...and 20+ more
 ```
 
-## Commands
+## Dev Commands
 
 ```bash
 npm run dev        # Development server
 npm run build      # Production build
 npm run lint       # ESLint
 npm run typecheck  # TypeScript check
-npm run check      # Lint + typecheck + build
+npm run check      # Lint + typecheck + build (run before pushing)
 ```
+
+---
 
 ## Contributing
 
-Contributions are welcome! Feel free to:
+Contributions welcome. Here's how:
 
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feat/amazing-feature`)
-3. Commit your changes (`git commit -m 'feat: add amazing feature'`)
-4. Push to the branch (`git push origin feat/amazing-feature`)
+1. Fork the repo
+2. Create your branch (`git checkout -b feat/cool-feature`)
+3. Commit (`git commit -m 'feat: add cool feature'`)
+4. Push (`git push origin feat/cool-feature`)
 5. Open a Pull Request
+
+[Report bugs or request features](https://github.com/wa1939/termfolio/issues)
+
+---
 
 ## Star History
 
@@ -379,17 +460,13 @@ Contributions are welcome! Feel free to:
 
 ## Attribution
 
-If you use this template, keeping the "developed by" footer link is appreciated but not required. You can add your own name next to it via the `customizedBy` field in `content/site.ts`:
+Keeping the "developed by" footer link is appreciated but not required. Add your own name via `content/site.ts`:
 
 ```typescript
 customizedBy: { name: "Your Name", url: "https://your-site.com" }
 ```
 
-This renders as:
-
-```
-developed by waleed alhamed · customized by your name | 12:34
-```
+Footer renders as: `developed by waleed alhamed · customized by your name`
 
 ## License
 
