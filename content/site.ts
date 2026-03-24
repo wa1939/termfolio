@@ -18,7 +18,7 @@ export const siteConfig = {
   // ── Contact & Links ───────────────────────────────────────────────
   location: "Saudi Arabia",
   email: "waok@outlook.sa",
-  siteUrl: "https://waleedalghamdi.com",
+  siteUrl: "https://walhamed.com",
   twitterHandle: "@walalhamed",
   calUrl: "https://cal.com/walhamed/30min",
   calEmbedUrl:

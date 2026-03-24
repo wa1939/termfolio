@@ -504,4 +504,4 @@ Once your site is live:
 
 ---
 
-*This tutorial was written by [Claude](https://claude.ai) (Anthropic) and reviewed by [Waleed Alhamed](https://waleedalghamdi.com). The AI prompt in this guide was tested and verified to produce working results with Claude, ChatGPT, and Gemini.*
+*This tutorial was written by [Claude](https://claude.ai) (Anthropic) and reviewed by [Waleed Alhamed](https://walhamed.com). The AI prompt in this guide was tested and verified to produce working results with Claude, ChatGPT, and Gemini.*
