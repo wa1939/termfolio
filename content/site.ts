@@ -74,7 +74,7 @@ export const siteConfig = {
   // ── Attribution (for open-source forks) ───────────────────────────
   developedBy: {
     name: "Waleed Alhamed",
-    url: "https://github.com/wa1939/Notion-terminal",
+    url: "https://github.com/wa1939/termfolio",
   },
   // Forkers: set this to { name: "Your Name", url: "https://your-site.com" }
   customizedBy: null as { name: string; url: string } | null,

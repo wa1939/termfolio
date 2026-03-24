@@ -5,29 +5,39 @@
 <br />
 <br />
 
-# Terminal Portfolio
+# termfolio
 
-**A terminal/CLI-themed portfolio and blog you can fork, customize, and deploy in minutes.**
+**Your portfolio should boot like a terminal, not load like a Squarespace.**
 
-Your personal website shouldn't look like everyone else's. This one boots like a terminal.
+Write in Obsidian. Push to GitHub. Your site updates. No database. No CMS. No writing in two places.
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fwa1939%2FNotion-terminal&env=RESEND_API_KEY,RESEND_AUDIENCE_ID,NOTIFY_SECRET&envDescription=API%20keys%20for%20newsletter%20and%20notifications&envLink=https%3A%2F%2Fgithub.com%2Fwa1939%2FNotion-terminal%23-environment-variables)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fwa1939%2Ftermfolio&env=RESEND_API_KEY,RESEND_AUDIENCE_ID,NOTIFY_SECRET&envDescription=API%20keys%20for%20newsletter%20and%20notifications&envLink=https%3A%2F%2Fgithub.com%2Fwa1939%2Ftermfolio%23-environment-variables)
 
-[![Stars](https://img.shields.io/github/stars/wa1939/Notion-terminal?style=flat&logo=github&color=7dd3fc&labelColor=0B0B0F)](https://github.com/wa1939/Notion-terminal/stargazers)
-[![Forks](https://img.shields.io/github/forks/wa1939/Notion-terminal?style=flat&logo=github&color=8FD4A7&labelColor=0B0B0F)](https://github.com/wa1939/Notion-terminal/network/members)
-[![License](https://img.shields.io/github/license/wa1939/Notion-terminal?style=flat&color=A7B8FF&labelColor=0B0B0F)](./LICENSE)
-[![Last Commit](https://img.shields.io/github/last-commit/wa1939/Notion-terminal?style=flat&color=E8B87E&labelColor=0B0B0F)](https://github.com/wa1939/Notion-terminal/commits/main)
-[![Visitors](https://api.visitorbadge.io/api/visitors?path=https%3A%2F%2Fgithub.com%2Fwa1939%2FNotion-terminal&label=visitors&labelColor=%230B0B0F&countColor=%237dd3fc)](https://visitorbadge.io/status?path=https%3A%2F%2Fgithub.com%2Fwa1939%2FNotion-terminal)
+[![Stars](https://img.shields.io/github/stars/wa1939/termfolio?style=flat&logo=github&color=7dd3fc&labelColor=0B0B0F)](https://github.com/wa1939/termfolio/stargazers)
+[![Forks](https://img.shields.io/github/forks/wa1939/termfolio?style=flat&logo=github&color=8FD4A7&labelColor=0B0B0F)](https://github.com/wa1939/termfolio/network/members)
+[![License](https://img.shields.io/github/license/wa1939/termfolio?style=flat&color=A7B8FF&labelColor=0B0B0F)](./LICENSE)
+[![Last Commit](https://img.shields.io/github/last-commit/wa1939/termfolio?style=flat&color=E8B87E&labelColor=0B0B0F)](https://github.com/wa1939/termfolio/commits/main)
+[![Visitors](https://api.visitorbadge.io/api/visitors?path=https%3A%2F%2Fgithub.com%2Fwa1939%2Ftermfolio&label=visitors&labelColor=%230B0B0F&countColor=%237dd3fc)](https://visitorbadge.io/status?path=https%3A%2F%2Fgithub.com%2Fwa1939%2Ftermfolio)
 
-[Live Demo](https://waleedalghamdi.com) &bull; [Report Bug](https://github.com/wa1939/Notion-terminal/issues) &bull; [Request Feature](https://github.com/wa1939/Notion-terminal/issues)
+[Live Demo](https://waleedalghamdi.com) &bull; [Report Bug](https://github.com/wa1939/termfolio/issues) &bull; [Request Feature](https://github.com/wa1939/termfolio/issues)
 
 </div>
 
 ---
 
-## What is this?
+## Why termfolio?
 
-A fully-featured personal website that looks and feels like a terminal. Built with Next.js 15, React 19, TypeScript, and Tailwind CSS. Everything is configurable from **a single file** — no digging through components.
+Most portfolio templates make you choose: **look good** or **easy to maintain**. Termfolio gives you both.
+
+| | Traditional portfolio | termfolio |
+|---|:---:|:---:|
+| Write content | CMS dashboard | Obsidian / any markdown editor |
+| Content storage | Database (Postgres, Notion, Contentful) | Plain `.md` files in your repo |
+| Write in one place | No — CMS + code | Yes — just markdown |
+| Vendor lock-in | Tied to CMS provider | Zero — it's just files |
+| Works offline | No | Yes |
+| Deploy | Complex pipeline | `git push` |
+| Customize | Dig through 50+ files | Edit **one file** (`content/site.ts`) |
 
 <div align="center">
 
@@ -42,28 +52,54 @@ A fully-featured personal website that looks and feels like a terminal. Built wi
 
 </div>
 
+## How It Works
+
+```
+Obsidian (write) → content/posts/*.md → git push → Vercel (live)
+```
+
+1. **Write** in Obsidian (or any markdown editor)
+2. **Save** — your `.md` files live in `content/posts/`
+3. **Push** — Vercel auto-deploys on every `git push`
+
+That's it. No database to provision. No CMS dashboard to learn. No API keys for content. Your markdown files **are** the blog.
+
+> **Already using Obsidian?** Symlink your vault's published folder to `content/posts/` and your blog updates every time you save. Or use the included [GitHub Action](#obsidian-integration) to sync automatically from a vault repo.
+
 ## Features
 
 ```
 $ cat features.md
 ```
 
-- **Interactive Terminal** — Real command parser with `help`, `whoami`, `skills`, `snake`, `pokedex`, `starmap`, `worldmap`, `typing-test`, `json`, and more
+**Content & Writing**
 - **Markdown Blog** — Local `.md` files with frontmatter, syntax highlighting, table of contents, reading progress
 - **3 Reading Themes** — Terminal (dark), Light, and Sepia — switch mid-read
-- **Writing Heatmap** — GitHub-style contribution graph for your blog activity
 - **Full RTL/Arabic Support** — `language: "ar"` in frontmatter flips everything
+- **Writing Heatmap** — GitHub-style contribution graph for your blog activity
 - **Newsletter** — Email subscriptions + new-post notifications via Resend
 - **Comments** — Giscus (GitHub Discussions) integration
+- **Obsidian Sync** — Symlink, copy, or GitHub Action — write once, publish everywhere
+
+**Interactive Terminal**
+- Real command parser: `help`, `whoami`, `skills`, `snake`, `pokedex`, `starmap`, `worldmap`, `typing-test`, `json`, and more
+- Boot sequence animation on page load
+- All commands read from config — your identity, your output
+
+**Visuals & Widgets**
 - **Halftone Image Effect** — Canvas-based halftone rendering on profile photos
 - **Star Field Background** — Animated starfield on the home page
 - **Interactive Star Map** — Real constellation rendering based on your coordinates
 - **World Map** — SVG world map highlighting your location
 - **Cal.com Embed** — Scheduling widget on the contact page
 - **Spotify Widget** — Link to your profile
+
+**Developer Experience**
+- **One file config** — `content/site.ts` controls everything
 - **SEO Optimized** — Dynamic OG images, sitemap, robots.txt, structured metadata
 - **Vercel Analytics** — Built-in analytics and speed insights
 - **One-Click Deploy** — Fork, edit one file, deploy to Vercel
+- **No database** — zero infrastructure to maintain
 
 ## Tech Stack
 
@@ -94,8 +130,8 @@ $ cat features.md
 ### 1. Fork & Clone
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/Notion-terminal.git
-cd Notion-terminal
+git clone https://github.com/YOUR_USERNAME/termfolio.git
+cd termfolio
 npm install
 ```
 
@@ -246,7 +282,7 @@ jobs:
           curl -X POST \
             -H "Accept: application/vnd.github.v3+json" \
             -H "Authorization: token ${{ secrets.SITE_REPO_PAT }}" \
-            https://api.github.com/repos/YOUR_USERNAME/Notion-terminal/dispatches \
+            https://api.github.com/repos/YOUR_USERNAME/termfolio/dispatches \
             -d '{"event_type":"sync-obsidian"}'
 ```
 
@@ -337,7 +373,7 @@ Contributions are welcome! Feel free to:
 
 <div align="center">
 
-[![Star History Chart](https://api.star-history.com/svg?repos=wa1939/Notion-terminal&type=Date&theme=dark)](https://star-history.com/#wa1939/Notion-terminal&Date)
+[![Star History Chart](https://api.star-history.com/svg?repos=wa1939/termfolio&type=Date&theme=dark)](https://star-history.com/#wa1939/termfolio&Date)
 
 </div>
 

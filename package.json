@@ -7,7 +7,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/wa1939/Notion-terminal"
+    "url": "https://github.com/wa1939/termfolio"
   },
   "scripts": {
     "dev": "next dev",

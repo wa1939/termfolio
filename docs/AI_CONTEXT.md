@@ -1,4 +1,4 @@
-# AI Context - Notion-terminal
+# AI Context - termfolio
 
 This is the primary repo context file for future AI sessions.
 

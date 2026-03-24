@@ -29,7 +29,7 @@
 #             curl -X POST \
 #               -H "Accept: application/vnd.github.v3+json" \
 #               -H "Authorization: token ${{ secrets.SITE_REPO_PAT }}" \
-#               https://api.github.com/repos/YOUR_USERNAME/Notion-terminal/dispatches \
+#               https://api.github.com/repos/YOUR_USERNAME/termfolio/dispatches \
 #               -d '{"event_type":"sync-obsidian"}'
 
 name: Sync Obsidian Posts
