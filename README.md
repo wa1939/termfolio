@@ -74,7 +74,7 @@ After deploy, clone your fork and edit **one file** — [`content/site.ts`](#-co
 | ![Blog Post](docs/screenshots/blog-post.png) | ![About](docs/screenshots/about.png) |
 | **Blog Post** — 3 reading themes, ToC, focus mode, progress bar | **About** — Experience timeline, skills, certifications |
 | ![Contact](docs/screenshots/contact.png) | ![Mobile](docs/screenshots/mobile-home.png) |
-| **Contact** — Cal.com scheduling embed, newsletter signup | **Mobile** — Fully responsive on every device |
+| **Contact** — Cal.com scheduling embed, newsletter signup | **Card** — Digital business card with vCard, QR, WhatsApp |
 
 </div>
 
@@ -171,6 +171,7 @@ Comments appear at the bottom of every blog post. Moderate them from GitHub Disc
 
 ### Everything Else
 
+- **Digital business card** — Shareable `/card` page with vCard download, QR code, WhatsApp, and Apple Wallet pass. Data lives in a single YAML file (`content/card.md`) — edit in Obsidian, no code changes needed
 - **Newsletter** — Email subscriptions + new-post notifications via [Resend](https://resend.com) (free: 3,000 emails/month)
 - **Halftone image effect** — Your profile photo renders as a canvas-based halftone
 - **Animated starfield** — Star field background on the home page
@@ -372,6 +373,7 @@ language: "en"
 | `NEXT_PUBLIC_GISCUS_REPO_ID` | No | Giscus repo ID |
 | `NEXT_PUBLIC_GISCUS_CATEGORY` | No | Giscus category (use "Announcements") |
 | `NEXT_PUBLIC_GISCUS_CATEGORY_ID` | No | Giscus category ID |
+| `WALLETWALLET_API_KEY` | No | [WalletWallet](https://walletwallet.dev) API key for Apple Wallet passes on `/card` |
 
 ---
 
@@ -394,6 +396,7 @@ language: "en"
 content/
   site.ts               ← THE file. Your entire site config.
   posts/*.md            ← Your blog posts. Drop markdown, done.
+  card.md               ← Digital business card data (YAML frontmatter).
 
 app/
   page.tsx              Home (boot terminal, hero, recent posts)
@@ -401,8 +404,11 @@ app/
   blog/page.tsx         Journal (search, heatmap, tag filters)
   blog/[slug]/          Blog post (3 themes, ToC, focus mode, comments)
   contact/page.tsx      Contact (Cal.com embed, newsletter)
+  card/page.tsx         Digital business card (vCard, QR, WhatsApp)
   api/subscribe/        Newsletter subscription endpoint
   api/notify/           New-post notification endpoint
+  api/card/vcard/       vCard (.vcf) download endpoint
+  api/card/wallet/      Apple Wallet pass endpoint
 
 components/             30+ components including:
   boot-terminal.tsx     Interactive terminal with 14 commands

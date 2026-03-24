@@ -26,6 +26,7 @@ Before we start, here's what you're deploying:
 
 - A personal website that boots like a terminal — complete with ASCII art, a command prompt, and 14 interactive commands
 - A blog with 3 reading themes (Terminal, Light, Sepia), focus mode, adjustable fonts, table of contents, and a reading progress bar
+- A shareable digital business card at `/card` — vCard download, QR code, WhatsApp link, and optional Apple Wallet pass
 - Playable games in the terminal: Snake, Pokedex, typing speed test
 - Interactive star map and world map based on your coordinates
 - Newsletter subscriptions and email notifications via Resend
@@ -537,6 +538,67 @@ Set `customizedBy` to my name and GitHub URL.
 - Check that your vault repo secrets are correct
 - Look at the Actions tab for error logs
 - Make sure the `VAULT_PATH` matches your folder name exactly
+
+---
+
+## Optional: Digital Business Card (2 Minutes)
+
+termfolio includes a shareable digital business card at `/card`. Visitors can save your contact info with one tap, scan a QR code, or message you on WhatsApp — all driven by a single YAML file.
+
+### How It Works
+
+Your card data lives in `content/card.md`. Edit it in Obsidian or any text editor — no code changes needed:
+
+```yaml
+---
+name: "Your Name"
+title: "Your Title"
+company: "Your Company"
+location: "Your City"
+avatar: "/profile.jpg"
+bio: "A short bio about what you do."
+
+links:
+  - label: "GitHub"
+    url: "https://github.com/you"
+    icon: "github"
+  - label: "Portfolio"
+    url: "https://yoursite.com"
+    icon: "website"
+
+contacts:
+  - type: email
+    label: "Work"
+    value: "you@company.com"
+  - type: phone
+    label: "Mobile"
+    value: "+1234567890"
+  - type: whatsapp
+    label: "WhatsApp"
+    value: "+1234567890"
+---
+```
+
+Add 3 lines to add a link or contact. Delete 3 lines to remove one. The page updates automatically.
+
+### What Visitors See
+
+- **Links section** — Your profiles and websites (GitHub, X, LinkedIn, portfolio, company)
+- **Contacts section** — Direct contact methods (email, phone, WhatsApp)
+- **Save Contact** button — Downloads a `.vcf` file that works on iOS, Android, and desktop
+- **Share** button — Uses native share on mobile, copies URL on desktop
+- **QR Code** — Toggle an inline QR code visitors can scan
+
+### Optional: Apple Wallet Pass
+
+You can generate an Apple Wallet pass that contains a QR code linking to your `/card` page. When you meet someone, show the pass from your wallet — they scan — your card opens.
+
+1. Get a free API key from [walletwallet.dev](https://walletwallet.dev)
+2. Add `WALLETWALLET_API_KEY` to your Vercel environment variables
+3. Visit `yourdomain.com/api/card/wallet` — it downloads a `.pkpass` file
+4. Open it on your iPhone to add to Apple Wallet
+
+This is optional — the card page works without it.
 
 ---
 
