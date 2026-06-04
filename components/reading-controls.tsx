@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react"
 import type { PostHeading } from "@/lib/posts"
+import { localeCopy, type Locale } from "@/content/locale"
 
 type FontSize = "sm" | "md" | "lg"
 type ReadingTheme = "terminal" | "sepia" | "light"
@@ -10,6 +11,7 @@ type LineSpacing = "compact" | "comfortable" | "spacious"
 interface ReadingControlsProps {
   headings: PostHeading[]
   wordCount: number
+  locale?: Locale
 }
 
 const FONT_SIZES: Record<FontSize, { label: string; px: string }> = {
@@ -18,19 +20,19 @@ const FONT_SIZES: Record<FontSize, { label: string; px: string }> = {
   lg: { label: "L", px: "22px" },
 }
 
-const READING_THEMES: { key: ReadingTheme; label: string }[] = [
-  { key: "terminal", label: "Terminal" },
-  { key: "sepia", label: "Sepia" },
-  { key: "light", label: "Light" },
+const READING_THEMES: { key: ReadingTheme }[] = [
+  { key: "terminal" },
+  { key: "sepia" },
+  { key: "light" },
 ]
 
-const LINE_SPACINGS: { key: LineSpacing; label: string }[] = [
-  { key: "compact", label: "Tight" },
-  { key: "comfortable", label: "Normal" },
-  { key: "spacious", label: "Airy" },
+const LINE_SPACINGS: { key: LineSpacing }[] = [
+  { key: "compact" },
+  { key: "comfortable" },
+  { key: "spacious" },
 ]
 
-export default function ReadingControls({ headings, wordCount }: ReadingControlsProps) {
+export default function ReadingControls({ headings, wordCount, locale = "en" }: ReadingControlsProps) {
   const [fontSize, setFontSize] = useState<FontSize>("md")
   const [readingMode, setReadingMode] = useState(false)
   const [readingTheme, setReadingTheme] = useState<ReadingTheme>("terminal")
@@ -107,13 +109,14 @@ export default function ReadingControls({ headings, wordCount }: ReadingControls
 
   const headingCount = headings.length
   const readingTime = Math.max(1, Math.ceil(wordCount / 200))
+  const copy = localeCopy[locale].reading
 
   return (
     <div className="space-y-4">
       {/* Progress */}
       <div className="space-y-1.5">
         <div className="flex justify-between text-[10px] uppercase tracking-widest text-[var(--term-gray)]">
-          <span>Progress</span>
+          <span>{copy.progress}</span>
           <span>{progress}%</span>
         </div>
         <div className="h-1 rounded-full bg-[var(--term-line)] overflow-hidden">
@@ -127,12 +130,12 @@ export default function ReadingControls({ headings, wordCount }: ReadingControls
       {/* Reading Time */}
       <div className="rounded-lg border border-[var(--term-line)] bg-[var(--term-darker)] p-3 text-center">
         <div className="text-lg font-bold text-[var(--term-cyan)]">~{readingTime} min</div>
-        <div className="text-[10px] uppercase tracking-widest text-[var(--term-gray)] mt-0.5">reading time</div>
+        <div className="text-[10px] uppercase tracking-widest text-[var(--term-gray)] mt-0.5">{copy.readingTime}</div>
       </div>
 
       {/* Font Size */}
       <div className="rounded-lg border border-[var(--term-line)] bg-[var(--term-darker)] p-3 space-y-2">
-        <div className="text-[10px] uppercase tracking-widest text-[var(--term-gray)]">Font Size</div>
+        <div className="text-[10px] uppercase tracking-widest text-[var(--term-gray)]">{copy.fontSize}</div>
         <div className="flex gap-1">
           {(["sm", "md", "lg"] as const).map((size) => (
             <button
@@ -153,7 +156,7 @@ export default function ReadingControls({ headings, wordCount }: ReadingControls
 
       {/* Reading Theme */}
       <div className="rounded-lg border border-[var(--term-line)] bg-[var(--term-darker)] p-3 space-y-2">
-        <div className="text-[10px] uppercase tracking-widest text-[var(--term-gray)]">Reading Theme</div>
+        <div className="text-[10px] uppercase tracking-widest text-[var(--term-gray)]">{copy.readingTheme}</div>
         <div className="flex gap-1">
           {READING_THEMES.map((theme) => (
             <button
@@ -165,7 +168,7 @@ export default function ReadingControls({ headings, wordCount }: ReadingControls
                   : "bg-[var(--term-line)] text-[var(--term-gray)] hover:text-[var(--term-white)]"
               }`}
             >
-              {theme.label}
+              {copy.themes[theme.key]}
             </button>
           ))}
         </div>
@@ -173,7 +176,7 @@ export default function ReadingControls({ headings, wordCount }: ReadingControls
 
       {/* Line Spacing */}
       <div className="rounded-lg border border-[var(--term-line)] bg-[var(--term-darker)] p-3 space-y-2">
-        <div className="text-[10px] uppercase tracking-widest text-[var(--term-gray)]">Spacing</div>
+        <div className="text-[10px] uppercase tracking-widest text-[var(--term-gray)]">{copy.spacing}</div>
         <div className="flex gap-1">
           {LINE_SPACINGS.map((spacing) => (
             <button
@@ -185,7 +188,7 @@ export default function ReadingControls({ headings, wordCount }: ReadingControls
                   : "bg-[var(--term-line)] text-[var(--term-gray)] hover:text-[var(--term-white)]"
               }`}
             >
-              {spacing.label}
+              {copy.spacings[spacing.key]}
             </button>
           ))}
         </div>
@@ -201,20 +204,20 @@ export default function ReadingControls({ headings, wordCount }: ReadingControls
         }`}
       >
         <div className="text-[10px] uppercase tracking-widest text-[var(--term-gray)] mb-1">
-          {readingMode ? "Focus Mode ON" : "Focus Mode"}
+          {readingMode ? copy.focusOn : copy.focus}
         </div>
         <div className="text-xs text-[var(--term-gray)]">
-          {readingMode ? "Click to restore terminal shell" : "Strip the chrome for a calmer read"}
+          {readingMode ? copy.focusOnCopy : copy.focusCopy}
         </div>
       </button>
 
       {/* Stats */}
       <div className="rounded-lg border border-[var(--term-line)] bg-[var(--term-darker)] p-3 space-y-1.5">
-        <div className="text-[10px] uppercase tracking-widest text-[var(--term-gray)]">Article Info</div>
+        <div className="text-[10px] uppercase tracking-widest text-[var(--term-gray)]">{copy.info}</div>
         <div className="grid grid-cols-2 gap-1 text-xs">
-          <span className="text-[var(--term-gray)]">Sections</span>
+          <span className="text-[var(--term-gray)]">{copy.sections}</span>
           <span className="text-[var(--term-white)] text-right">{headingCount}</span>
-          <span className="text-[var(--term-gray)]">~Words</span>
+          <span className="text-[var(--term-gray)]">{copy.words}</span>
           <span className="text-[var(--term-white)] text-right">{wordCount.toLocaleString()}</span>
         </div>
       </div>

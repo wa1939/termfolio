@@ -330,8 +330,20 @@ article,
   font-family: var(--font-reading-arabic), "Noto Naskh Arabic", serif;
 }
 
+.font-arabic-site,
+.font-arabic-site .font-mono {
+  font-family: var(--font-arabic-sans), var(--font-ui-mono), sans-serif;
+}
+
+.terminal-english,
+.terminal-english * {
+  direction: ltr;
+  font-family: var(--font-ui-mono), "IBM Plex Mono", "JetBrains Mono", monospace;
+  text-align: left;
+}
+
 .post-content[dir="rtl"] {
-  font-family: var(--font-reading-arabic), "Noto Naskh Arabic", serif;
+  font-family: var(--font-reading-arabic), var(--font-arabic-sans), serif;
   text-align: right;
   direction: rtl;
 }
@@ -342,7 +354,7 @@ article,
 .post-content[dir="rtl"] h4,
 .post-content[dir="rtl"] h5,
 .post-content[dir="rtl"] h6 {
-  font-family: var(--font-reading-arabic), "Noto Naskh Arabic", serif;
+  font-family: var(--font-arabic-sans), var(--font-reading-arabic), sans-serif;
 }
 
 .post-content[dir="rtl"] ul,
@@ -353,7 +365,7 @@ article,
 
 .post-content[dir="rtl"] blockquote {
   border-left: none;
-  border-right: 2px solid var(--term-amber, #efc5a2);
+  border-right: 1px solid var(--term-amber, #efc5a2);
   padding-left: 0;
   padding-right: 1.5rem;
 }

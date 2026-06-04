@@ -1,11 +1,33 @@
 "use client"
 
 import { useState, type FormEvent } from "react"
+import type { Locale } from "@/content/locale"
 
-export default function NewsletterSignup() {
+export default function NewsletterSignup({ locale = "en" }: { locale?: Locale }) {
   const [email, setEmail] = useState("")
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle")
   const [message, setMessage] = useState("")
+  const copy = locale === "ar"
+    ? {
+        success: "تم الاشتراك. راجع بريدك.",
+        error: "حدث خطأ. حاول مرة أخرى.",
+        lead: "مقالات متقطعة عن الاستراتيجية، التفكير النظمي، وبناء الأشياء المفيدة.",
+        email: "البريد الإلكتروني",
+        placeholder: "you@email.com",
+        loading: "جار الاشتراك...",
+        submit: "[ENTER] اشترك",
+        newsletter: "النشرة",
+      }
+    : {
+        success: "subscribed! check your inbox.",
+        error: "something went wrong. try again.",
+        lead: "Occasional essays on strategy, systems thinking, and building things that matter.",
+        email: "Email address",
+        placeholder: "you@email.com",
+        loading: "subscribing...",
+        submit: "[ENTER] subscribe",
+        newsletter: "newsletter",
+      }
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
@@ -23,11 +45,11 @@ export default function NewsletterSignup() {
         throw new Error(data.error || "Subscription failed")
       }
       setStatus("success")
-      setMessage("subscribed! check your inbox.")
+      setMessage(copy.success)
       setEmail("")
     } catch (err) {
       setStatus("error")
-      setMessage(err instanceof Error ? err.message : "something went wrong. try again.")
+      setMessage(err instanceof Error ? err.message : copy.error)
     }
   }
 
@@ -37,17 +59,17 @@ export default function NewsletterSignup() {
         <span>
           <span className="text-term-cyan">$</span> subscribe
         </span>
-        <span>newsletter</span>
+        <span>{copy.newsletter}</span>
       </div>
       <div className="p-4 space-y-3">
         <p className="text-sm text-term-gray leading-relaxed">
-          Occasional essays on strategy, systems thinking, and building things that matter.
+          {copy.lead}
         </p>
         <form onSubmit={handleSubmit} className="space-y-2">
           <div className="flex items-center gap-2 border border-term-line rounded bg-term-black px-3 py-2 focus-within:border-term-cyan transition-colors">
             <span className="text-term-green text-sm flex-shrink-0">$</span>
             <span className="text-term-gray text-sm flex-shrink-0">subscribe --email</span>
-            <label htmlFor="newsletter-email" className="sr-only">Email address</label>
+            <label htmlFor="newsletter-email" className="sr-only">{copy.email}</label>
             <input
               id="newsletter-email"
               type="email"
@@ -56,9 +78,9 @@ export default function NewsletterSignup() {
                 setEmail(e.target.value)
                 if (status !== "idle") setStatus("idle")
               }}
-              placeholder="you@email.com"
+              placeholder={copy.placeholder}
               required
-              aria-label="Email address for newsletter"
+              aria-label={copy.email}
               className="flex-1 bg-transparent text-term-white text-sm outline-none min-w-0"
               disabled={status === "loading"}
             />
@@ -68,7 +90,7 @@ export default function NewsletterSignup() {
             disabled={status === "loading" || !email.trim()}
             className="w-full py-2 text-xs uppercase tracking-[0.14em] border border-term-line rounded bg-term-black text-term-white hover:border-term-cyan hover:text-term-cyan transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
           >
-            {status === "loading" ? "subscribing..." : "[ENTER] subscribe"}
+            {status === "loading" ? copy.loading : copy.submit}
           </button>
         </form>
         {status === "success" && (

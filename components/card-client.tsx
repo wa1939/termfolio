@@ -8,10 +8,12 @@ import { QRCodeSVG } from "qrcode.react"
 import type { DigitalCard } from "@/lib/card"
 import MinimalNav from "@/components/minimal-nav"
 import TerminalFooter from "@/components/terminal-footer"
+import { getLocalePath, type Locale } from "@/content/locale"
 
 interface CardClientProps {
   card: DigitalCard
   siteUrl: string
+  locale?: Locale
 }
 
 const LINK_ICONS: Record<string, string> = {
@@ -43,11 +45,34 @@ function getContactHref(contact: { type: string; value: string }): string {
   }
 }
 
-export default function CardClient({ card, siteUrl }: CardClientProps) {
+export default function CardClient({ card, siteUrl, locale = "en" }: CardClientProps) {
   const [showQR, setShowQR] = useState(false)
   const [copied, setCopied] = useState(false)
 
-  const cardUrl = `${siteUrl}/card`
+  const cardUrl = `${siteUrl}${getLocalePath("/card", locale)}`
+  const labels = locale === "ar"
+    ? {
+        links: "الروابط",
+        contact: "التواصل",
+        save: "حفظ جهة الاتصال",
+        copied: "تم النسخ",
+        share: "مشاركة",
+        qr: "رمز QR",
+        scan: "امسح الرمز لفتح البطاقة",
+        powered: "مدعوم بواسطة termfolio",
+        send: "إرسال",
+      }
+    : {
+        links: "links",
+        contact: "contact",
+        save: "save contact",
+        copied: "copied!",
+        share: "share",
+        qr: "qr code",
+        scan: "scan to open this card",
+        powered: "powered by termfolio",
+        send: "send",
+      }
 
   const handleShare = useCallback(async () => {
     if (typeof navigator !== "undefined" && navigator.share) {
@@ -74,14 +99,14 @@ export default function CardClient({ card, siteUrl }: CardClientProps) {
 
   return (
     <div className="min-h-screen bg-term-black text-term-white font-mono flex flex-col">
-      <MinimalNav />
+      <MinimalNav locale={locale} />
       <div className="fixed inset-0 pointer-events-none opacity-[0.015] bg-[url('/noise.png')] animate-noise" />
 
       <main className="flex-grow pt-24 pb-12">
         <div className="container mx-auto px-4 max-w-lg">
           {/* Back link */}
           <Link
-            href="/"
+            href={getLocalePath("/", locale)}
             className="mb-8 inline-flex items-center gap-2 text-term-gray transition-colors hover:text-term-cyan"
           >
             <ArrowLeft className="h-4 w-4" />
@@ -123,7 +148,7 @@ export default function CardClient({ card, siteUrl }: CardClientProps) {
               <div className="border-t border-term-line">
                 <div className="px-5 py-3">
                   <span className="text-[10px] uppercase tracking-[0.2em] text-term-gray">
-                    links
+                    {labels.links}
                   </span>
                 </div>
                 {card.links.map((link, i) => (
@@ -158,7 +183,7 @@ export default function CardClient({ card, siteUrl }: CardClientProps) {
               <div className="border-t-2 border-term-line">
                 <div className="px-5 py-3">
                   <span className="text-[10px] uppercase tracking-[0.2em] text-term-gray">
-                    contact
+                    {labels.contact}
                   </span>
                 </div>
                 {card.contacts.map((contact, i) => (
@@ -188,7 +213,7 @@ export default function CardClient({ card, siteUrl }: CardClientProps) {
                     </div>
                     {contact.type === "whatsapp" ? (
                       <span className="text-[10px] uppercase tracking-[0.14em] text-term-green shrink-0 group-hover:text-term-black">
-                        send
+                        {labels.send}
                       </span>
                     ) : (
                       <ArrowUpRight className="h-4 w-4 text-term-gray shrink-0 group-hover:text-term-black" />
@@ -204,7 +229,7 @@ export default function CardClient({ card, siteUrl }: CardClientProps) {
                 href="/api/card/vcard"
                 className="flex items-center justify-center gap-2 w-full border border-term-white bg-term-white px-4 py-3 text-sm text-term-black font-semibold transition-colors hover:bg-term-cyan hover:border-term-cyan"
               >
-                save contact
+                {labels.save}
               </a>
               <div className="grid grid-cols-2 gap-3">
                 <button
@@ -212,7 +237,7 @@ export default function CardClient({ card, siteUrl }: CardClientProps) {
                   onClick={handleShare}
                   className="flex items-center justify-center gap-2 border border-term-line px-4 py-3 text-sm text-term-white transition-colors hover:bg-term-white hover:text-term-black hover:border-term-white"
                 >
-                  {copied ? "copied!" : "share"}
+                  {copied ? labels.copied : labels.share}
                 </button>
                 <button
                   type="button"
@@ -223,7 +248,7 @@ export default function CardClient({ card, siteUrl }: CardClientProps) {
                       : "border-term-line text-term-white hover:bg-term-white hover:text-term-black hover:border-term-white"
                   }`}
                 >
-                  qr code
+                  {labels.qr}
                 </button>
               </div>
             </div>
@@ -241,7 +266,7 @@ export default function CardClient({ card, siteUrl }: CardClientProps) {
                   />
                 </div>
                 <p className="text-xs text-term-gray">
-                  scan to open this card
+                  {labels.scan}
                 </p>
               </div>
             )}
@@ -255,7 +280,7 @@ export default function CardClient({ card, siteUrl }: CardClientProps) {
 
             {/* Footer bar */}
             <div className="cli-statusbar px-4 py-2 flex items-center justify-between">
-              <span>powered by termfolio</span>
+              <span>{labels.powered}</span>
               <span>
                 {card.links.length} links · {card.contacts.length} contacts
               </span>
@@ -264,7 +289,7 @@ export default function CardClient({ card, siteUrl }: CardClientProps) {
         </div>
       </main>
 
-      <TerminalFooter />
+      <TerminalFooter locale={locale} />
     </div>
   )
 }

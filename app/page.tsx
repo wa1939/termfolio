@@ -10,6 +10,9 @@ import HalftoneImage from "@/components/halftone-image"
 import SpotifyWidget from "@/components/spotify-widget"
 import ApodWidget from "@/components/apod-widget"
 import AnimateOnScroll from "@/components/animate-on-scroll"
+import LabBench from "@/components/lab-bench"
+import UtilityDock from "@/components/utility-dock"
+import { localeCopy } from "@/content/locale"
 import { siteConfig } from "@/content/site"
 
 export const metadata: Metadata = {
@@ -32,6 +35,7 @@ export const metadata: Metadata = {
 
 export default async function Home() {
   const posts = (await getAllPosts()).slice(0, 4)
+  const copy = localeCopy.en
 
   return (
     <div className="min-h-screen bg-term-black text-term-white font-mono flex flex-col">
@@ -76,7 +80,27 @@ export default async function Home() {
                       />
                     </div>
                     <div className="p-3 text-xs uppercase tracking-[0.14em] text-term-gray bg-term-black">
-                      <span className="text-term-white">sys.status:</span> current transmission // consultant, builder, lifelong learner
+                      <span className="text-term-white">{copy.home.status.split(":")[0]}:</span>{copy.home.status.slice(copy.home.status.indexOf(":") + 1)}
+                    </div>
+                  </div>
+
+                  <div className="rounded-lg border border-term-line bg-term-darker p-4">
+                    <div className="cli-topline">{copy.home.executiveTitle}</div>
+                    <p className="mt-3 text-sm leading-7 text-term-gray">
+                      {copy.home.executiveCopy}
+                    </p>
+                    <div className="mt-4 grid grid-cols-2 gap-2 text-xs">
+                      {[
+                        ["focus", "people analytics"],
+                        ["mode", "ship outcomes"],
+                        ["base", siteConfig.location],
+                        ["card", "vCard ready"],
+                      ].map(([label, value]) => (
+                        <div key={label} className="rounded-md border border-term-line bg-term-black px-3 py-2">
+                          <div className="text-[10px] uppercase tracking-[0.14em] text-term-gray">{label}</div>
+                          <div className="mt-1 text-term-white">{value}</div>
+                        </div>
+                      ))}
                     </div>
                   </div>
 
@@ -88,16 +112,16 @@ export default async function Home() {
               {/* ── Navigation Links ──────────────────────────── */}
               <AnimateOnScroll>
               <div className="flex flex-wrap gap-x-8 gap-y-3 border-t border-term-line pt-4 text-sm">
-                <Link href="/blog" className="text-term-cyan hover:text-term-cyan-bright transition-colors">
-                  (01) journal // read the writing
-                </Link>
-                <Link href="/about" className="text-term-cyan hover:text-term-cyan-bright transition-colors">
-                  (02) about // open the dossier
-                </Link>
-                <Link href="/contact" className="text-term-cyan hover:text-term-cyan-bright transition-colors">
-                  (03) contact // book a conversation
-                </Link>
+                {copy.home.navLinks.map((item) => (
+                  <Link key={item.href} href={item.href} className="text-term-cyan hover:text-term-cyan-bright transition-colors">
+                    {item.label}
+                  </Link>
+                ))}
               </div>
+              </AnimateOnScroll>
+
+              <AnimateOnScroll delay={60}>
+              <UtilityDock compact />
               </AnimateOnScroll>
 
               {/* ── NASA APOD — Visual Break ───────────────────── */}
@@ -108,7 +132,7 @@ export default async function Home() {
               {/* ── Recent Entries (Card Grid) ─────────────────── */}
               <AnimateOnScroll delay={160}>
               <div className="space-y-4">
-                <div className="cli-topline">Recent entries</div>
+                <div className="cli-topline">{copy.home.recentEntries}</div>
                 <div className="grid gap-4 sm:grid-cols-2">
                   {posts.map((post, index) => (
                     <Link
@@ -134,11 +158,11 @@ export default async function Home() {
                           </div>
                         )}
                         <div className="absolute top-2 right-2 bg-[var(--term-black)]/80 backdrop-blur-sm px-2 py-0.5 rounded-full text-[10px] text-[var(--term-gray)]">
-                          {post.readingTime} min
+                          {post.readingTime} {copy.home.readTime}
                         </div>
                         {index === 0 && (
                           <div className="absolute top-2 left-2 bg-[var(--term-cyan)]/20 border border-[var(--term-cyan)]/30 px-2 py-0.5 rounded-full text-[10px] text-[var(--term-cyan)]">
-                            latest
+                            {copy.home.latest}
                           </div>
                         )}
                       </div>
@@ -156,7 +180,7 @@ export default async function Home() {
                         </h2>
                         <p className="text-xs leading-relaxed text-[var(--term-gray)] line-clamp-2">{post.excerpt}</p>
                         <div className="flex items-center justify-between pt-1 text-[10px] uppercase tracking-[0.1em] text-[var(--term-gray)]">
-                          <span>{formatPostDate(post.date)}</span>
+                          <span>{formatPostDate(post.date, "en")}</span>
                           <span className="text-[var(--term-cyan)] opacity-0 group-hover:opacity-100 transition-opacity">→</span>
                         </div>
                       </div>
@@ -164,6 +188,10 @@ export default async function Home() {
                   ))}
                 </div>
               </div>
+              </AnimateOnScroll>
+
+              <AnimateOnScroll delay={220}>
+              <LabBench limit={3} />
               </AnimateOnScroll>
 
               {/* ── Vim-style empty lines ─────────────────────── */}

@@ -2,12 +2,14 @@
 
 import { useEffect, useState } from "react"
 import type { PostHeading } from "@/lib/posts"
+import type { Locale } from "@/content/locale"
 
 interface TableOfContentsProps {
   headings: PostHeading[]
+  locale?: Locale
 }
 
-export default function TableOfContents({ headings }: TableOfContentsProps) {
+export default function TableOfContents({ headings, locale = "en" }: TableOfContentsProps) {
   const [activeId, setActiveId] = useState("")
 
   useEffect(() => {
@@ -37,8 +39,8 @@ export default function TableOfContents({ headings }: TableOfContentsProps) {
   return (
     <aside className="cli-frame overflow-hidden">
       <div className="flex items-center justify-between border-b border-term-line px-4 py-3 text-xs uppercase tracking-[0.16em] text-term-gray">
-        <span>outline</span>
-        <span>jump list</span>
+        <span>{locale === "ar" ? "المخطط" : "outline"}</span>
+        <span>{locale === "ar" ? "قفز سريع" : "jump list"}</span>
       </div>
 
       <nav className="space-y-0 text-sm">

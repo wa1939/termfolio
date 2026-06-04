@@ -154,14 +154,15 @@ export const THEMES: ThemeDef[] = [
 // ── Apply theme by setting CSS variables on <html> ─────────────────
 function applyTheme(theme: ThemeDef) {
   const root = document.documentElement
-  root.style.setProperty("--term-black", theme.bg)
-  root.style.setProperty("--term-white", theme.fg)
-  root.style.setProperty("--term-gray", theme.gray)
-  root.style.setProperty("--term-cyan", theme.accent)
-  root.style.setProperty("--term-cyan-bright", theme.accentBright)
-  root.style.setProperty("--term-green", theme.green)
-  root.style.setProperty("--term-line", theme.line)
-  root.style.setProperty("--term-darker", theme.darker)
+  const termVar = (name: string) => `--term-${name}`
+  root.style.setProperty(termVar("black"), theme.bg)
+  root.style.setProperty(termVar("white"), theme.fg)
+  root.style.setProperty(termVar("gray"), theme.gray)
+  root.style.setProperty(termVar("cyan"), theme.accent)
+  root.style.setProperty(termVar("cyan-bright"), theme.accentBright)
+  root.style.setProperty(termVar("green"), theme.green)
+  root.style.setProperty(termVar("line"), theme.line)
+  root.style.setProperty(termVar("darker"), theme.darker)
   // Persist selection
   localStorage.setItem("site-theme", theme.name)
 }

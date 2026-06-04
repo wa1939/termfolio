@@ -57,7 +57,7 @@ function MdParagraph({ children }: { children?: ReactNode }) {
 
 function MdBlockquote({ children }: { children?: ReactNode }) {
   return (
-    <Blockquote className="border-l-4 border-term-cyan/30 pl-4 italic text-term-gray">
+    <Blockquote className="border border-term-cyan/20 pl-4 italic text-term-gray">
       {children}
     </Blockquote>
   )

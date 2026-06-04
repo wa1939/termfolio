@@ -3,7 +3,7 @@ import { Analytics } from "@vercel/analytics/react"
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import { ThemeProvider } from "@/components/theme-provider"
 import StarField from "@/components/star-field"
-import { readingSerif, readingArabic, uiMono } from "@/app/fonts"
+import { arabicSans, readingSerif, readingArabic, uiMono } from "@/app/fonts"
 import { siteConfig } from "@/content/site"
 import "./globals.css"
 
@@ -20,7 +20,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${uiMono.variable} ${readingSerif.variable} ${readingArabic.variable}`}>
+      <body className={`${uiMono.variable} ${readingSerif.variable} ${arabicSans.variable} ${readingArabic.variable}`}>
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
           <StarField />
           {children}

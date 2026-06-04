@@ -23,6 +23,9 @@ const BOOT_LINES = [
 const COMMANDS: { cmd: string; desc: string; action: string; icon: string }[] = [
   { cmd: "about", desc: "open the dossier", action: "/about", icon: "📋" },
   { cmd: "blog", desc: "read the journal", action: "/blog", icon: "📝" },
+  { cmd: "lab", desc: "browse public experiments", action: "/lab", icon: "⌁" },
+  { cmd: "split", desc: "split a bill", action: "/tools/splitter", icon: "÷" },
+  { cmd: "card", desc: "open digital card", action: "/card", icon: "▣" },
   { cmd: "contact", desc: "book a conversation", action: "/contact", icon: "✉" },
   { cmd: "skills", desc: "cat skills.txt", action: "skills", icon: "⚡" },
   { cmd: "theme", desc: "switch color theme", action: "theme", icon: "🎨" },
@@ -392,10 +395,12 @@ export default function BootTerminal() {
 
   return (
     <div
-      className="cli-panel border border-term-line bg-term-darker overflow-hidden flex flex-col h-full cursor-text relative rounded-lg"
+      className="terminal-english cli-panel border border-term-line bg-term-darker overflow-hidden flex flex-col h-full cursor-text relative rounded-lg"
       onClick={focusInput}
       onKeyDown={handleGlobalKey}
       tabIndex={-1}
+      dir="ltr"
+      lang="en"
     >
       {/* ── Terminal Chrome ─────────────────────────────────────── */}
       <div className="flex items-center justify-between px-4 py-2.5 border-b border-term-line bg-term-black text-xs uppercase tracking-[0.14em] text-term-gray">
@@ -440,7 +445,7 @@ export default function BootTerminal() {
             </div>
             <div className="text-term-gray text-xs mb-1">
               tools{" "}
-              {["json", "base64", "wordcount", "uuid", "epoch"].map((cmd, i) => (
+              {["split", "json", "base64", "wordcount", "uuid", "epoch"].map((cmd, i) => (
                 <span key={cmd}>
                   {i > 0 && " · "}
                   <button onClick={() => execCommand(cmd)} className="text-term-cyan hover:underline cursor-pointer">{cmd}</button>

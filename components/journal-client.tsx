@@ -5,6 +5,7 @@ import KnowledgeGraph from "@/components/knowledge-graph"
 import WritingHeatmap from "@/components/writing-heatmap"
 import Link from "next/link"
 import { formatPostDate } from "@/lib/format-post-date"
+import { getLocalePath, localeCopy, type Locale } from "@/content/locale"
 
 interface Post {
   id: string
@@ -18,9 +19,10 @@ interface Post {
   coverImage?: string
 }
 
-export default function JournalClient({ posts }: { posts: Post[] }) {
+export default function JournalClient({ posts, locale = "en" }: { posts: Post[]; locale?: Locale }) {
   const [activeTag, setActiveTag] = useState<string | null>(null)
   const [sidebarOpen, setSidebarOpen] = useState(true)
+  const copy = localeCopy[locale]
 
   const filteredPosts = activeTag
     ? posts.filter((p) => p.tags.includes(activeTag))
@@ -48,7 +50,7 @@ export default function JournalClient({ posts }: { posts: Post[] }) {
                 : "bg-[var(--term-line)] text-[var(--term-gray)] hover:text-[var(--term-white)]"
             }`}
           >
-            All Posts
+            {copy.blog.allPosts}
           </button>
           {sortedTags.map(([tag, count]) => (
             <button
@@ -67,14 +69,14 @@ export default function JournalClient({ posts }: { posts: Post[] }) {
             onClick={() => setSidebarOpen(!sidebarOpen)}
             className="ml-auto px-3 py-1.5 rounded-full text-xs font-medium bg-[var(--term-line)] text-[var(--term-gray)] hover:text-[var(--term-cyan)] transition-all"
           >
-            {sidebarOpen ? "⊟ hide insights" : "⊞ show insights"}
+            {sidebarOpen ? `⊟ ${copy.blog.hideInsights}` : `⊞ ${copy.blog.showInsights}`}
           </button>
         </div>
 
         {/* ── Featured Hero Post ────────────────────── */}
         {featured && (
           <Link
-            href={`/blog/${featured.slug}`}
+            href={getLocalePath(`/blog/${featured.slug}`, locale)}
             className="group block rounded-2xl overflow-hidden border border-[var(--term-line)] hover:border-[var(--term-cyan)] transition-all duration-500"
           >
             <div className="grid md:grid-cols-[1.2fr_1fr]">
@@ -95,7 +97,7 @@ export default function JournalClient({ posts }: { posts: Post[] }) {
                   </div>
                 )}
                 <div className="absolute top-3 left-3 bg-[var(--term-cyan)] text-[var(--term-black)] px-3 py-1 rounded-full text-[10px] uppercase tracking-widest font-bold">
-                  Featured
+                  {copy.blog.featured}
                 </div>
               </div>
 
@@ -115,11 +117,11 @@ export default function JournalClient({ posts }: { posts: Post[] }) {
                   {featured.excerpt}
                 </p>
                 <div className="flex items-center gap-4 text-[11px] uppercase tracking-[0.12em] text-[var(--term-gray)] mt-auto">
-                  <span>{formatPostDate(featured.date)}</span>
+                  <span>{formatPostDate(featured.date, locale)}</span>
                   <span>·</span>
                   <span>{featured.readingTime} min read</span>
                   <span className="ml-auto text-[var(--term-cyan)] group-hover:translate-x-1 transition-transform">
-                    read →
+                    {copy.blog.read} →
                   </span>
                 </div>
               </div>
@@ -133,7 +135,7 @@ export default function JournalClient({ posts }: { posts: Post[] }) {
             {rest.map((post, index) => (
               <Link
                 key={post.id}
-                href={`/blog/${post.slug}`}
+                href={getLocalePath(`/blog/${post.slug}`, locale)}
                 className="group block rounded-xl overflow-hidden border border-[var(--term-line)] hover:border-[var(--term-cyan)] bg-[var(--term-darker)] hover:shadow-xl hover:shadow-[var(--term-cyan)]/5 transition-all duration-300 animate-in fade-in slide-in-from-bottom-3 fill-mode-both"
                 style={{ animationDelay: `${index * 80}ms` }}
               >
@@ -178,7 +180,7 @@ export default function JournalClient({ posts }: { posts: Post[] }) {
                   </p>
 
                   <div className="flex items-center justify-between pt-1 text-[10px] uppercase tracking-[0.1em] text-[var(--term-gray)]">
-                    <span>{formatPostDate(post.date)}</span>
+                    <span>{formatPostDate(post.date, locale)}</span>
                     <span className="text-[var(--term-cyan)] opacity-0 group-hover:opacity-100 transition-opacity">→</span>
                   </div>
                 </div>
@@ -189,9 +191,9 @@ export default function JournalClient({ posts }: { posts: Post[] }) {
 
         {filteredPosts.length === 0 && (
           <div className="text-center py-16 rounded-xl border border-[var(--term-line)]">
-            <p className="text-[var(--term-gray)] text-sm">No posts match &quot;{activeTag}&quot;. Try another topic or browse all.</p>
+            <p className="text-[var(--term-gray)] text-sm">{copy.blog.noPosts}</p>
             <button onClick={() => setActiveTag(null)} className="mt-3 text-xs text-[var(--term-cyan)] hover:underline">
-              clear filter
+              {copy.blog.clearFilter}
             </button>
           </div>
         )}

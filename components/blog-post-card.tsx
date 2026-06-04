@@ -3,15 +3,17 @@ import Image from "next/image"
 import { Calendar, Clock } from "lucide-react"
 import { formatPostDate } from "@/lib/format-post-date"
 import type { Post } from "@/lib/posts"
+import { getLocalePath, type Locale } from "@/content/locale"
 
 interface BlogPostCardProps {
   post: Post
+  locale?: Locale
 }
 
-export default function BlogPostCard({ post }: BlogPostCardProps) {
+export default function BlogPostCard({ post, locale = "en" }: BlogPostCardProps) {
   return (
     <article className="cli-frame overflow-hidden transition-colors hover:border-term-cyan/35">
-      <Link href={`/blog/${post.slug}`} className="block h-full">
+      <Link href={getLocalePath(`/blog/${post.slug}`, locale)} className="block h-full">
         {post.coverImage ? (
           <div className="relative h-44 overflow-hidden border-b border-term-line">
             <Image
@@ -29,7 +31,7 @@ export default function BlogPostCard({ post }: BlogPostCardProps) {
           <div className="flex flex-wrap items-center gap-3 text-xs uppercase tracking-[0.14em] text-term-gray">
             <span className="inline-flex items-center gap-1">
               <Calendar className="h-3.5 w-3.5" />
-              {formatPostDate(post.date)}
+              {formatPostDate(post.date, locale)}
             </span>
             <span className="inline-flex items-center gap-1">
               <Clock className="h-3.5 w-3.5" />

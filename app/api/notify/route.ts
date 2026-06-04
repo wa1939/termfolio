@@ -94,7 +94,7 @@ export async function POST(request: Request) {
 <!DOCTYPE html>
 <html>
 <head><meta charset="utf-8" /></head>
-<body style="margin:0;padding:0;background:#0B0B0F;font-family:'Courier New',monospace;">
+<body style="margin:0;padding:0;background:#0B0B0F;font-family:Georgia,'Times New Roman',serif;">
   <div style="max-width:600px;margin:0 auto;padding:32px 24px;">
     <div style="text-align:center;margin-bottom:24px;">
       <pre style="display:inline-block;color:#7dd3fc;font-family:'Courier New',monospace;font-size:14px;line-height:1.2;margin:0;">
@@ -108,7 +108,7 @@ export async function POST(request: Request) {
         new transmission
       </div>
       <div style="padding:24px;">
-        <p style="color:#8FD4A7;font-size:12px;margin:0 0 16px;">$ cat new-post.md</p>
+        <p style="color:#8FD4A7;font-family:'Courier New',monospace;font-size:12px;margin:0 0 16px;">$ cat new-post.md</p>
         <h1 style="color:#F3EADB;font-size:22px;font-weight:bold;margin:0 0 12px;line-height:1.3;">${safeTitle}</h1>
         ${safeExcerpt ? `<p style="color:#918A80;font-size:14px;line-height:1.6;margin:0 0 24px;">${safeExcerpt}</p>` : ""}
         <a href="${escapeHtml(postUrl)}" style="display:inline-block;padding:10px 24px;background:#A7B8FF;color:#0B0B0F;text-decoration:none;font-size:12px;font-weight:bold;text-transform:uppercase;letter-spacing:0.1em;border-radius:6px;">

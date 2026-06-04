@@ -1,12 +1,14 @@
 "use client"
 
 import { useState, useEffect, useCallback } from "react"
+import type { Locale } from "@/content/locale"
 
 interface PostEngagementProps {
   slug: string
+  locale?: Locale
 }
 
-export default function PostEngagement({ slug }: PostEngagementProps) {
+export default function PostEngagement({ slug, locale = "en" }: PostEngagementProps) {
   const [likes, setLikes] = useState(0)
   const [liked, setLiked] = useState(false)
   const [views, setViews] = useState(0)
@@ -67,7 +69,7 @@ export default function PostEngagement({ slug }: PostEngagementProps) {
         {/* Views */}
         <span className="flex items-center gap-1.5 text-[var(--term-gray)]">
           <span>👁</span>
-          <span>{views.toLocaleString()} reads</span>
+          <span>{views.toLocaleString(locale === "ar" ? "ar-SA" : "en-US")} {locale === "ar" ? "قراءة" : "reads"}</span>
         </span>
 
         {/* Likes */}
@@ -78,7 +80,7 @@ export default function PostEngagement({ slug }: PostEngagementProps) {
           }`}
         >
           <span>{liked ? "♥" : "♡"}</span>
-          <span>{likes > 0 ? likes : ""} {likes === 1 ? "like" : likes > 1 ? "likes" : "like"}</span>
+          <span>{likes > 0 ? likes.toLocaleString(locale === "ar" ? "ar-SA" : "en-US") : ""} {locale === "ar" ? "إعجاب" : likes === 1 ? "like" : likes > 1 ? "likes" : "like"}</span>
         </button>
       </div>
 
@@ -88,7 +90,7 @@ export default function PostEngagement({ slug }: PostEngagementProps) {
         className="flex items-center gap-1.5 text-[var(--term-gray)] hover:text-[var(--term-cyan)] transition-colors"
       >
         <span>↗</span>
-        <span>{copied ? "copied!" : "share"}</span>
+        <span>{copied ? (locale === "ar" ? "تم النسخ" : "copied!") : locale === "ar" ? "مشاركة" : "share"}</span>
       </button>
     </div>
   )

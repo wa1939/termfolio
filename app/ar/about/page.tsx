@@ -1,0 +1,151 @@
+import type { Metadata } from "next"
+import Image from "next/image"
+import Link from "next/link"
+import MinimalNav from "@/components/minimal-nav"
+import TerminalFooter from "@/components/terminal-footer"
+import AnimateOnScroll from "@/components/animate-on-scroll"
+import { getLocalePath, localeCopy, siteArabic } from "@/content/locale"
+import { siteConfig } from "@/content/site"
+
+export const metadata: Metadata = {
+  title: `نبذة - ${siteArabic.name}`,
+  description: siteArabic.description,
+  openGraph: {
+    title: `نبذة - ${siteArabic.name}`,
+    description: siteArabic.title,
+    url: `${siteConfig.siteUrl}/ar/about`,
+    siteName: siteArabic.name,
+    type: "profile",
+  },
+}
+
+export default function ArabicAboutPage() {
+  const copy = localeCopy.ar
+
+  return (
+    <div className="min-h-screen bg-[var(--term-black)] text-[var(--term-white)] font-mono flex flex-col">
+      <MinimalNav locale="ar" />
+      <div className="fixed inset-0 pointer-events-none opacity-[0.015] bg-[url('/noise.png')] animate-noise" />
+
+      <main className="flex-grow pt-24 pb-12">
+        <div className="container mx-auto px-4 max-w-6xl">
+          <Link href={getLocalePath("/", "ar")} className="mb-8 inline-flex items-center gap-2 text-[var(--term-gray)] transition-colors hover:text-[var(--term-cyan)]">
+            ← {copy.backHome}
+          </Link>
+
+          <div className="mb-8">
+            <pre className="text-[var(--term-cyan)] text-[clamp(0.35rem,1vw,0.65rem)] leading-[1.15] whitespace-pre overflow-x-auto select-none" dir="ltr">
+              {siteConfig.asciiArt.about.join("\n")}
+            </pre>
+            <div className="text-xs uppercase tracking-[0.3em] text-[var(--term-gray)] mt-2">
+              {siteArabic.title}
+            </div>
+          </div>
+
+          <section className="rounded-xl overflow-hidden border border-[var(--term-line)]">
+            <div className="flex items-center justify-between border-b border-[var(--term-line)] px-4 py-3 text-xs uppercase tracking-[0.16em] text-[var(--term-gray)]">
+              <span dir="ltr">resume.md</span>
+              <span>ملف مهني</span>
+            </div>
+
+            <div className="grid gap-8 p-5 md:grid-cols-[280px_minmax(0,1fr)] md:p-6">
+              <aside className="space-y-6">
+                <div className="overflow-hidden rounded-xl border border-[var(--term-line)] bg-[var(--term-darker)]">
+                  <div className="relative aspect-[4/4.8]">
+                    <Image src={siteConfig.avatar} alt={siteArabic.name} fill priority className="object-cover" />
+                  </div>
+                </div>
+
+                <div className="space-y-3 text-sm leading-7 text-[var(--term-gray)]">
+                  {[
+                    ["الاسم", siteArabic.name],
+                    ["الموقع", siteArabic.location],
+                  ].map(([label, value]) => (
+                    <div key={label}>
+                      <div className="text-[10px] uppercase tracking-widest text-[var(--term-gray)] mb-1">{label}</div>
+                      <div className="text-[var(--term-white)]">{value}</div>
+                    </div>
+                  ))}
+                  <div>
+                    <div className="text-[10px] uppercase tracking-widest text-[var(--term-gray)] mb-1">التواصل</div>
+                    <a href={`mailto:${siteConfig.email}`} className="text-[var(--term-cyan)] hover:underline" dir="ltr">
+                      {siteConfig.email}
+                    </a>
+                  </div>
+                </div>
+
+                <a href="/cv.pdf" download="waleed-alhamed-cv.pdf" className="flex items-center gap-3 rounded-lg border border-[var(--term-line)] bg-[var(--term-darker)] px-4 py-3 hover:border-[var(--term-cyan)] hover:bg-[var(--term-cyan)]/5 transition-all group">
+                  <div className="text-sm text-[var(--term-gray)] group-hover:text-[var(--term-cyan)] transition-colors" dir="ltr">
+                    <span className="text-[var(--term-green)]">$</span> download --resume
+                  </div>
+                  <span className="mr-auto text-[var(--term-cyan)] text-xs">PDF ↓</span>
+                </a>
+              </aside>
+
+              <div className="space-y-8">
+                <div>
+                  <div className="text-sm text-[var(--term-gray)]" dir="ltr">
+                    <span className="text-[var(--term-green)]">$</span> <span className="text-[var(--term-cyan)]">cat</span> about.txt
+                  </div>
+                  <h1 className="mt-4 text-3xl font-bold tracking-tight text-[var(--term-white)] md:text-4xl">
+                    {siteArabic.headline}
+                  </h1>
+                  <div className="mt-5 space-y-4 text-sm leading-8 text-[var(--term-gray)] max-w-3xl">
+                    {siteArabic.bio.map((paragraph) => (
+                      <p key={paragraph}>{paragraph}</p>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
+                  {siteArabic.stats.map((stat, index) => (
+                    <AnimateOnScroll key={stat.label} delay={index * 80}>
+                      <div className="rounded-lg border border-[var(--term-line)] bg-[var(--term-darker)] px-4 py-4">
+                        <div className="text-[10px] uppercase tracking-widest text-[var(--term-gray)]">{stat.label}</div>
+                        <div className="mt-2 text-lg text-[var(--term-white)] font-bold">{stat.value}</div>
+                      </div>
+                    </AnimateOnScroll>
+                  ))}
+                </div>
+
+                <AnimateOnScroll>
+                  <div className="rounded-lg border border-[var(--term-line)] bg-[var(--term-darker)] px-4 py-5 whitespace-pre-wrap font-mono text-sm leading-[1.8] text-[var(--term-gray)]">
+                    <div className="text-[var(--term-white)] mb-4" dir="ltr">
+                      <span className="text-[var(--term-green)]">$</span> tree ./experience
+                    </div>
+                    <div className="text-[var(--term-white)]">./experience</div>
+                    {siteArabic.experience.map((item, idx) => {
+                      const isLast = idx === siteArabic.experience.length - 1
+                      return (
+                        <div key={`${item.period}-${item.role}`}>
+                          <div>{isLast ? "└──" : "├──"} <span className="text-[var(--term-gray)]">[{item.period}]</span> <span className="text-[var(--term-cyan)] uppercase tracking-wider text-xs">{item.company}</span></div>
+                          <div>{isLast ? "    " : "│   "} └── <span className="text-[var(--term-white)]">{item.role}</span></div>
+                          <div>{isLast ? "    " : "│   "}     <span className="text-[var(--term-gray)] whitespace-normal inline-block max-w-2xl align-top text-sm leading-7 mt-1 mb-4">{item.summary}</span></div>
+                        </div>
+                      )
+                    })}
+                  </div>
+                </AnimateOnScroll>
+
+                <AnimateOnScroll>
+                  <div className="rounded-lg border border-[var(--term-line)] bg-[var(--term-darker)] px-4 py-4">
+                    <div className="text-[10px] uppercase tracking-widest text-[var(--term-gray)] mb-3">المهارات</div>
+                    <div className="flex flex-wrap gap-2">
+                      {siteArabic.skills.map((skill) => (
+                        <span key={skill} className="border border-[var(--term-line)] px-3 py-1.5 text-xs uppercase tracking-[0.12em] text-[var(--term-gray)] rounded-full hover:border-[var(--term-cyan)] hover:text-[var(--term-cyan)] transition-colors">
+                          {skill}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </AnimateOnScroll>
+              </div>
+            </div>
+          </section>
+        </div>
+      </main>
+
+      <TerminalFooter locale="ar" />
+    </div>
+  )
+}

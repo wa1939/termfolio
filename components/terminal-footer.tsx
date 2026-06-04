@@ -2,9 +2,11 @@
 
 import { useEffect, useState } from "react"
 import { siteConfig } from "@/content/site"
+import { localeCopy, type Locale } from "@/content/locale"
 
-export default function TerminalFooter() {
+export default function TerminalFooter({ locale = "en" }: { locale?: Locale }) {
   const [time, setTime] = useState("")
+  const copy = localeCopy[locale]
 
   useEffect(() => {
     const update = () => {
@@ -19,11 +21,11 @@ export default function TerminalFooter() {
   }, [])
 
   return (
-    <footer className="mt-auto">
+    <footer className="mt-auto" dir={copy.dir}>
       <div className="border-t border-term-line bg-term-black px-4 py-2">
         <div className="container mx-auto flex flex-col gap-2 md:flex-row md:items-center md:justify-between text-xs font-mono uppercase tracking-[0.14em] text-term-gray">
           <span>
-            developed by{" "}
+            {copy.footer.developedBy}{" "}
             <a
               href={siteConfig.developedBy.url}
               target="_blank"
@@ -34,7 +36,7 @@ export default function TerminalFooter() {
             </a>
             {siteConfig.customizedBy && (
               <>
-                {" · "}customized by{" "}
+                {" · "}{copy.footer.customizedBy}{" "}
                 <a
                   href={siteConfig.customizedBy.url}
                   target="_blank"
@@ -49,10 +51,10 @@ export default function TerminalFooter() {
           </span>
           <span className="flex items-center gap-4">
             <span className="flex items-center gap-1">
-              <span className="text-term-green">●</span> online
+              <span className="text-term-green">●</span> {copy.footer.online}
             </span>
             <span>|</span>
-            <span className="text-term-white">:help</span> for commands
+            <span className="text-term-white" dir="ltr">{copy.footer.help}</span>
           </span>
         </div>
       </div>

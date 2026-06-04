@@ -81,7 +81,7 @@ export const Blockquote: React.FC<React.HTMLAttributes<HTMLQuoteElement>> = ({ c
       className={`
         relative p-6 my-6 
         bg-term-darker/50 
-        border-l-4 border-term-cyan 
+        border border-term-cyan/30
         rounded-lg
         text-term-white
         ${className || ""}
