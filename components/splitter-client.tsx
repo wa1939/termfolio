@@ -31,17 +31,22 @@ const labels = {
     copy: "Copy result",
     copied: "Copied",
     name: "Name",
-    weight: "Share",
+    weight: "Portions",
+    weightHelp: "1 = one equal portion. Use 2 if someone covers two people, or 0.5 for a half portion.",
     total: "Total",
     each: "Balance",
-    note: "Settlement note",
-    paid: "Paid",
+    note: "Message for the group",
+    messagePreview: "Ready-to-send note",
+    paid: "Paid already",
     paidTotal: "Paid so far",
-    shareAmount: "Share",
-    owes: "owes",
+    shareAmount: "Bill portion",
+    owes: "needs to pay",
     gets: "gets back",
     even: "settled",
-    settlement: "Who pays who",
+    personLabel: "Person",
+    finalBalance: "Result",
+    peopleDetails: "People",
+    settlement: "Final transfers",
     noTransfers: "No transfers needed.",
     paysTo: "pays",
     unpaid: "Still unpaid",
@@ -58,21 +63,26 @@ const labels = {
     copy: "نسخ النتيجة",
     copied: "تم النسخ",
     name: "الاسم",
-    weight: "النصيب",
+    weight: "الحصص",
+    weightHelp: "الحصص تعني كم شخصًا يمثله هذا الاسم في القسمة. ١ = حصة عادية، ٢ = حصتين، ٠٫٥ = نصف حصة.",
     total: "الإجمالي",
-    each: "الموازنة",
-    note: "رسالة للمجموعة",
-    paid: "دفع",
+    each: "النتيجة",
+    note: "رسالة جاهزة للمجموعة",
+    messagePreview: "نص الرسالة",
+    paid: "دفع مسبقًا",
     paidTotal: "المدفوع حتى الآن",
-    shareAmount: "نصيبه",
-    owes: "يدفع",
-    gets: "يستلم",
-    even: "خالص",
-    settlement: "من يدفع لمن",
+    shareAmount: "حصته من الفاتورة",
+    owes: "باقي عليه",
+    gets: "يسترجع",
+    even: "متوازن",
+    personLabel: "الشخص",
+    finalBalance: "بعد الحساب",
+    peopleDetails: "تفاصيل الأشخاص",
+    settlement: "التحويلات النهائية",
     noTransfers: "لا توجد تحويلات مطلوبة.",
-    paysTo: "يدفع إلى",
-    unpaid: "متبقي على الفاتورة",
-    overpaid: "مدفوع فوق الفاتورة",
+    paysTo: "يرسل إلى",
+    unpaid: "نقص في المدفوعات",
+    overpaid: "مدفوع زيادة",
     empty: "أضف شخصًا واحدًا على الأقل.",
   },
 } as const
@@ -85,6 +95,11 @@ function formatMoney(value: number, locale: Locale) {
   }).format(value || 0)
 }
 
+function isolateText(value: string, locale: Locale) {
+  if (locale !== "ar") return value
+  return `\u2068${value}\u2069`
+}
+
 export default function SplitterClient({ locale = "en" }: SplitterClientProps) {
   const copy = localeCopy[locale]
   const t = labels[locale]
@@ -93,6 +108,14 @@ export default function SplitterClient({ locale = "en" }: SplitterClientProps) {
   const [taxPercent, setTaxPercent] = useState(15)
   const [people, setPeople] = useState<Person[]>(initialPeople)
   const [copied, setCopied] = useState(false)
+  const captionClass =
+    locale === "ar"
+      ? "text-xs font-medium leading-6 text-term-gray"
+      : "text-[10px] uppercase tracking-[0.14em] text-term-gray"
+  const compactCaptionClass =
+    locale === "ar"
+      ? "text-[11px] font-medium leading-5 text-term-gray"
+      : "text-[10px] uppercase tracking-[0.14em] text-term-gray"
 
   const calculation = useMemo(() => {
     const safeBill = Math.max(0, bill)
@@ -141,25 +164,37 @@ export default function SplitterClient({ locale = "en" }: SplitterClientProps) {
 
   const settlementText = useMemo(() => {
     if (calculation.shares.length === 0) return t.empty
+    const personLines = calculation.shares.map((person) => {
+      const name = isolateText(person.name || t.name, locale)
+      const status =
+        Math.abs(person.balance) < 0.01
+          ? t.even
+          : person.balance < 0
+            ? `${t.owes} ${formatMoney(Math.abs(person.balance), locale)}`
+            : `${t.gets} ${formatMoney(person.balance, locale)}`
+
+      return locale === "ar"
+        ? `${t.personLabel}: ${name}\n  ${t.shareAmount}: ${formatMoney(person.amount, locale)}\n  ${t.paid}: ${formatMoney(person.paid, locale)}\n  ${t.finalBalance}: ${status}`
+        : `${t.personLabel}: ${name}\n  ${t.shareAmount}: ${formatMoney(person.amount, locale)}\n  ${t.paid}: ${formatMoney(person.paid, locale)}\n  ${t.finalBalance}: ${status}`
+    })
+    const transferLines =
+      calculation.transfers.length > 0
+        ? calculation.transfers.map((transfer) => {
+            const from = isolateText(transfer.from, locale)
+            const to = isolateText(transfer.to, locale)
+            return `${from} ${t.paysTo} ${to}: ${formatMoney(transfer.amount, locale)}`
+          })
+        : [t.noTransfers]
+
     const lines = [
       `${t.total}: ${formatMoney(calculation.total, locale)}`,
       `${t.paidTotal}: ${formatMoney(calculation.totalPaid, locale)}`,
       "",
-      ...calculation.shares.map((person) => {
-        const status =
-          Math.abs(person.balance) < 0.01
-            ? t.even
-            : person.balance < 0
-              ? `${t.owes} ${formatMoney(Math.abs(person.balance), locale)}`
-              : `${t.gets} ${formatMoney(person.balance, locale)}`
-
-        return `${person.name || t.name}: ${t.shareAmount} ${formatMoney(person.amount, locale)} · ${t.paid} ${formatMoney(person.paid, locale)} · ${status}`
-      }),
+      `${t.peopleDetails}:`,
+      ...personLines,
       "",
       `${t.settlement}:`,
-      ...(calculation.transfers.length > 0
-        ? calculation.transfers.map((transfer) => `${transfer.from} ${t.paysTo} ${transfer.to}: ${formatMoney(transfer.amount, locale)}`)
-        : [t.noTransfers]),
+      ...transferLines,
     ]
 
     const delta = calculation.total - calculation.totalPaid
@@ -203,8 +238,8 @@ export default function SplitterClient({ locale = "en" }: SplitterClientProps) {
   return (
     <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_360px]">
       <section className="cli-frame overflow-hidden">
-        <div className="flex items-center justify-between border-b border-term-line px-4 py-3 text-xs uppercase tracking-[0.16em] text-term-gray">
-          <span dir="ltr">$ split bill</span>
+        <div className="flex items-center justify-between border-b border-term-line px-4 py-3 text-xs text-term-gray">
+          <span className="uppercase tracking-[0.16em]" dir="ltr">$ split bill</span>
           <span>{copy.tools.splitter.title}</span>
         </div>
 
@@ -216,7 +251,7 @@ export default function SplitterClient({ locale = "en" }: SplitterClientProps) {
               { id: "splitter-tax", testId: "splitter-tax", label: t.tax, value: taxPercent, suffix: "%", set: setTaxPercent },
             ].map((field) => (
               <label key={field.label} className="space-y-2">
-                <span className="text-xs uppercase tracking-[0.14em] text-term-gray" id={`${field.id}-label`}>
+                <span className={captionClass} id={`${field.id}-label`}>
                   {field.label}
                 </span>
                 <span className="flex items-center gap-2 rounded-md border border-term-line bg-term-darker px-3 py-2 focus-within:border-term-cyan">
@@ -238,7 +273,10 @@ export default function SplitterClient({ locale = "en" }: SplitterClientProps) {
 
           <div className="space-y-3">
             <div className="flex flex-wrap items-center justify-between gap-3">
-              <h2 className="text-lg font-semibold text-term-white">{t.people}</h2>
+              <div className="max-w-2xl space-y-1">
+                <h2 className="text-lg font-semibold text-term-white">{t.people}</h2>
+                <p className="text-sm leading-7 text-term-gray">{t.weightHelp}</p>
+              </div>
               <div className="flex gap-2">
                 <button
                   type="button"
@@ -262,9 +300,9 @@ export default function SplitterClient({ locale = "en" }: SplitterClientProps) {
 
             <div className="space-y-2">
               {people.map((person) => (
-                <div key={person.id} className="grid gap-2 rounded-lg border border-term-line bg-term-darker p-3 sm:grid-cols-[minmax(0,1fr)_92px_120px_44px]">
+                <div key={person.id} className="grid gap-2 rounded-lg border border-term-line bg-term-darker p-3 sm:grid-cols-[minmax(0,1fr)_112px_132px_44px]">
                   <label className="space-y-1">
-                    <span className="text-[10px] uppercase tracking-[0.14em] text-term-gray">{t.name}</span>
+                    <span className={compactCaptionClass}>{t.name}</span>
                     <input
                       value={person.name}
                       onChange={(event) => updatePerson(person.id, { name: event.target.value })}
@@ -272,7 +310,7 @@ export default function SplitterClient({ locale = "en" }: SplitterClientProps) {
                     />
                   </label>
                   <label className="space-y-1">
-                    <span className="text-[10px] uppercase tracking-[0.14em] text-term-gray">{t.weight}</span>
+                    <span className={compactCaptionClass}>{t.weight}</span>
                     <input
                       type="number"
                       min="0"
@@ -283,7 +321,7 @@ export default function SplitterClient({ locale = "en" }: SplitterClientProps) {
                     />
                   </label>
                   <label className="space-y-1">
-                    <span className="text-[10px] uppercase tracking-[0.14em] text-term-gray">{t.paid}</span>
+                    <span className={compactCaptionClass}>{t.paid}</span>
                     <input
                       data-testid={`splitter-paid-${person.id}`}
                       type="number"
@@ -311,21 +349,21 @@ export default function SplitterClient({ locale = "en" }: SplitterClientProps) {
 
       <aside className="space-y-4">
         <div className="rounded-lg border border-term-line bg-term-darker p-4">
-          <div className="text-[10px] uppercase tracking-[0.16em] text-term-gray">{t.total}</div>
+          <div className={captionClass}>{t.total}</div>
           <div className="mt-2 text-3xl font-semibold text-term-white">
             {formatMoney(calculation.total, locale)}
           </div>
           <div className="mt-3 grid gap-3 text-sm sm:grid-cols-3 lg:grid-cols-1">
             <div className="rounded-md border border-term-line bg-term-black p-3">
-              <div className="text-[10px] uppercase tracking-[0.14em] text-term-gray">{t.service}</div>
+              <div className={compactCaptionClass}>{t.service}</div>
               <div className="mt-1 text-term-white">{formatMoney(calculation.service, locale)}</div>
             </div>
             <div className="rounded-md border border-term-line bg-term-black p-3">
-              <div className="text-[10px] uppercase tracking-[0.14em] text-term-gray">{t.tax}</div>
+              <div className={compactCaptionClass}>{t.tax}</div>
               <div className="mt-1 text-term-white">{formatMoney(calculation.tax, locale)}</div>
             </div>
             <div className="rounded-md border border-term-line bg-term-black p-3">
-              <div className="text-[10px] uppercase tracking-[0.14em] text-term-gray">{t.paidTotal}</div>
+              <div className={compactCaptionClass}>{t.paidTotal}</div>
               <div className="mt-1 text-term-white">{formatMoney(calculation.totalPaid, locale)}</div>
             </div>
           </div>
@@ -334,7 +372,7 @@ export default function SplitterClient({ locale = "en" }: SplitterClientProps) {
         <div className="rounded-lg border border-term-line bg-term-darker p-4">
           <div className="flex items-center justify-between gap-3">
             <div>
-              <div className="text-[10px] uppercase tracking-[0.16em] text-term-gray">{t.each}</div>
+              <div className={captionClass}>{t.each}</div>
               <h2 className="mt-1 text-lg font-semibold text-term-white">{t.note}</h2>
             </div>
             <button
@@ -367,12 +405,12 @@ export default function SplitterClient({ locale = "en" }: SplitterClientProps) {
                 return (
                   <div key={person.id} className="space-y-2 border-t border-term-line py-3 text-sm">
                     <div className="flex items-center justify-between gap-3">
-                      <span className="min-w-0 truncate text-term-gray">{person.name || t.name}</span>
+                      <bdi className="min-w-0 truncate text-term-gray" dir="auto">{person.name || t.name}</bdi>
                       <span className={`font-semibold ${balanceClass}`}>
                         {balanceLabel}: {formatMoney(Math.abs(person.balance), locale)}
                       </span>
                     </div>
-                    <div className="grid grid-cols-2 gap-2 text-xs text-term-gray">
+                    <div className="grid gap-2 text-xs text-term-gray sm:grid-cols-2">
                       <span>{t.shareAmount}: <span className="text-term-white">{formatMoney(person.amount, locale)}</span></span>
                       <span>{t.paid}: <span className="text-term-white">{formatMoney(person.paid, locale)}</span></span>
                     </div>
@@ -384,9 +422,16 @@ export default function SplitterClient({ locale = "en" }: SplitterClientProps) {
             )}
           </div>
 
-          <pre className="mt-4 whitespace-pre-wrap rounded-md border border-term-line bg-term-black p-3 text-xs leading-6 text-term-gray" dir={locale === "ar" ? "rtl" : "ltr"}>
-            {settlementText}
-          </pre>
+          <div className="mt-4 rounded-md border border-term-line bg-term-black p-4">
+            <div className={compactCaptionClass}>{t.messagePreview}</div>
+            <div
+              data-testid="splitter-message-preview"
+              className={`mt-3 whitespace-pre-wrap break-words text-sm leading-8 text-term-white [font-variant-numeric:tabular-nums] [unicode-bidi:plaintext] ${locale === "ar" ? "font-arabic-site" : "font-mono"}`}
+              dir={locale === "ar" ? "rtl" : "ltr"}
+            >
+              {settlementText}
+            </div>
+          </div>
         </div>
       </aside>
     </div>

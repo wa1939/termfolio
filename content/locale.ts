@@ -138,7 +138,7 @@ export const localeCopy = {
           "Split a bill, add service charge or tax, and copy the result without signing in.",
         routeTitle: "Split a bill",
         routeDescription:
-          "A small utility for dinners, coffee runs, and shared purchases. No login, no tracking, just math.",
+          "Enter who paid, how many portions each person covers, and copy a clear note for the group.",
       },
     },
   },
@@ -277,7 +277,7 @@ export const localeCopy = {
           "قسّم الفاتورة، أضف الخدمة أو الضريبة، وانسخ رسالة مرتبة للمجموعة.",
         routeTitle: "قسّم الفاتورة",
         routeDescription:
-          "للقهوة والعشاء والطلبات المشتركة. احسب النصيب وانسخ رسالة واضحة للمجموعة.",
+          "للقهوة والعشاء والطلبات المشتركة. أدخل من دفع، وعدد حصص كل شخص، ثم انسخ رسالة واضحة للمجموعة.",
       },
     },
   },
