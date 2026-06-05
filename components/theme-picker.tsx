@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect, useRef, useCallback } from "react"
+import { createPortal } from "react-dom"
 
 // ── Theme definitions ──────────────────────────────────────────────
 export interface ThemeDef {
@@ -175,9 +176,14 @@ export default function ThemePicker() {
   const [isOpen, setIsOpen] = useState(false)
   const [activeTheme, setActiveTheme] = useState(DEFAULT_THEME_NAME)
   const [search, setSearch] = useState("")
+  const [mounted, setMounted] = useState(false)
   const modalRef = useRef<HTMLDivElement>(null)
   const searchRef = useRef<HTMLInputElement>(null)
   const [highlightIdx, setHighlightIdx] = useState(0)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   // Load saved theme on mount
   useEffect(() => {
@@ -245,87 +251,93 @@ export default function ThemePicker() {
     [filtered, highlightIdx, selectTheme]
   )
 
+  const pickerModal = (
+    <div
+      className="fixed inset-0 z-[1000] flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm"
+      data-testid="theme-picker-backdrop"
+    >
+      <div
+        ref={modalRef}
+        data-testid="theme-picker-panel"
+        className="flex w-[min(360px,calc(100vw-2rem))] max-h-[min(560px,calc(100dvh-2rem))] flex-col overflow-hidden border border-term-line bg-term-black font-mono text-sm shadow-[0_8px_32px_rgba(0,0,0,0.6)]"
+        onKeyDown={handleKeyDown}
+      >
+        {/* Modal Header */}
+        <div className="flex items-center justify-between border-b border-term-line px-4 py-3">
+          <span className="text-xs font-semibold uppercase tracking-[0.16em] text-term-white">Themes</span>
+          <button
+            onClick={() => setIsOpen(false)}
+            className="text-xs uppercase tracking-[0.16em] text-term-gray hover:text-term-white"
+          >
+            esc
+          </button>
+        </div>
+
+        {/* Search */}
+        <div className="border-b border-term-line px-4 py-2">
+          <input
+            ref={searchRef}
+            type="text"
+            placeholder="Search"
+            value={search}
+            onChange={(e) => {
+              setSearch(e.target.value)
+              setHighlightIdx(0)
+            }}
+            className="w-full bg-transparent text-sm text-term-white outline-none placeholder:text-term-gray"
+          />
+        </div>
+
+        {/* Theme List */}
+        <div className="min-h-0 flex-1 overflow-y-auto" data-testid="theme-picker-list">
+          {filtered.map((theme, idx) => (
+            <button
+              key={theme.name}
+              onClick={() => selectTheme(theme)}
+              className={`flex w-full items-center gap-3 px-4 py-2.5 text-left transition-colors ${
+                idx === highlightIdx
+                  ? "bg-term-line text-term-white"
+                  : "text-term-gray hover:bg-term-line/50 hover:text-term-white"
+              }`}
+            >
+              {/* Color Preview Swatch */}
+              <span className="inline-flex flex-shrink-0 gap-0.5">
+                <span className="h-2 w-2 rounded-full" style={{ background: theme.accent }} />
+                <span className="h-2 w-2 rounded-full" style={{ background: theme.green }} />
+                <span className="h-2 w-2 rounded-full" style={{ background: theme.fg }} />
+              </span>
+
+              {/* Active Indicator */}
+              {activeTheme === theme.name ? (
+                <span className="text-xs text-term-green">●</span>
+              ) : (
+                <span className="w-3" />
+              )}
+
+              <span>{theme.label}</span>
+            </button>
+          ))}
+        </div>
+      </div>
+    </div>
+  )
+
   return (
     <>
       {/* Trigger Button */}
       <button
         onClick={() => setIsOpen(true)}
-        className="flex items-center gap-2 text-xs uppercase tracking-[0.16em] text-term-gray hover:text-term-cyan transition-colors"
+        className="flex items-center gap-2 text-xs uppercase tracking-[0.16em] text-term-gray transition-colors hover:text-term-cyan"
         aria-label="Open theme picker"
+        aria-expanded={isOpen}
+        aria-haspopup="dialog"
       >
-        <span className="inline-block w-2 h-2 rounded-full border border-current" />
+        <span className="inline-block h-2 w-2 rounded-full border border-current" />
         <span className="hidden sm:inline">themes</span>
       </button>
 
       {/* Modal Backdrop + Panel */}
-      {isOpen && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm">
-          <div
-            ref={modalRef}
-            className="w-[min(340px,calc(100vw-2rem))] max-h-[min(420px,calc(100vh-4rem))] border border-term-line bg-term-black shadow-[0_8px_32px_rgba(0,0,0,0.6)] overflow-hidden font-mono text-sm"
-            onKeyDown={handleKeyDown}
-          >
-            {/* Modal Header */}
-            <div className="flex items-center justify-between px-4 py-3 border-b border-term-line">
-              <span className="text-term-white text-xs uppercase tracking-[0.16em] font-semibold">Themes</span>
-              <button
-                onClick={() => setIsOpen(false)}
-                className="text-term-gray hover:text-term-white text-xs uppercase tracking-[0.16em]"
-              >
-                esc
-              </button>
-            </div>
-
-            {/* Search */}
-            <div className="px-4 py-2 border-b border-term-line">
-              <input
-                ref={searchRef}
-                type="text"
-                placeholder="Search"
-                value={search}
-                onChange={(e) => {
-                  setSearch(e.target.value)
-                  setHighlightIdx(0)
-                }}
-                className="w-full bg-transparent text-term-white placeholder-term-gray outline-none text-sm"
-              />
-            </div>
-
-            {/* Theme List */}
-            <div className="overflow-y-auto max-h-[300px]">
-              {filtered.map((theme, idx) => (
-                <button
-                  key={theme.name}
-                  onClick={() => selectTheme(theme)}
-                  className={`w-full text-left px-4 py-2.5 flex items-center gap-3 transition-colors ${
-                    idx === highlightIdx
-                      ? "bg-term-line text-term-white"
-                      : "text-term-gray hover:bg-term-line/50 hover:text-term-white"
-                  }`}
-                >
-                  {/* Color Preview Swatch */}
-                  <span
-                    className="inline-flex gap-0.5 flex-shrink-0"
-                  >
-                    <span className="w-2 h-2 rounded-full" style={{ background: theme.accent }} />
-                    <span className="w-2 h-2 rounded-full" style={{ background: theme.green }} />
-                    <span className="w-2 h-2 rounded-full" style={{ background: theme.fg }} />
-                  </span>
-
-                  {/* Active Indicator */}
-                  {activeTheme === theme.name ? (
-                    <span className="text-term-green text-xs">●</span>
-                  ) : (
-                    <span className="w-3" />
-                  )}
-
-                  <span>{theme.label}</span>
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
-      )}
+      {mounted && isOpen ? createPortal(pickerModal, document.body) : null}
     </>
   )
 }
