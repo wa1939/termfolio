@@ -19,6 +19,26 @@ export const metadata: Metadata = {
   },
 }
 
+const arabicCredentials = [
+  {
+    name: "ماجستير إدارة الأعمال MBA (قيد الدراسة)",
+    desc: "جامعة إلينوي أوربانا-شامبين، كلية Gies للأعمال",
+    image: "/University-Wordmark-Full-Color-RGB-1.png",
+    icon: "MBA",
+  },
+  {
+    name: "بكالوريوس هندسة ميكانيكية",
+    desc: "جامعة جدة",
+    image: "/جامعة_جدة.png",
+    icon: "BE",
+  },
+  {
+    name: "العربية والإنجليزية",
+    desc: "طلاقة في اللغتين",
+    icon: "AR/EN",
+  },
+]
+
 export default function ArabicAboutPage() {
   const copy = localeCopy.ar
 
@@ -71,6 +91,16 @@ export default function ArabicAboutPage() {
                     <a href={`mailto:${siteConfig.email}`} className="text-[var(--term-cyan)] hover:underline" dir="ltr">
                       {siteConfig.email}
                     </a>
+                  </div>
+                  <div>
+                    <div className="text-[10px] uppercase tracking-widest text-[var(--term-gray)] mb-1">الروابط</div>
+                    <div className="mt-1 space-y-1">
+                      {Object.values(siteConfig.socials).map((social) => (
+                        <a key={social.label} href={social.url} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-[var(--term-cyan)] hover:underline" dir="ltr">
+                          <span className="font-bold">{social.icon}</span> {social.label}
+                        </a>
+                      ))}
+                    </div>
                   </div>
                 </div>
 
@@ -137,6 +167,46 @@ export default function ArabicAboutPage() {
                         </span>
                       ))}
                     </div>
+                  </div>
+                </AnimateOnScroll>
+
+                <AnimateOnScroll>
+                  <div>
+                    <div className="text-[10px] uppercase tracking-widest text-[var(--term-gray)] mb-3">الشهادات</div>
+                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 pb-2">
+                      {siteConfig.certifications.map((badge) => (
+                        <div key={badge.name} className="group text-center">
+                          <div className="aspect-square rounded-xl border border-[var(--term-line)] bg-[var(--term-darker)] overflow-hidden hover:border-[var(--term-cyan)] transition-all duration-300">
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                            <img
+                              src={badge.image}
+                              alt={badge.name}
+                              className="w-full h-full object-contain p-2 transition-transform duration-300 group-hover:scale-110"
+                            />
+                          </div>
+                          <div className="mt-2 text-[10px] font-bold text-[var(--term-gray)] group-hover:text-[var(--term-cyan)] transition-colors" dir="ltr">{badge.name}</div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </AnimateOnScroll>
+
+                <AnimateOnScroll>
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                    {arabicCredentials.map((cred) => (
+                      <div key={cred.name} className="flex items-center gap-2 rounded-lg border border-[var(--term-line)] bg-[var(--term-darker)] px-3 py-2 hover:border-[var(--term-cyan)] transition-colors group">
+                        {"image" in cred && cred.image ? (
+                          /* eslint-disable-next-line @next/next/no-img-element */
+                          <img src={cred.image} alt={cred.desc} className="h-6 w-auto flex-shrink-0 object-contain" />
+                        ) : (
+                          <span className="min-w-6 text-xs font-bold text-[var(--term-cyan)] flex-shrink-0" dir="ltr">{cred.icon}</span>
+                        )}
+                        <div>
+                          <div className="text-xs font-bold text-[var(--term-white)] group-hover:text-[var(--term-cyan)] transition-colors">{cred.name}</div>
+                          <div className="text-[10px] text-[var(--term-gray)]">{cred.desc}</div>
+                        </div>
+                      </div>
+                    ))}
                   </div>
                 </AnimateOnScroll>
               </div>
