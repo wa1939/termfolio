@@ -45,9 +45,9 @@ export default function ArabicContactPage() {
                   <div className="text-sm text-term-gray" dir="ltr">
                     <span className="text-term-green">$</span> <span className="text-term-cyan">ping</span> me
                   </div>
-                  <h1 className="mt-4 text-3xl font-semibold text-term-white md:text-4xl">افتح خطًا واضحًا.</h1>
+                  <h1 className="mt-4 text-3xl font-semibold text-term-white md:text-4xl">خلّنا نتكلم بوضوح.</h1>
                   <p className="mt-5 cli-soft-copy max-w-xl">
-                    إن أردت العمل معًا، مقارنة الملاحظات، أو مناقشة مشكلة تحول أو منتج، فهذا هو الطريق الأسهل.
+                    لو عندك مشروع، مشكلة تحول، فكرة منتج، أو ملاحظات تستحق النقاش، فهذا أقصر طريق.
                   </p>
                 </div>
 
@@ -60,7 +60,7 @@ export default function ArabicContactPage() {
                     {[
                       ["البريد", siteConfig.email],
                       ["الموقع", siteArabic.location],
-                      ["التوفر", "تعاونات مختارة في الاستراتيجية، التحول، والمنتجات"],
+                      ["التوفر", "تعاونات مختارة تجمع الاستراتيجية، التحول، وبناء المنتجات"],
                     ].map(([label, value]) => (
                       <div key={label} className="cli-table-row grid gap-3 px-4 py-4 md:grid-cols-[120px_minmax(0,1fr)]">
                         <div className="text-xs uppercase tracking-[0.14em] text-term-gray">{label}</div>
@@ -85,10 +85,10 @@ export default function ArabicContactPage() {
                 <div className="cli-panel px-4 py-4">
                   <div className="cli-topline">أسباب جيدة للتواصل</div>
                   <div className="mt-3 space-y-2 text-sm leading-7 text-term-gray">
-                    <p>- تحول مؤسسي يحتاج تنفيذًا أوضح</p>
-                    <p>- فكرة منتج أو خدمة تحتاج طريقة تشغيل أوضح</p>
-                    <p>- أدوات داخلية مدعومة بالذكاء الاصطناعي</p>
-                    <p>- استشارة، حديث، أو جلسة استراتيجية مركزة</p>
+                    <p>- تحول مؤسسي يحتاج طريقًا أوضح للتنفيذ</p>
+                    <p>- فكرة منتج تحتاج أن تتحول إلى تجربة قابلة للاستخدام</p>
+                    <p>- أدوات داخلية مدعومة بـ AI</p>
+                    <p>- استشارة مركزة أو جلسة تفكير بلا مجاملات</p>
                   </div>
                 </div>
 
@@ -96,11 +96,11 @@ export default function ArabicContactPage() {
                   <div className="cli-topline">روابط سريعة</div>
                   <div className="mt-4 flex flex-wrap gap-3">
                     <a href={siteConfig.calUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 border border-term-white bg-term-white px-4 py-3 text-sm text-term-black transition-colors hover:bg-term-cyan hover:border-term-cyan hover:text-term-black font-semibold">
-                      احجز جلسة 30 دقيقة
+                      احجز 30 دقيقة
                       <ArrowUpRight className="h-4 w-4" />
                     </a>
                     <a href={`mailto:${siteConfig.email}`} className="inline-flex items-center gap-2 border border-term-line px-4 py-3 text-sm text-term-white transition-colors hover:bg-term-white hover:text-term-black hover:border-term-white">
-                      أرسل بريدًا بدلًا من ذلك
+                      أرسل بريدًا
                     </a>
                   </div>
                 </div>

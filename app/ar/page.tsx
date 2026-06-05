@@ -78,8 +78,8 @@ export default async function ArabicHome() {
                     </p>
                     <div className="mt-4 grid grid-cols-2 gap-2 text-xs">
                       {[
-                        ["التركيز", "تحليلات الأفراد"],
-                        ["النمط", "شحن النتائج"],
+                        ["التركيز", "People Analytics"],
+                        ["النمط", "بناء ثم إطلاق"],
                         ["الموقع", siteArabic.location],
                         ["البطاقة", "vCard جاهزة"],
                       ].map(([label, value]) => (
