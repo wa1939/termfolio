@@ -521,6 +521,7 @@ function ShareCardTool({ locale }: { locale: Locale }) {
       const siteFont = getComputedStyle(document.body).fontFamily || "'IBM Plex Mono', monospace"
       const textFont = rtl ? "'Thmanyah Canvas', sans-serif" : siteFont
       const monoFont = siteFont
+      const makerHost = "waok.dev"
 
       ctx.clearRect(0, 0, canvas.width, canvas.height)
       drawCardBackground(ctx, canvas.width, canvas.height, current.bg, current.panel, current.line)
@@ -533,9 +534,18 @@ function ShareCardTool({ locale }: { locale: Locale }) {
       const textX = rtl ? canvas.width - inset : inset
       const maxWidth = canvas.width - inset * 2
 
-      ctx.fillStyle = current.muted
-      ctx.font = `500 28px ${monoFont}`
-      ctx.fillText(rtl ? "waok.dev / بطاقة مشاركة" : "waok.dev / share card", textX, 112)
+      drawShareCardHeader(ctx, {
+        accent: current.accent,
+        bg: current.bg,
+        fg: current.fg,
+        inset,
+        label: rtl ? "بطاقة مشاركة" : "share card",
+        makerHost,
+        monoFont,
+        rtl,
+        textFont,
+        width: canvas.width,
+      })
 
       ctx.fillStyle = current.accent
       ctx.fillRect(rtl ? canvas.width - inset - 160 : inset, 144, 160, 4)
@@ -555,6 +565,15 @@ function ShareCardTool({ locale }: { locale: Locale }) {
       ctx.fillText("termfolio", inset, canvas.height - 72)
       ctx.textAlign = "right"
       ctx.fillText(new Date().getFullYear().toString(), canvas.width - inset, canvas.height - 72)
+      drawShareCardMaker(ctx, {
+        accent: current.accent,
+        makerHost,
+        monoFont,
+        rtl,
+        textFont,
+        width: canvas.width,
+        y: canvas.height - 104,
+      })
     }
 
     void draw()
@@ -610,6 +629,146 @@ function ShareCardTool({ locale }: { locale: Locale }) {
       </aside>
     </Panel>
   )
+}
+
+function drawRoundedRect(
+  ctx: CanvasRenderingContext2D,
+  x: number,
+  y: number,
+  width: number,
+  height: number,
+  radius: number
+) {
+  ctx.beginPath()
+  ctx.moveTo(x + radius, y)
+  ctx.lineTo(x + width - radius, y)
+  ctx.quadraticCurveTo(x + width, y, x + width, y + radius)
+  ctx.lineTo(x + width, y + height - radius)
+  ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height)
+  ctx.lineTo(x + radius, y + height)
+  ctx.quadraticCurveTo(x, y + height, x, y + height - radius)
+  ctx.lineTo(x, y + radius)
+  ctx.quadraticCurveTo(x, y, x + radius, y)
+  ctx.closePath()
+}
+
+function getBadgeTextColor(accent: string) {
+  return accent === "#111111" ? "#ffffff" : "#000000"
+}
+
+function drawShareCardHeader(
+  ctx: CanvasRenderingContext2D,
+  options: {
+    accent: string
+    bg: string
+    fg: string
+    inset: number
+    label: string
+    makerHost: string
+    monoFont: string
+    rtl: boolean
+    textFont: string
+    width: number
+  }
+) {
+  const { accent, bg, fg, inset, label, makerHost, monoFont, rtl, textFont, width } = options
+  const badgeHeight = 56
+  const badgeY = 60
+  const gap = 20
+
+  ctx.save()
+  ctx.direction = "ltr"
+  ctx.textAlign = rtl ? "right" : "left"
+  ctx.textBaseline = "middle"
+  ctx.font = `600 28px ${monoFont}`
+  ctx.fillStyle = fg
+
+  const hostWidth = ctx.measureText(makerHost).width
+  const hostX = rtl ? width - inset : inset
+  ctx.fillText(makerHost, hostX, badgeY + badgeHeight / 2)
+
+  ctx.strokeStyle = accent
+  ctx.lineWidth = 3
+  ctx.beginPath()
+  if (rtl) {
+    ctx.moveTo(hostX - hostWidth, badgeY + badgeHeight - 2)
+    ctx.lineTo(hostX, badgeY + badgeHeight - 2)
+  } else {
+    ctx.moveTo(hostX, badgeY + badgeHeight - 2)
+    ctx.lineTo(hostX + hostWidth, badgeY + badgeHeight - 2)
+  }
+  ctx.stroke()
+
+  ctx.direction = rtl ? "rtl" : "ltr"
+  ctx.textAlign = "center"
+  ctx.font = `700 30px ${rtl ? textFont : monoFont}`
+  const badgeWidth = Math.ceil(ctx.measureText(label).width) + 36
+  const badgeX = rtl ? hostX - hostWidth - gap - badgeWidth : hostX + hostWidth + gap
+
+  ctx.fillStyle = accent
+  drawRoundedRect(ctx, badgeX, badgeY, badgeWidth, badgeHeight, 12)
+  ctx.fill()
+
+  ctx.fillStyle = getBadgeTextColor(accent)
+  ctx.fillText(label, badgeX + badgeWidth / 2, badgeY + badgeHeight / 2 + (rtl ? 2 : 0))
+
+  ctx.globalAlpha = 0.42
+  ctx.strokeStyle = accent
+  ctx.lineWidth = 1
+  drawRoundedRect(ctx, inset, badgeY - 16, width - inset * 2, badgeHeight + 32, 18)
+  ctx.stroke()
+  ctx.globalAlpha = 1
+
+  ctx.fillStyle = bg
+  ctx.restore()
+}
+
+function drawShareCardMaker(
+  ctx: CanvasRenderingContext2D,
+  options: {
+    accent: string
+    makerHost: string
+    monoFont: string
+    rtl: boolean
+    textFont: string
+    width: number
+    y: number
+  }
+) {
+  const { accent, makerHost, monoFont, rtl, textFont, width, y } = options
+  const makerLabel = rtl ? "صُنعت في" : "made at"
+  const x = rtl ? width - 74 : 74
+
+  ctx.save()
+  ctx.textBaseline = "alphabetic"
+  ctx.direction = rtl ? "rtl" : "ltr"
+  ctx.textAlign = rtl ? "right" : "left"
+  ctx.fillStyle = accent
+  ctx.font = `600 24px ${rtl ? textFont : monoFont}`
+  ctx.fillText(makerLabel, x, y)
+
+  const labelWidth = ctx.measureText(makerLabel).width
+  const gap = 12
+  const hostX = rtl ? x - labelWidth - gap : x + labelWidth + gap
+
+  ctx.direction = "ltr"
+  ctx.textAlign = rtl ? "right" : "left"
+  ctx.font = `600 24px ${monoFont}`
+  ctx.fillText(makerHost, hostX, y)
+
+  const hostWidth = ctx.measureText(makerHost).width
+  ctx.strokeStyle = accent
+  ctx.lineWidth = 2
+  ctx.beginPath()
+  if (rtl) {
+    ctx.moveTo(hostX - hostWidth, y + 7)
+    ctx.lineTo(hostX, y + 7)
+  } else {
+    ctx.moveTo(hostX, y + 7)
+    ctx.lineTo(hostX + hostWidth, y + 7)
+  }
+  ctx.stroke()
+  ctx.restore()
 }
 
 function drawCardBackground(
