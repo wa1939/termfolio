@@ -152,7 +152,7 @@ export const localeCopy = {
     navItems: [
       { path: "/", number: "01", label: "الرئيسية", command: "cd ~" },
       { path: "/blog", number: "02", label: "المقالات", command: "ls posts/" },
-      { path: "/lab", number: "03", label: "التجارب", command: "ls lab/" },
+      { path: "/lab", number: "03", label: "المعمل", command: "ls lab/" },
       { path: "/tools", number: "04", label: "الأدوات", command: "ls tools/" },
       { path: "/about", number: "05", label: "عنّي", command: "cat resume.md" },
       { path: "/contact", number: "06", label: "تواصل", command: "ping me" },
@@ -168,10 +168,10 @@ export const localeCopy = {
         "sys.status: أشتغل على People Analytics ومنتجات AI، وأحوّل الأفكار الصعبة إلى أشياء يستخدمها الناس",
       navLinks: [
         { href: "/blog", label: "(01) المقالات // أفكار وتجارب مكتوبة" },
-        { href: "/lab", label: "(02) التجارب // أشياء بنيتها لأفهم أكثر" },
+        { href: "/lab", label: "(02) المعمل // خربشات وتجارب وقت الفراغ" },
         { href: "/tools", label: "(03) الأدوات // أشياء صغيرة تنفع وقت الحاجة" },
         { href: "/about", label: "(04) عنّي // الخبرة وطريقة العمل" },
-        { href: "/contact", label: "(05) تواصل // خلّنا نتكلم بوضوح" },
+        { href: "/contact", label: "(05) تواصل // اكتب إذا الموضوع يستاهل" },
       ],
       executiveTitle: "ما وراء الواجهة",
       executiveCopy:
@@ -252,14 +252,14 @@ export const localeCopy = {
       savedTime: "وفّرتها لو اكتفيت بالزبدة",
     },
     lab: {
-      title: "التجارب",
+      title: "المعمل",
       eyebrow: "$ ls ./lab",
       description:
-        "ليست مشاريع رسمية ولا Case studies. هي تجارب صغيرة؛ بعضها نافع، وبعضها يشرح كيف أفكر وأنا أبني.",
-      viewAll: "كل التجارب",
+        "هنا منطقة أعبث فيها، وخربشات أسويها وقت الفراغ. ليست شيئًا رسميًا ولا واجهة مشاريع؛ فقط أشياء أبنيها للمتعة، ولأفهم أكثر.",
+      viewAll: "افتح المعمل",
       repo: "المستودع",
       stack: "التقنيات",
-      disclaimer: "تجارب مفتوحة",
+      disclaimer: "خربشات وقت الفراغ",
     },
     tools: {
       title: "أدوات تنفعك",
