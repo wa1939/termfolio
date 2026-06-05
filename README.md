@@ -4,9 +4,10 @@
 
 # termfolio
 
-**Your portfolio should boot like a terminal, not load like a Squarespace.**
+**A terminal-native personal site with a journal, bilingual Arabic surfaces, a lab bench, and useful no-login tools.**
 
-Write in Obsidian. Push to GitHub. Your site updates.<br/>No database. No CMS. No writing in two places.
+Write in Obsidian, VS Code, Vim, or any editor. Push markdown to GitHub. The site updates.
+No database, no CMS, no duplicated writing workflow.
 
 <br/>
 
@@ -25,41 +26,43 @@ Write in Obsidian. Push to GitHub. Your site updates.<br/>No database. No CMS. N
 [![Last Commit](https://img.shields.io/github/last-commit/wa1939/termfolio?style=flat&color=E8B87E&labelColor=0B0B0F)](https://github.com/wa1939/termfolio/commits/main)
 [![Visitors](https://api.visitorbadge.io/api/visitors?path=https%3A%2F%2Fgithub.com%2Fwa1939%2Ftermfolio&label=visitors&labelColor=%230B0B0F&countColor=%237dd3fc)](https://visitorbadge.io/status?path=https%3A%2F%2Fgithub.com%2Fwa1939%2Ftermfolio)
 
-[Live Demo](https://walhamed.com) · [Deploy Your Own](#-deploy-in-3-minutes) · [Full Tutorial](https://walhamed.com/blog/deploy-your-terminal-portfolio)
+[Live Demo](https://walhamed.com) · [Deploy Your Own](#deploy-in-3-minutes) · [Full Tutorial](https://walhamed.com/blog/deploy-your-terminal-portfolio)
 
 </div>
 
-<br/>
+---
+
+## Latest Update
+
+The current release keeps the terminal vibe, but makes the site more useful and shareable:
+
+- Full Arabic route set: `/ar`, `/ar/blog`, `/ar/about`, `/ar/contact`, `/ar/lab`, `/ar/tools`, and `/ar/card`.
+- Thmanyah Arabic typography for Arabic UI and reading surfaces, while terminal commands stay in English.
+- Journal digest cards for skim-first readers: the point, key ideas, useful jumps, and a three-word memory hook.
+- Lab bench for public experiments, kept separate from formal portfolio case studies.
+- Everyday tools: bill splitter, short links, QR codes, WhatsApp links, calendar files, image shrinking, and share-card generation.
+- Digital card improvements: vCard, QR, WhatsApp, LinkedIn, wallet pass support, and share-card attribution.
+- Vercel is the default theme, with the theme picker and `theme` terminal command still available.
+
+---
 
 ## Deploy in 3 Minutes
 
-No local setup required. Click, paste, done.
+No local setup required. Click, paste, deploy.
 
 | Step | Action | Time |
 |:----:|--------|:----:|
-| **1** | Click **Deploy with Vercel** below — it forks the repo and creates your project | 30s |
-| **2** | Vercel asks for 3 env variables — get them from [resend.com](https://resend.com) (free tier) | 90s |
-| **3** | Click **Deploy** — your site is live | 60s |
+| **1** | Click **Deploy with Vercel** below. It forks the repo and creates your project. | 30s |
+| **2** | Add the email env variables from [resend.com](https://resend.com) if you want newsletter support. | 90s |
+| **3** | Click **Deploy**. Your site is live. | 60s |
 
 <div align="center">
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fwa1939%2Ftermfolio&env=RESEND_API_KEY,RESEND_AUDIENCE_ID,NOTIFY_SECRET&envDescription=API%20keys%20for%20newsletter%20and%20notifications&envLink=https%3A%2F%2Fgithub.com%2Fwa1939%2Ftermfolio%23-environment-variables)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fwa1939%2Ftermfolio&env=RESEND_API_KEY,RESEND_AUDIENCE_ID,NOTIFY_SECRET&envDescription=API%20keys%20for%20newsletter%20and%20notifications&envLink=https%3A%2F%2Fgithub.com%2Fwa1939%2Ftermfolio%23environment-variables)
 
 </div>
 
-<details>
-<summary><strong>How to get the 3 env variables (2 minutes)</strong></summary>
-
-1. Sign up at [resend.com](https://resend.com) (free — 3,000 emails/month)
-2. **RESEND_API_KEY** — API Keys → Create API Key → copy
-3. **RESEND_AUDIENCE_ID** — Audiences → Create Audience → copy the ID
-4. **NOTIFY_SECRET** — Any random string. Generate one: `openssl rand -hex 32`
-
-</details>
-
-After deploy, clone your fork and edit **one file** — [`content/site.ts`](#-configure-from-one-file) — to make it yours. Push. Done.
-
-> **Want a full walkthrough with screenshots?** Read the [step-by-step tutorial](https://walhamed.com/blog/deploy-your-terminal-portfolio).
+After deploy, edit `content/site.ts`, `content/card.md`, `content/locale.ts`, and `content/lab.ts` to make the site yours. Posts live in `content/posts/*.md`.
 
 ---
 
@@ -70,185 +73,86 @@ After deploy, clone your fork and edit **one file** — [`content/site.ts`](#-co
 | | |
 |:---:|:---:|
 | ![Home](docs/screenshots/hero-home.png) | ![Blog](docs/screenshots/blog.png) |
-| **Home** — Boot sequence, interactive terminal, halftone profile | **Journal** — Search, tag filters, writing activity heatmap |
+| **Home** - Boot sequence, terminal, theme picker, useful tools, and recent writing | **Journal** - Search, tags, writing heatmap, and digest-first reading |
 | ![Blog Post](docs/screenshots/blog-post.png) | ![About](docs/screenshots/about.png) |
-| **Blog Post** — 3 reading themes, ToC, focus mode, progress bar | **About** — Experience timeline, skills, certifications |
+| **Post** - Reading controls, ToC, focus mode, comments, and skim cards | **About** - Resume-style dossier, experience, skills, credentials |
 | ![Contact](docs/screenshots/contact.png) | ![Mobile](docs/screenshots/mobile-home.png) |
-| **Contact** — Cal.com scheduling embed, newsletter signup | **Card** — Digital business card with vCard, QR, WhatsApp |
+| **Contact** - Booking, newsletter, and direct channels | **Card** - Digital business card with vCard, QR, WhatsApp, and wallet support |
 
 </div>
 
 ---
 
-## Why termfolio?
+## What Is Inside
 
-Most portfolio templates make you choose: **look good** or **easy to maintain**.
+### Reading Experience
 
-| | Traditional portfolio | termfolio |
-|---|:---:|:---:|
-| Write content | CMS dashboard | Obsidian / VS Code / any editor |
-| Content storage | Database (Postgres, Notion, Contentful) | Plain `.md` files in your repo |
-| Write in one place | No — CMS + code | Yes — just markdown |
-| Vendor lock-in | Tied to CMS provider | Zero — it's just files |
-| Works offline | No | Yes |
-| Deploy | Complex pipeline | `git push` |
-| Customize | Dig through 50+ files | Edit **one file** (`content/site.ts`) |
+- Three reading themes: Terminal, Light, and Sepia.
+- Adjustable font size, spacing, focus mode, progress bar, and table of contents.
+- Markdown posts with GFM, code highlighting, headings, links, images, and tables.
+- Digest cards for readers who want the idea before the full article.
+- RTL-aware Arabic surfaces using the local Thmanyah font files.
+- Giscus comments through GitHub Discussions, with a safe fallback when not configured.
 
----
+### Terminal Commands
 
-## What's Inside
+The home terminal is a real command parser with 28 commands.
 
-### The Best Reading Experience
-
-We obsessed over reading UX so your visitors actually finish your posts:
-
-- **3 reading themes** — Terminal (dark), Light, and Sepia. Readers switch mid-article without losing their place
-- **Adjustable font size** — Small, medium, large. Readers pick what's comfortable
-- **Focus mode** — Hides everything except the article. No nav, no sidebar, no distractions
-- **Reading progress bar** — Shows how far through the post they are
-- **Table of contents** — Auto-generated from headings, highlights current section as you scroll
-- **Estimated reading time** — Shown before they start
-- **Syntax highlighting** — Code blocks with proper language coloring
-- **Full RTL/Arabic support** — Set `language: "ar"` in frontmatter and the entire post flips — layout, fonts, everything
-
-### 14 Built-in Terminal Commands
-
-Your visitors won't just read — they'll play. The home page terminal is a real command parser:
-
-| Command | What it does |
-|---------|-------------|
-| `snake` | Classic Snake game — playable right in the terminal |
-| `pokedex` | Browse Pokemon with stats, types, and pixel art |
-| `typing-test` | Speed typing challenge with WPM tracking |
-| `starmap` | Interactive constellation map based on your coordinates |
-| `worldmap` | SVG world map highlighting your city |
-| `json` | Paste and format/validate JSON instantly |
-| `dashboard` | System dashboard with live clock and stats |
-| `base64` | Encode/decode Base64 strings |
-| `wordcount` | Count words, characters, and lines |
-| `epoch` | Convert Unix timestamps to human dates |
-| `uuid` | Generate random UUIDs |
-| `whoami` | Shows your identity (reads from config) |
-| `skills` | Shows your skills (reads from config) |
-| `theme` | Toggle light/dark mode |
-
-Every command reads from your config — `whoami` outputs **your** name, `starmap` shows **your** sky.
-
-### Write in Obsidian, Publish Everywhere
-
-```
-Obsidian (write) → content/posts/*.md → git push → Live site
-```
-
-Your markdown files **are** the blog. No database. No CMS. No API calls to fetch content.
-
-- **Symlink your vault** → posts update when you save in Obsidian
-- **GitHub Action included** → auto-syncs from a separate vault repo on push
-- **Works with any editor** — VS Code, Vim, iA Writer — if it saves `.md` files, it works
-
-> See [Obsidian Integration](#-obsidian-integration) for setup instructions.
-
-### Comments Powered by GitHub
-
-Readers comment on your posts using their GitHub account. Comments live in your repo's Discussions tab — no database, no moderation dashboard, no third-party service.
-
-**Setup takes 2 minutes:**
-
-1. Go to [giscus.app](https://giscus.app)
-2. Enter your repo name — it checks if Discussions are enabled
-3. Pick a category (use "Announcements")
-4. Copy the 4 values it gives you
-5. Add them to your `.env.local`:
-
-```bash
-NEXT_PUBLIC_GISCUS_REPO=your-username/termfolio
-NEXT_PUBLIC_GISCUS_REPO_ID=R_xxxxxxxxxx
-NEXT_PUBLIC_GISCUS_CATEGORY=Announcements
-NEXT_PUBLIC_GISCUS_CATEGORY_ID=DIC_xxxxxxxxxx
-```
-
-Comments appear at the bottom of every blog post. Moderate them from GitHub Discussions.
-
-### Everything Else
-
-- **Digital business card** — Shareable `/card` page with vCard download, QR code, WhatsApp, and Apple Wallet pass. Data lives in a single YAML file (`content/card.md`) — edit in Obsidian, no code changes needed
-- **Newsletter** — Email subscriptions + new-post notifications via [Resend](https://resend.com) (free: 3,000 emails/month)
-- **Halftone image effect** — Your profile photo renders as a canvas-based halftone
-- **Animated starfield** — Star field background on the home page
-- **Writing heatmap** — GitHub-style contribution graph for your blog activity
-- **Cal.com embed** — Scheduling widget on the contact page
-- **Spotify widget** — Links to your music profile
-- **SEO optimized** — Dynamic OG images, sitemap, robots.txt, structured metadata
-- **Vercel Analytics** — Built-in analytics and speed insights
-- **Security hardened** — HSTS, CSP headers, rate limiting, timing-safe auth, input validation
-
----
-
-## Configure from One File
-
-Open `content/site.ts` and make it yours. This single file controls your entire site:
-
-```typescript
-export const siteConfig = {
-  name: "Your Name",           // site title, metadata, emails, footer
-  handle: "you",               // terminal prompt, top bar
-  tagline: "your · tagline",   // below ASCII art
-  email: "you@example.com",    // contact page, comment fallback
-  siteUrl: "https://you.com",  // metadata, sitemap, emails
-
-  // Terminal commands read from these
-  whoami: { focus: "what you do", status: "what you're up to" },
-  terminalSkills: ["skill1 // skill2 // skill3"],
-
-  // Your location powers the star map and world map
-  coordinates: { lat: 40.7128, lon: -74.0060, label: "New York" },
-
-  // Social links in the nav bar
-  socials: {
-    github: { url: "https://github.com/you", label: "GitHub", icon: "</>" },
-    linkedin: { url: "https://linkedin.com/in/you", label: "LinkedIn", icon: "[in]" },
-  },
-
-  // Generate ASCII art at patorjk.com/software/taag
-  asciiArt: { home: [...], about: [...] },
-
-  // About page
-  bio: [...], experience: [...], skills: [...], certifications: [...],
-}
-```
-
-<details>
-<summary><strong>Full field reference</strong></summary>
-
-| Field | Controls |
+| Group | Commands |
 |-------|----------|
-| `name` | Site title, metadata, email sender, footer |
-| `handle` | Terminal prompt, top bar display |
-| `title` | Meta title, about page header |
-| `tagline` | Text below ASCII art on home page |
-| `description` | Meta/OG description across all pages |
-| `email` | Contact page, comment fallback |
-| `siteUrl` | Metadata, sitemap, robots.txt, email links |
-| `twitterHandle` | Twitter/X card metadata |
-| `calUrl` / `calEmbedUrl` | Contact page calendar widget |
-| `spotifyUrl` | Music widget link |
-| `coordinates` | Star map location, world map pin |
-| `asciiArt.home` / `asciiArt.about` | ASCII banners ([generate here](https://patorjk.com/software/taag/#p=display&f=ANSI%20Shadow)) |
-| `socials` | Nav bar links (GitHub, LinkedIn, X, etc.) |
-| `whoami` | Terminal `whoami` command output |
-| `terminalSkills` | Terminal `skills` command output |
-| `terminalPrompt` | Shell prompt (e.g. `root@you:~`) |
-| `developedBy` | Footer attribution (links to this repo) |
-| `customizedBy` | Your attribution — `{ name: "You", url: "..." }` |
-| `bio`, `stats`, `experience`, `skills`, `certifications`, `credentials` | About page content |
+| Navigation | `about`, `blog`, `lab`, `tools`, `card`, `contact` |
+| Public tools | `split`, `short`, `qr`, `wa`, `event`, `image`, `sharecard` |
+| Identity | `whoami`, `skills`, `theme`, `dashboard`, `clear` |
+| Text utilities | `json`, `base64`, `wordcount`, `uuid`, `epoch` |
+| Play and maps | `type`, `stars`, `map`, `snake`, `pokedex` |
 
-</details>
+The default theme is `vercel`; visitors can switch themes from the nav dropdown or by typing `theme`.
+
+### Lab Bench
+
+The lab is intentionally not a polished project/case-study section. It is a place for experiments, prototypes, and public traces of how ideas get tested.
+
+Configured experiments currently include:
+
+- `wa1939/termfolio`
+- `wa1939/athar`
+- `wa1939/arabic-pdf-suite`
+- `wa1939/wafi`
+- `wa1939/Arabic-OCR`
+- `wa1939/ArabicWordCloudGenerator`
+
+### Everyday Tools
+
+The tools are meant to give people a practical reason to come back without creating accounts or uploading data unnecessarily.
+
+- Bill splitter with service charge, tax, payers, portions, and a copyable group message.
+- Short link maker using a no-login external shortener.
+- QR generator.
+- WhatsApp click-to-chat link builder.
+- Calendar `.ics` file generator.
+- Browser-side image shrinker.
+- Share-card maker with site attribution.
 
 ---
 
-## Blog Posts
+## Content Model
 
-Create `.md` files in `content/posts/`. That's your entire CMS:
+### Site Config
+
+Most identity, navigation, resume, and social data is controlled from:
+
+```txt
+content/site.ts
+content/locale.ts
+content/card.md
+content/lab.ts
+```
+
+`content/site.ts` is the main English source. `content/locale.ts` contains Arabic UI copy and Arabic resume content. `content/card.md` powers the digital card and vCard. `content/lab.ts` powers the lab and tools listings.
+
+### Blog Posts
+
+Create `.md` files in `content/posts/`:
 
 ```markdown
 ---
@@ -260,102 +164,35 @@ status: "published"
 language: "en"
 ---
 
-Your markdown content here. Supports GFM: tables, task lists,
-strikethrough, footnotes, syntax-highlighted code blocks.
+Your markdown content here.
 ```
 
 | Field | Required | Notes |
 |-------|:--------:|-------|
 | `title` | Yes | Post title |
-| `date` | Yes | ISO date (YYYY-MM-DD) |
-| `status` | Yes | `"published"` or `"draft"` (drafts are hidden) |
-| `excerpt` | No | Used in cards, SEO, and email notifications |
+| `date` | Yes | ISO date, `YYYY-MM-DD` |
+| `status` | Yes | `published` or `draft` |
+| `excerpt` | No | Used in cards, SEO, digest, and email |
 | `tags` | No | Array of strings for filtering |
-| `language` | No | `"en"` (default) or `"ar"` for full RTL Arabic |
+| `language` | No | `en` by default, `ar` for Arabic posts |
 | `coverImage` | No | Path relative to `public/` |
 | `author` | No | Defaults to `siteConfig.name` |
 
 ---
 
-## Obsidian Integration
+## Obsidian Workflow
 
-<details>
-<summary><strong>Option A: Copy files</strong> (simplest)</summary>
-
-Copy `.md` files from your Obsidian vault to `content/posts/`.
-
-</details>
-
-<details>
-<summary><strong>Option B: Symlink</strong> (best for local dev)</summary>
-
-Point `content/posts/` at your vault. Posts update live when you save in Obsidian:
+Your markdown files are the CMS. You can copy posts into `content/posts/`, symlink an Obsidian folder, or sync from a vault repo through GitHub Actions.
 
 ```bash
 # macOS/Linux
 ln -s ~/obsidian-vault/published content/posts
 
-# Windows (PowerShell as Admin)
+# Windows PowerShell as Admin
 New-Item -ItemType SymbolicLink -Path content\posts -Target C:\Users\you\obsidian-vault\published
 ```
 
-</details>
-
-<details>
-<summary><strong>Option C: GitHub Action</strong> (fully automated)</summary>
-
-A ready-made workflow is included at `.github/workflows/sync-obsidian.yml`. It syncs posts from a separate Obsidian vault repo automatically.
-
-**Setup:**
-
-1. Store your Obsidian posts in a separate GitHub repo (e.g. `your-username/obsidian-vault`)
-2. Create a [Personal Access Token](https://github.com/settings/tokens) with `repo` scope
-3. In **this** repo → **Settings → Secrets → Actions**, add:
-   - `VAULT_REPO` — `your-username/obsidian-vault`
-   - `VAULT_PAT` — your PAT
-   - `VAULT_PATH` — folder inside the vault repo (default: `published`)
-4. Runs daily at 6 AM UTC, or trigger manually from the Actions tab
-
-**Auto-trigger on vault push** — add this workflow to your vault repo:
-
-```yaml
-name: Trigger site sync
-on:
-  push:
-    paths: ['published/**']
-jobs:
-  sync:
-    runs-on: ubuntu-latest
-    steps:
-      - run: |
-          curl -X POST \
-            -H "Accept: application/vnd.github.v3+json" \
-            -H "Authorization: token ${{ secrets.SITE_REPO_PAT }}" \
-            https://api.github.com/repos/YOUR_USERNAME/termfolio/dispatches \
-            -d '{"event_type":"sync-obsidian"}'
-```
-
-Now every vault push auto-updates your site.
-
-</details>
-
-<details>
-<summary><strong>Obsidian frontmatter template</strong></summary>
-
-```yaml
----
-title: "{{title}}"
-date: "{{date:YYYY-MM-DD}}"
-author: "Your Name"
-excerpt: ""
-coverImage: ""
-tags: []
-status: "draft"
-language: "en"
----
-```
-
-</details>
+The repo also includes `.github/workflows/sync-obsidian.yml` for syncing from a separate vault repo.
 
 ---
 
@@ -363,60 +200,66 @@ language: "en"
 
 | Variable | Required | Description |
 |----------|:--------:|-------------|
-| `RESEND_API_KEY` | Yes | [Resend](https://resend.com) API key (free: 3,000 emails/month) |
-| `RESEND_AUDIENCE_ID` | Yes | Resend audience ID (Audiences → Create → copy ID) |
-| `NOTIFY_SECRET` | Yes | Any random string — protects the notification endpoint |
-| `RESEND_FROM_EMAIL` | No | Sender address (default: `Name <noreply@yourdomain.com>`) |
-| `NEXT_PUBLIC_SITE_URL` | No | Override site URL (default from `siteConfig.siteUrl`) |
-| `NEXT_PUBLIC_NASA_API_KEY` | No | [NASA API key](https://api.nasa.gov/) for APOD widget |
-| `NEXT_PUBLIC_GISCUS_REPO` | No | Repo name for [Giscus](https://giscus.app) comments |
-| `NEXT_PUBLIC_GISCUS_REPO_ID` | No | Giscus repo ID |
-| `NEXT_PUBLIC_GISCUS_CATEGORY` | No | Giscus category (use "Announcements") |
-| `NEXT_PUBLIC_GISCUS_CATEGORY_ID` | No | Giscus category ID |
-| `WALLETWALLET_API_KEY` | No | [WalletWallet](https://walletwallet.dev) API key for Apple Wallet passes on `/card` |
+| `RESEND_API_KEY` | Newsletter only | Resend API key |
+| `RESEND_AUDIENCE_ID` | Newsletter only | Resend audience ID |
+| `NOTIFY_SECRET` | Notifications only | Protects the new-post notification endpoint |
+| `RESEND_FROM_EMAIL` | No | Sender address override |
+| `NEXT_PUBLIC_SITE_URL` | No | Public site URL override |
+| `NEXT_PUBLIC_NASA_API_KEY` | No | NASA APOD widget key |
+| `NEXT_PUBLIC_GISCUS_REPO` | Comments only | Giscus repo name |
+| `NEXT_PUBLIC_GISCUS_REPO_ID` | Comments only | Giscus repo ID |
+| `NEXT_PUBLIC_GISCUS_CATEGORY` | Comments only | Giscus category |
+| `NEXT_PUBLIC_GISCUS_CATEGORY_ID` | Comments only | Giscus category ID |
+| `WALLETWALLET_API_KEY` | Wallet only | WalletWallet API key for Apple Wallet passes on `/card` |
 
 ---
 
 ## Tech Stack
 
 | Layer | Technology |
-|-------|-----------|
-| Framework | Next.js 15 (App Router) |
-| UI | React 19, Tailwind CSS 3, CSS design tokens (`--term-*`) |
-| Content | Local Markdown with gray-matter — no database |
-| Markdown | unified → remark-parse → remark-gfm → remark-rehype → rehype-slug → rehype-highlight → rehype-react |
-| Email | Resend API (newsletter + new-post notifications) |
-| Comments | Giscus (GitHub Discussions — no database) |
-| Analytics | Vercel Analytics + Speed Insights |
-| Fonts | IBM Plex Mono (UI), Source Serif 4 (reading), Noto Naskh Arabic (RTL) |
+|-------|------------|
+| Framework | Next.js 15 App Router |
+| UI | React 19, TypeScript, Tailwind CSS 3 |
+| Content | Local Markdown with `gray-matter` |
+| Markdown | `unified`, `remark-gfm`, `rehype-slug`, `rehype-highlight`, `rehype-react` |
+| Fonts | IBM Plex Mono, Source Serif 4, local Thmanyah Sans, local Thmanyah Serif Text |
+| Email | Resend |
+| Comments | Giscus / GitHub Discussions |
+| Analytics | Vercel Analytics and Speed Insights |
 
 ## Project Structure
 
-```
+```txt
 content/
-  site.ts               ← THE file. Your entire site config.
-  posts/*.md            ← Your blog posts. Drop markdown, done.
-  card.md               ← Digital business card data (YAML frontmatter).
+  site.ts                 Main English site config
+  locale.ts               Arabic UI and resume copy
+  lab.ts                  Lab experiments and tool registry
+  card.md                 Digital business card data
+  posts/*.md              Journal posts
 
 app/
-  page.tsx              Home (boot terminal, hero, recent posts)
-  about/page.tsx        About/resume page
-  blog/page.tsx         Journal (search, heatmap, tag filters)
-  blog/[slug]/          Blog post (3 themes, ToC, focus mode, comments)
-  contact/page.tsx      Contact (Cal.com embed, newsletter)
-  card/page.tsx         Digital business card (vCard, QR, WhatsApp)
-  api/subscribe/        Newsletter subscription endpoint
-  api/notify/           New-post notification endpoint
-  api/card/vcard/       vCard (.vcf) download endpoint
-  api/card/wallet/      Apple Wallet pass endpoint
+  page.tsx                English home
+  ar/                     Arabic route tree
+  blog/[slug]/            Journal article route
+  lab/                    Experiment lab
+  tools/                  Utility tools
+  card/                   Digital card
+  api/subscribe/          Newsletter subscription endpoint
+  api/notify/             New-post notification endpoint
+  api/tools/shorten/      Short link endpoint
+  api/card/vcard/         vCard endpoint
+  api/card/wallet/        Wallet pass endpoint
 
-components/             30+ components including:
-  boot-terminal.tsx     Interactive terminal with 14 commands
-  reading-controls.tsx  3 themes, font size, focus mode, progress bar
-  writing-heatmap.tsx   GitHub-style contribution graph
-  halftone-image.tsx    Canvas halftone image effect
-  star-map.tsx          Interactive constellation renderer
-  world-map.tsx         SVG world map with location pin
+components/
+  boot-terminal.tsx       Interactive terminal and command parser
+  theme-picker.tsx        Theme dropdown, defaulting to Vercel
+  article-digest.tsx      Skim cards for posts
+  reading-controls.tsx    Theme, font, spacing, focus, progress
+  journal-client.tsx      Searchable journal archive
+  lab-bench.tsx           Experiments grid
+  everyday-tool-client.tsx Utility tool UI
+  splitter-client.tsx     Bill splitter
+  card-client.tsx         Digital card UI
 ```
 
 ## Dev Commands
@@ -431,44 +274,30 @@ npm run check      # Lint + typecheck + build
 
 ---
 
+## Documentation
+
+- `docs/AI_CONTEXT.md` - repo orientation for future AI sessions.
+- `docs/ROUTES.md` - active route map.
+- `docs/ACTIVE_VS_LEGACY.md` - active files vs older helper code.
+- `docs/INTEGRATIONS.md` - external services and environment variables.
+- `docs/DESIGN_HANDOFF.md` - design direction and guardrails.
+- `docs/enhancement-roadmap.md` - shipped improvements and future ideas.
+
 ## Contributing
 
-Contributions welcome:
+1. Fork the repo.
+2. Create your branch: `git checkout -b feat/cool-feature`.
+3. Commit: `git commit -m "feat: add cool feature"`.
+4. Push: `git push origin feat/cool-feature`.
+5. Open a pull request.
 
-1. Fork the repo
-2. Create your branch (`git checkout -b feat/cool-feature`)
-3. Commit (`git commit -m 'feat: add cool feature'`)
-4. Push (`git push origin feat/cool-feature`)
-5. Open a Pull Request
-
-[Report bugs or request features →](https://github.com/wa1939/termfolio/issues)
-
-## Star History
-
-<div align="center">
-
-[![Star History Chart](https://api.star-history.com/svg?repos=wa1939/termfolio&type=Date&theme=dark)](https://star-history.com/#wa1939/termfolio&Date)
-
-</div>
-
-## Attribution
-
-Keep the "developed by" footer link or add your own name next to it in `content/site.ts`:
-
-```typescript
-customizedBy: { name: "Your Name", url: "https://your-site.com" }
-// → "developed by waleed alhamed · customized by your name"
-```
+[Report bugs or request features](https://github.com/wa1939/termfolio/issues)
 
 ## License
 
-[MIT](./LICENSE) — use it however you want.
-
----
+[MIT](./LICENSE)
 
 <div align="center">
-
-**If this helped you build something cool, give it a** :star:
 
 Built by [Waleed Alhamed](https://walhamed.com)
 

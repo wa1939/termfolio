@@ -16,9 +16,10 @@ This website is not meant to feel like:
 It is meant to feel like:
 
 - a personal terminal
-- a journal with command-line framing
+- a journal/notebook with command-line framing
 - a technical interface that still reads clearly for non-technical visitors
 - a CLI-first shell with softer reading surfaces where needed
+- a useful personal site people can return to for small tools, not only a one-time portfolio visit
 
 Short version:
 
@@ -39,6 +40,9 @@ Key changes:
 - kept article bodies more readable by shifting long-form text into serif typography
 - reduced heavy glass, gradients, and decorative UI noise
 - removed large unused UI/dependency surface so the active design system is clearer
+- added a full Arabic route set using Thmanyah typography while keeping terminal commands in English
+- added the lab bench and everyday tools without turning the site into a SaaS landing page
+- added digest cards for skim-first readers
 
 ## Current Design System
 
@@ -54,6 +58,8 @@ Key changes:
 
 - UI chrome: `IBM Plex Mono`
 - reading surface: `Source Serif 4`
+- Arabic UI: local Thmanyah Sans
+- Arabic reading: local Thmanyah Serif Text
 
 Mono is used for:
 
@@ -67,6 +73,10 @@ Mono is used for:
 Serif is used for:
 
 - article body content only
+
+Thmanyah is used for:
+
+- Arabic navigation, page copy, tools, card UI, and Arabic article reading surfaces
 
 ### Palette
 
@@ -140,7 +150,7 @@ What can improve:
 
 Purpose:
 
-- searchable archive
+- searchable notebook/archive
 - quick discovery
 - terminal-style journal index
 
@@ -162,6 +172,44 @@ What can improve:
 - topic labeling
 - stronger featured/active entry treatment
 - more elegant mobile scanning
+
+### `/lab`
+
+Purpose:
+
+- public experiments
+- spare-time builds and technical scribbles
+- proof of curiosity without pretending these are formal case studies
+
+What should stay:
+
+- "lab" language, not "projects"
+- short context per repo
+- clear GitHub links
+
+What can improve:
+
+- clearer grouping by product, Arabic tooling, and utilities
+- stronger signals for what is useful versus what is just exploration
+
+### `/tools`
+
+Purpose:
+
+- useful no-login utilities
+- a reason for visitors to return even if they are not reading the portfolio
+
+What should stay:
+
+- no accounts
+- no unnecessary uploads
+- simple copy/share outputs
+- terminal routing through commands where possible
+
+What can improve:
+
+- local saved recents or pinned tools
+- sharper mobile ergonomics for the splitter and share-card maker
 
 ### `/blog/[slug]`
 
@@ -229,6 +277,19 @@ What can improve:
 - information grouping
 - more distinctive but still minimal composition
 
+### Arabic routes
+
+Purpose:
+
+- make the site shareable with Arabic-first audiences without losing the original identity
+
+What should stay:
+
+- terminal commands remain English
+- Arabic copy should feel written, not machine translated
+- Arabic about/resume must keep the same factual coverage as English
+- Thmanyah typography is part of the identity
+
 ## What Must Not Be Lost
 
 If another model iterates on the UI, do not lose these:
@@ -239,6 +300,8 @@ If another model iterates on the UI, do not lose these:
 - dense but intentional information layout
 - article body readability with serif content
 - command language in navigation and archive/search flows
+- Arabic route parity and Thmanyah typography
+- the lab/tools distinction: experiments are not formal projects, tools are practical utilities
 
 ## Anti-Patterns
 
@@ -278,16 +341,37 @@ When iterating:
 - `app/page.tsx`
 - `app/blog/page.tsx`
 - `app/blog/[slug]/page.tsx`
+- `app/ar/page.tsx`
+- `app/ar/blog/page.tsx`
+- `app/ar/blog/[slug]/page.tsx`
 - `app/about/page.tsx`
+- `app/ar/about/page.tsx`
 - `app/contact/page.tsx`
+- `app/ar/contact/page.tsx`
+- `app/lab/page.tsx`
+- `app/tools/page.tsx`
+- `app/tools/[slug]/page.tsx`
+- `app/tools/splitter/page.tsx`
+- `app/card/page.tsx`
 - `components/minimal-nav.tsx`
-- `components/interactive-terminal.tsx`
+- `components/boot-terminal.tsx`
 - `components/terminal-footer.tsx`
+- `components/theme-picker.tsx`
 - `components/search-posts.tsx`
+- `components/article-digest.tsx`
+- `components/reading-controls.tsx`
+- `components/lab-bench.tsx`
+- `components/everyday-tool-client.tsx`
+- `components/splitter-client.tsx`
+- `components/card-client.tsx`
 - `components/table-of-contents.tsx`
 - `app/globals.css`
 - `tailwind.config.ts`
 - `app/fonts.ts`
+- `content/site.ts`
+- `content/locale.ts`
+- `content/lab.ts`
+- `content/card.md`
 
 ## Current Status
 

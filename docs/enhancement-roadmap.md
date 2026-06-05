@@ -4,7 +4,7 @@
 
 Keep the current terminal identity, but balance it with clearer professional signals. The site should still feel like Waleed, not a generic executive portfolio, while making the first impression safer to share with Saudi, enterprise, and senior audiences.
 
-Current pass:
+Shipped in the current release:
 
 - Preserve the terminal hero, themes, widgets, vCard, and playful utilities.
 - Add a professional signal panel beside the portrait so the casual image has context.
@@ -13,8 +13,10 @@ Current pass:
 - Add article digest cards for skim-first readers.
 - Add a lab bench for experiments instead of presenting them as polished client projects.
 - Add practical no-login tools as a reason to return, without adding a database or account layer.
+- Set Vercel as the default theme while keeping theme switching available.
+- Polish Arabic copy so it reads naturally instead of as a literal translation.
 
-## Enhancement Roadmap
+## Completed Enhancement Work
 
 1. Tighten first impression
    - Keep the portrait and terminal, but make the role, credibility, and work domains visible within the first viewport.
@@ -41,34 +43,36 @@ Current pass:
    - Keep terms like Terminal, AI, People Analytics, vCard, QR, and GitHub in English where translation would feel forced.
    - Strengthen typography hierarchy with mono UI, serif reading, and Thmanyah Arabic surfaces.
 
-## Feature Roadmap
+## Shipped Feature Work
 
 1. Useful public tools
-   - Bill splitter: already shipped.
+   - Bill splitter: split totals, service charge, tax, payers, paid amounts, portions, and settlement notes.
    - QR generator: turn any link, note, phone, or Wi-Fi text into a downloadable QR.
    - Short link: create a compact public link through a no-login shortener, while storing nothing in this site.
    - WhatsApp link: generate a click-to-chat link with a ready message.
    - Calendar file: create a small `.ics` file that opens in Apple Calendar, Google Calendar, or Outlook.
    - Image shrinker: resize/compress a local image in the browser before sending it.
-   - Share card maker: turn a quote or announcement into a clean image for social sharing.
+   - Share card maker: turn a quote or announcement into a clean image for social sharing with `waok.dev` attribution.
 
-2. Return hooks without accounts
+## Future Roadmap
+
+1. Return hooks without accounts
    - Save tool state locally.
    - Copy/share outputs cleanly.
    - Add "recent tools" or "pin this tool" using localStorage only.
 
-3. Portfolio-native utility paths
+2. Portfolio-native utility paths
    - Let terminal commands open tools.
    - Keep tools discoverable from home and lab, not hidden behind a portfolio-only nav.
    - Make each tool useful even if the visitor does not care about the portfolio yet.
    - Avoid tools that feel too corporate or rarely used by normal people, such as salary calculators, decision matrices, unit converters, generic text counters, and password generators.
 
-4. Arabic-first expansions
+3. Arabic-first expansions
    - Add original Arabic articles rather than only translating chrome.
    - Keep Arabic concise, sharp, and editorial. The target is clear Arabic in the spirit of Thmanyah's product writing, not padded formal translation.
    - Add Arabic-specific tools only when they are immediately useful to everyday visitors.
 
-5. Proof without over-claiming
+4. Proof without over-claiming
    - Add a "systems shipped" strip with concise outcomes.
    - Keep experiments separate from professional experience.
    - Link to CV and vCard from clearer contexts.
