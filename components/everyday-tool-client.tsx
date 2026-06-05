@@ -56,7 +56,7 @@ const toolText = {
     cardByline: "Small line",
     cardTheme: "Style",
     cardDownload: "Download card",
-    themes: ["Terminal", "Clean", "Warm"],
+    themes: ["Terminal", "Editorial", "Warm"],
   },
   ar: {
     copy: "نسخ",
@@ -91,7 +91,7 @@ const toolText = {
     cardByline: "سطر ثانوي",
     cardTheme: "الستايل",
     cardDownload: "تحميل البطاقة",
-    themes: ["Terminal", "هادئ", "دافئ"],
+    themes: ["Terminal", "تحريري", "دافئ"],
   },
 } as const
 
@@ -472,6 +472,26 @@ function ImageTool({ locale }: { locale: Locale }) {
   )
 }
 
+let thmanyahCanvasFontsPromise: Promise<void> | null = null
+
+function ensureThmanyahCanvasFonts() {
+  if (typeof document === "undefined" || typeof FontFace === "undefined" || !("fonts" in document)) {
+    return Promise.resolve()
+  }
+
+  thmanyahCanvasFontsPromise ??= Promise.all([
+    new FontFace("Thmanyah Canvas", "url('/fonts/thmanyah/thmanyahsans-Regular.woff2')", { weight: "400" }).load(),
+    new FontFace("Thmanyah Canvas", "url('/fonts/thmanyah/thmanyahsans-Bold.woff2')", { weight: "700" }).load(),
+  ])
+    .then((fonts) => {
+      fonts.forEach((font) => document.fonts.add(font))
+      return document.fonts.ready.then(() => undefined)
+    })
+    .catch(() => undefined)
+
+  return thmanyahCanvasFontsPromise
+}
+
 function ShareCardTool({ locale }: { locale: Locale }) {
   const t = toolText[locale]
   const canvasRef = useRef<HTMLCanvasElement>(null)
@@ -480,30 +500,68 @@ function ShareCardTool({ locale }: { locale: Locale }) {
   const [theme, setTheme] = useState(0)
 
   useEffect(() => {
-    const canvas = canvasRef.current
-    const ctx = canvas?.getContext("2d")
-    if (!canvas || !ctx) return
-    const themes = [
-      { bg: "#050505", fg: "#F5F5F5", accent: "#22D3EE" },
-      { bg: "#F8FAFC", fg: "#0F172A", accent: "#0891B2" },
-      { bg: "#211A16", fg: "#FFF7ED", accent: "#F59E0B" },
-    ]
-    const current = themes[theme]
-    ctx.fillStyle = current.bg
-    ctx.fillRect(0, 0, canvas.width, canvas.height)
-    ctx.strokeStyle = current.accent
-    ctx.lineWidth = 6
-    ctx.strokeRect(36, 36, canvas.width - 72, canvas.height - 72)
-    ctx.fillStyle = current.accent
-    ctx.font = "32px monospace"
-    ctx.fillText("waok.dev", 70, 92)
-    ctx.fillStyle = current.fg
-    ctx.textAlign = locale === "ar" ? "right" : "left"
-    ctx.font = "700 54px Arial"
-    wrapCanvasText(ctx, text, locale === "ar" ? canvas.width - 80 : 80, 200, canvas.width - 160, 68, locale === "ar")
-    ctx.font = "28px monospace"
-    ctx.fillStyle = current.accent
-    ctx.fillText(byline, locale === "ar" ? canvas.width - 80 : 80, canvas.height - 82)
+    let cancelled = false
+
+    async function draw() {
+      const canvas = canvasRef.current
+      const ctx = canvas?.getContext("2d")
+      if (!canvas || !ctx) return
+
+      if (locale === "ar") await ensureThmanyahCanvasFonts()
+
+      if (cancelled) return
+
+      const themes = [
+        { bg: "#000000", panel: "#0a0a0a", fg: "#ededed", muted: "#8f8f8f", accent: "#50e3c2", line: "#262626" },
+        { bg: "#f7f7f4", panel: "#ffffff", fg: "#111111", muted: "#6b7280", accent: "#111111", line: "#d8d8d3" },
+        { bg: "#211a16", panel: "#2a211b", fg: "#fff7ed", muted: "#c4a484", accent: "#f59e0b", line: "#5b4030" },
+      ]
+      const current = themes[theme]
+      const rtl = locale === "ar"
+      const siteFont = getComputedStyle(document.body).fontFamily || "'IBM Plex Mono', monospace"
+      const textFont = rtl ? "'Thmanyah Canvas', sans-serif" : siteFont
+      const monoFont = siteFont
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height)
+      drawCardBackground(ctx, canvas.width, canvas.height, current.bg, current.panel, current.line)
+
+      ctx.textBaseline = "alphabetic"
+      ctx.direction = rtl ? "rtl" : "ltr"
+      ctx.textAlign = rtl ? "right" : "left"
+
+      const inset = 74
+      const textX = rtl ? canvas.width - inset : inset
+      const maxWidth = canvas.width - inset * 2
+
+      ctx.fillStyle = current.muted
+      ctx.font = `500 28px ${monoFont}`
+      ctx.fillText(rtl ? "waok.dev / بطاقة مشاركة" : "waok.dev / share card", textX, 112)
+
+      ctx.fillStyle = current.accent
+      ctx.fillRect(rtl ? canvas.width - inset - 160 : inset, 144, 160, 4)
+
+      ctx.fillStyle = current.fg
+      ctx.font = `700 ${rtl ? 72 : 64}px ${textFont}`
+      const lastLineY = wrapCanvasText(ctx, text, textX, 320, maxWidth, rtl ? 86 : 78, rtl, 7)
+
+      ctx.fillStyle = current.muted
+      ctx.font = `500 30px ${textFont}`
+      wrapCanvasText(ctx, byline, textX, Math.max(lastLineY + 78, canvas.height - 150), maxWidth, 42, rtl, 2)
+
+      ctx.direction = "ltr"
+      ctx.textAlign = "left"
+      ctx.fillStyle = current.accent
+      ctx.font = `600 22px ${monoFont}`
+      ctx.fillText("termfolio", inset, canvas.height - 72)
+      ctx.textAlign = "right"
+      ctx.fillText(new Date().getFullYear().toString(), canvas.width - inset, canvas.height - 72)
+    }
+
+    void draw()
+
+    return () => {
+      cancelled = true
+    }
   }, [byline, locale, text, theme])
 
   const download = () => {
@@ -520,24 +578,70 @@ function ShareCardTool({ locale }: { locale: Locale }) {
           <textarea value={text} onChange={(event) => setText(event.target.value)} className="min-h-36 w-full rounded-md border border-term-line bg-term-black p-3 text-sm text-term-white outline-none focus:border-term-cyan" />
         </label>
         <Input label={t.cardByline} value={byline} onChange={setByline} />
-        <label className="block space-y-2">
+        <div className="block space-y-2">
           <span className="text-xs uppercase tracking-[0.14em] text-term-gray">{t.cardTheme}</span>
-          <select value={theme} onChange={(event) => setTheme(Number(event.target.value))} className="w-full rounded-md border border-term-line bg-term-black px-3 py-2 text-term-white outline-none focus:border-term-cyan">
+          <div className="grid grid-cols-3 gap-2" role="radiogroup" aria-label={t.cardTheme}>
             {t.themes.map((label, index) => (
-              <option key={label} value={index}>{label}</option>
+              <button
+                key={label}
+                type="button"
+                data-testid={`share-card-theme-${index}`}
+                onClick={() => setTheme(index)}
+                className={`rounded-md border px-3 py-2 text-sm transition-colors ${
+                  theme === index
+                    ? "border-term-cyan bg-term-cyan text-term-black"
+                    : "border-term-line bg-term-black text-term-gray hover:text-term-white"
+                }`}
+                role="radio"
+                aria-checked={theme === index}
+              >
+                {label}
+              </button>
             ))}
-          </select>
-        </label>
+          </div>
+        </div>
         <button type="button" data-testid="share-card-download" onClick={download} className="inline-flex items-center gap-2 rounded-md border border-term-white bg-term-white px-4 py-2 text-sm font-semibold text-term-black hover:border-term-cyan hover:bg-term-cyan">
           <Download className="h-4 w-4" />
           {t.cardDownload}
         </button>
       </div>
       <aside>
-        <canvas ref={canvasRef} width={1080} height={1080} className="aspect-square w-full rounded-lg border border-term-line bg-term-black" />
+        <canvas ref={canvasRef} data-testid="share-card-canvas" width={1080} height={1080} className="aspect-square w-full rounded-lg border border-term-line bg-term-black" />
       </aside>
     </Panel>
   )
+}
+
+function drawCardBackground(
+  ctx: CanvasRenderingContext2D,
+  width: number,
+  height: number,
+  bg: string,
+  panel: string,
+  line: string
+) {
+  ctx.fillStyle = bg
+  ctx.fillRect(0, 0, width, height)
+
+  const gradient = ctx.createLinearGradient(0, 0, width, height)
+  gradient.addColorStop(0, panel)
+  gradient.addColorStop(0.55, bg)
+  gradient.addColorStop(1, panel)
+  ctx.fillStyle = gradient
+  ctx.fillRect(32, 32, width - 64, height - 64)
+
+  ctx.strokeStyle = line
+  ctx.lineWidth = 2
+  ctx.strokeRect(42, 42, width - 84, height - 84)
+
+  ctx.globalAlpha = 0.22
+  for (let x = 120; x < width; x += 120) {
+    ctx.beginPath()
+    ctx.moveTo(x, 70)
+    ctx.lineTo(x - 260, height - 70)
+    ctx.stroke()
+  }
+  ctx.globalAlpha = 1
 }
 
 function wrapCanvasText(
@@ -547,22 +651,29 @@ function wrapCanvasText(
   y: number,
   maxWidth: number,
   lineHeight: number,
-  rtl: boolean
+  rtl: boolean,
+  maxLines = 99
 ) {
   const words = text.split(/\s+/)
   let line = ""
+  let lines = 0
   words.forEach((word) => {
+    if (lines >= maxLines) return
     const testLine = line ? `${line} ${word}` : word
     if (ctx.measureText(testLine).width > maxWidth && line) {
       ctx.fillText(line, x, y)
+      lines += 1
       line = word
       y += lineHeight
     } else {
       line = testLine
     }
   })
-  ctx.fillText(line, x, y)
+  if (line && lines < maxLines) {
+    ctx.fillText(line, x, y)
+  }
   if (rtl) ctx.textAlign = "left"
+  return y
 }
 
 export default function EverydayToolClient({ slug, locale = "en" }: EverydayToolClientProps) {

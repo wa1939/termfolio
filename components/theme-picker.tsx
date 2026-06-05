@@ -151,6 +151,9 @@ export const THEMES: ThemeDef[] = [
   },
 ]
 
+export const DEFAULT_THEME_NAME = "vercel"
+export const DEFAULT_THEME = THEMES.find((theme) => theme.name === DEFAULT_THEME_NAME) ?? THEMES[0]
+
 // ── Apply theme by setting CSS variables on <html> ─────────────────
 function applyTheme(theme: ThemeDef) {
   const root = document.documentElement
@@ -170,7 +173,7 @@ function applyTheme(theme: ThemeDef) {
 // ── Theme Picker Component ─────────────────────────────────────────
 export default function ThemePicker() {
   const [isOpen, setIsOpen] = useState(false)
-  const [activeTheme, setActiveTheme] = useState("default")
+  const [activeTheme, setActiveTheme] = useState(DEFAULT_THEME_NAME)
   const [search, setSearch] = useState("")
   const modalRef = useRef<HTMLDivElement>(null)
   const searchRef = useRef<HTMLInputElement>(null)
@@ -179,13 +182,10 @@ export default function ThemePicker() {
   // Load saved theme on mount
   useEffect(() => {
     const saved = localStorage.getItem("site-theme")
-    if (saved) {
-      const found = THEMES.find((t) => t.name === saved)
-      if (found) {
-        setActiveTheme(found.name)
-        applyTheme(found)
-      }
-    }
+    const found = saved ? THEMES.find((theme) => theme.name === saved) : DEFAULT_THEME
+    const theme = found ?? DEFAULT_THEME
+    setActiveTheme(theme.name)
+    applyTheme(theme)
   }, [])
 
   // Focus search when opened

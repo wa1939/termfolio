@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useRef, useCallback } from "react"
 import { useRouter } from "next/navigation"
-import { THEMES, type ThemeDef } from "@/components/theme-picker"
+import { DEFAULT_THEME_NAME, THEMES, type ThemeDef } from "@/components/theme-picker"
 import TypingGame from "@/components/typing-game"
 import StarMap from "@/components/star-map"
 import WorldMap from "@/components/world-map"
@@ -83,7 +83,10 @@ export default function BootTerminal() {
   const [output, setOutput] = useState<OutputLine[]>([])
   const [input, setInput] = useState("")
   const [activeModal, setActiveModal] = useState<ModalType>(null)
-  const [themeIdx, setThemeIdx] = useState(0)
+  const [themeIdx, setThemeIdx] = useState(() => {
+    const idx = THEMES.findIndex((theme) => theme.name === DEFAULT_THEME_NAME)
+    return idx >= 0 ? idx : 0
+  })
   const [showHelp, setShowHelp] = useState(false)
   const [modalInput, setModalInput] = useState("")
   const [modalOutput, setModalOutput] = useState("")
@@ -181,7 +184,7 @@ export default function BootTerminal() {
     if (cmd === "clear") { setOutput([]); return }
     if (cmd === "theme" || cmd === "themes") {
       setActiveModal("theme")
-      const saved = localStorage.getItem("site-theme")
+      const saved = localStorage.getItem("site-theme") ?? DEFAULT_THEME_NAME
       const idx = THEMES.findIndex((t) => t.name === saved)
       setThemeIdx(idx >= 0 ? idx : 0)
       return

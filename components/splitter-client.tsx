@@ -8,6 +8,7 @@ type Person = {
   id: number
   name: string
   weight: number
+  paid: number
 }
 
 interface SplitterClientProps {
@@ -15,8 +16,8 @@ interface SplitterClientProps {
 }
 
 const initialPeople: Person[] = [
-  { id: 1, name: "Waleed", weight: 1 },
-  { id: 2, name: "Friend", weight: 1 },
+  { id: 1, name: "Waleed", weight: 1, paid: 138 },
+  { id: 2, name: "Friend", weight: 1, paid: 0 },
 ]
 
 const labels = {
@@ -32,8 +33,19 @@ const labels = {
     name: "Name",
     weight: "Share",
     total: "Total",
-    each: "each",
+    each: "Balance",
     note: "Settlement note",
+    paid: "Paid",
+    paidTotal: "Paid so far",
+    shareAmount: "Share",
+    owes: "owes",
+    gets: "gets back",
+    even: "settled",
+    settlement: "Who pays who",
+    noTransfers: "No transfers needed.",
+    paysTo: "pays",
+    unpaid: "Still unpaid",
+    overpaid: "Paid above bill",
     empty: "Add at least one person to split the bill.",
   },
   ar: {
@@ -48,8 +60,19 @@ const labels = {
     name: "الاسم",
     weight: "النصيب",
     total: "الإجمالي",
-    each: "نصيب الفرد",
+    each: "الموازنة",
     note: "رسالة للمجموعة",
+    paid: "دفع",
+    paidTotal: "المدفوع حتى الآن",
+    shareAmount: "نصيبه",
+    owes: "يدفع",
+    gets: "يستلم",
+    even: "خالص",
+    settlement: "من يدفع لمن",
+    noTransfers: "لا توجد تحويلات مطلوبة.",
+    paysTo: "يدفع إلى",
+    unpaid: "متبقي على الفاتورة",
+    overpaid: "مدفوع فوق الفاتورة",
     empty: "أضف شخصًا واحدًا على الأقل.",
   },
 } as const
@@ -78,25 +101,78 @@ export default function SplitterClient({ locale = "en" }: SplitterClientProps) {
     const tax = taxable * (Math.max(0, taxPercent) / 100)
     const total = taxable + tax
     const totalWeight = people.reduce((sum, person) => sum + Math.max(0, person.weight), 0)
+    const totalPaid = people.reduce((sum, person) => sum + Math.max(0, person.paid), 0)
     const shares = people.map((person) => {
       const weight = Math.max(0, person.weight)
+      const amount = totalWeight > 0 ? (total * weight) / totalWeight : 0
+      const paid = Math.max(0, person.paid)
       return {
         ...person,
-        amount: totalWeight > 0 ? (total * weight) / totalWeight : 0,
+        amount,
+        paid,
+        balance: paid - amount,
       }
     })
+    const debtors = shares
+      .filter((person) => person.balance < -0.01)
+      .map((person) => ({ name: person.name || t.name, amount: Math.abs(person.balance) }))
+    const creditors = shares
+      .filter((person) => person.balance > 0.01)
+      .map((person) => ({ name: person.name || t.name, amount: person.balance }))
+    const transfers: Array<{ from: string; to: string; amount: number }> = []
+    let debtorIdx = 0
+    let creditorIdx = 0
 
-    return { service, tax, total, totalWeight, shares }
-  }, [bill, people, servicePercent, taxPercent])
+    while (debtorIdx < debtors.length && creditorIdx < creditors.length) {
+      const debtor = debtors[debtorIdx]
+      const creditor = creditors[creditorIdx]
+      const amount = Math.min(debtor.amount, creditor.amount)
+      if (amount > 0.01) {
+        transfers.push({ from: debtor.name, to: creditor.name, amount })
+      }
+      debtor.amount -= amount
+      creditor.amount -= amount
+      if (debtor.amount <= 0.01) debtorIdx += 1
+      if (creditor.amount <= 0.01) creditorIdx += 1
+    }
+
+    return { service, tax, total, totalPaid, totalWeight, shares, transfers }
+  }, [bill, people, servicePercent, t.name, taxPercent])
 
   const settlementText = useMemo(() => {
     if (calculation.shares.length === 0) return t.empty
     const lines = [
       `${t.total}: ${formatMoney(calculation.total, locale)}`,
-      ...calculation.shares.map((person) => `${person.name || t.name}: ${formatMoney(person.amount, locale)}`),
+      `${t.paidTotal}: ${formatMoney(calculation.totalPaid, locale)}`,
+      "",
+      ...calculation.shares.map((person) => {
+        const status =
+          Math.abs(person.balance) < 0.01
+            ? t.even
+            : person.balance < 0
+              ? `${t.owes} ${formatMoney(Math.abs(person.balance), locale)}`
+              : `${t.gets} ${formatMoney(person.balance, locale)}`
+
+        return `${person.name || t.name}: ${t.shareAmount} ${formatMoney(person.amount, locale)} · ${t.paid} ${formatMoney(person.paid, locale)} · ${status}`
+      }),
+      "",
+      `${t.settlement}:`,
+      ...(calculation.transfers.length > 0
+        ? calculation.transfers.map((transfer) => `${transfer.from} ${t.paysTo} ${transfer.to}: ${formatMoney(transfer.amount, locale)}`)
+        : [t.noTransfers]),
     ]
+
+    const delta = calculation.total - calculation.totalPaid
+    if (Math.abs(delta) > 0.01) {
+      lines.push(
+        delta > 0
+          ? `${t.unpaid}: ${formatMoney(delta, locale)}`
+          : `${t.overpaid}: ${formatMoney(Math.abs(delta), locale)}`
+      )
+    }
+
     return lines.join("\n")
-  }, [calculation.shares, calculation.total, locale, t.empty, t.name, t.total])
+  }, [calculation.shares, calculation.total, calculation.totalPaid, calculation.transfers, locale, t])
 
   const updatePerson = (id: number, patch: Partial<Person>) => {
     setPeople((current) =>
@@ -113,7 +189,7 @@ export default function SplitterClient({ locale = "en" }: SplitterClientProps) {
   const addPerson = () => {
     setPeople((current) => [
       ...current,
-      { id: Date.now(), name: locale === "ar" ? `شخص ${current.length + 1}` : `Person ${current.length + 1}`, weight: 1 },
+      { id: Date.now(), name: locale === "ar" ? `شخص ${current.length + 1}` : `Person ${current.length + 1}`, weight: 1, paid: 0 },
     ])
   }
 
@@ -186,7 +262,7 @@ export default function SplitterClient({ locale = "en" }: SplitterClientProps) {
 
             <div className="space-y-2">
               {people.map((person) => (
-                <div key={person.id} className="grid gap-2 rounded-lg border border-term-line bg-term-darker p-3 sm:grid-cols-[minmax(0,1fr)_110px_44px]">
+                <div key={person.id} className="grid gap-2 rounded-lg border border-term-line bg-term-darker p-3 sm:grid-cols-[minmax(0,1fr)_92px_120px_44px]">
                   <label className="space-y-1">
                     <span className="text-[10px] uppercase tracking-[0.14em] text-term-gray">{t.name}</span>
                     <input
@@ -203,6 +279,18 @@ export default function SplitterClient({ locale = "en" }: SplitterClientProps) {
                       step="0.5"
                       value={person.weight}
                       onChange={(event) => updatePerson(person.id, { weight: Number(event.target.value) })}
+                      className="w-full rounded-md border border-term-line bg-term-black px-3 py-2 text-sm text-term-white outline-none focus:border-term-cyan"
+                    />
+                  </label>
+                  <label className="space-y-1">
+                    <span className="text-[10px] uppercase tracking-[0.14em] text-term-gray">{t.paid}</span>
+                    <input
+                      data-testid={`splitter-paid-${person.id}`}
+                      type="number"
+                      min="0"
+                      step="1"
+                      value={person.paid}
+                      onChange={(event) => updatePerson(person.id, { paid: Number(event.target.value) })}
                       className="w-full rounded-md border border-term-line bg-term-black px-3 py-2 text-sm text-term-white outline-none focus:border-term-cyan"
                     />
                   </label>
@@ -227,7 +315,7 @@ export default function SplitterClient({ locale = "en" }: SplitterClientProps) {
           <div className="mt-2 text-3xl font-semibold text-term-white">
             {formatMoney(calculation.total, locale)}
           </div>
-          <div className="mt-3 grid grid-cols-2 gap-3 text-sm">
+          <div className="mt-3 grid gap-3 text-sm sm:grid-cols-3 lg:grid-cols-1">
             <div className="rounded-md border border-term-line bg-term-black p-3">
               <div className="text-[10px] uppercase tracking-[0.14em] text-term-gray">{t.service}</div>
               <div className="mt-1 text-term-white">{formatMoney(calculation.service, locale)}</div>
@@ -235,6 +323,10 @@ export default function SplitterClient({ locale = "en" }: SplitterClientProps) {
             <div className="rounded-md border border-term-line bg-term-black p-3">
               <div className="text-[10px] uppercase tracking-[0.14em] text-term-gray">{t.tax}</div>
               <div className="mt-1 text-term-white">{formatMoney(calculation.tax, locale)}</div>
+            </div>
+            <div className="rounded-md border border-term-line bg-term-black p-3">
+              <div className="text-[10px] uppercase tracking-[0.14em] text-term-gray">{t.paidTotal}</div>
+              <div className="mt-1 text-term-white">{formatMoney(calculation.totalPaid, locale)}</div>
             </div>
           </div>
         </div>
@@ -258,12 +350,35 @@ export default function SplitterClient({ locale = "en" }: SplitterClientProps) {
 
           <div className="mt-4 space-y-2">
             {calculation.shares.length > 0 ? (
-              calculation.shares.map((person) => (
-                <div key={person.id} className="flex items-center justify-between gap-3 border-t border-term-line py-3 text-sm">
-                  <span className="min-w-0 truncate text-term-gray">{person.name || t.name}</span>
-                  <span className="font-semibold text-term-white">{formatMoney(person.amount, locale)}</span>
-                </div>
-              ))
+              calculation.shares.map((person) => {
+                const balanceLabel =
+                  Math.abs(person.balance) < 0.01
+                    ? t.even
+                    : person.balance < 0
+                      ? t.owes
+                      : t.gets
+                const balanceClass =
+                  Math.abs(person.balance) < 0.01
+                    ? "text-term-gray"
+                    : person.balance < 0
+                      ? "text-amber-300"
+                      : "text-term-green"
+
+                return (
+                  <div key={person.id} className="space-y-2 border-t border-term-line py-3 text-sm">
+                    <div className="flex items-center justify-between gap-3">
+                      <span className="min-w-0 truncate text-term-gray">{person.name || t.name}</span>
+                      <span className={`font-semibold ${balanceClass}`}>
+                        {balanceLabel}: {formatMoney(Math.abs(person.balance), locale)}
+                      </span>
+                    </div>
+                    <div className="grid grid-cols-2 gap-2 text-xs text-term-gray">
+                      <span>{t.shareAmount}: <span className="text-term-white">{formatMoney(person.amount, locale)}</span></span>
+                      <span>{t.paid}: <span className="text-term-white">{formatMoney(person.paid, locale)}</span></span>
+                    </div>
+                  </div>
+                )
+              })
             ) : (
               <p className="text-sm leading-7 text-term-gray">{t.empty}</p>
             )}

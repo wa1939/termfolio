@@ -24,6 +24,14 @@
     --input: 240 8% 18%;
     --ring: 231 83% 82%;
     --radius: 0.375rem;
+    --term-black: #000000;
+    --term-white: #ededed;
+    --term-gray: #666666;
+    --term-cyan: #ededed;
+    --term-cyan-bright: #ffffff;
+    --term-green: #50e3c2;
+    --term-line: #1a1a1a;
+    --term-darker: #0a0a0a;
   }
 
   .dark {
@@ -58,8 +66,8 @@
 
   body {
     @apply bg-background text-foreground;
-    background-color: var(--term-black, #0b0b0f);
-    color: var(--term-white, #f3eadb);
+    background-color: var(--term-black, #000000);
+    color: var(--term-white, #ededed);
     font-family: var(--font-ui-mono), "IBM Plex Mono", "JetBrains Mono", monospace;
     text-rendering: optimizeLegibility;
   }

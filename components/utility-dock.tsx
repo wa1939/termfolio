@@ -30,7 +30,7 @@ const toolIcons = {
 
 export default function UtilityDock({ locale = "en", compact = false, limit }: UtilityDockProps) {
   const copy = localeCopy[locale]
-  const visibleTools = utilityTools.slice(0, limit ?? (compact ? 4 : utilityTools.length))
+  const visibleTools = utilityTools.slice(0, limit ?? (compact ? 6 : utilityTools.length))
 
   return (
     <section className="space-y-4">
