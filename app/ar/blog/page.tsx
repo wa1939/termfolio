@@ -9,10 +9,10 @@ import { getLocalePath, localeCopy, siteArabic } from "@/content/locale"
 import { siteConfig } from "@/content/site"
 
 export const metadata: Metadata = {
-  title: `المقالات - ${siteArabic.name}`,
+  title: `الدفتر - ${siteArabic.name}`,
   description: localeCopy.ar.blog.description,
   openGraph: {
-    title: `المقالات - ${siteArabic.name}`,
+    title: `الدفتر - ${siteArabic.name}`,
     description: localeCopy.ar.blog.description,
     url: `${siteConfig.siteUrl}/ar/blog`,
     siteName: siteArabic.name,

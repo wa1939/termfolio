@@ -151,7 +151,7 @@ export const localeCopy = {
     backHome: "العودة للرئيسية",
     navItems: [
       { path: "/", number: "01", label: "الرئيسية", command: "cd ~" },
-      { path: "/blog", number: "02", label: "المقالات", command: "ls posts/" },
+      { path: "/blog", number: "02", label: "الدفتر", command: "ls posts/" },
       { path: "/lab", number: "03", label: "المعمل", command: "ls lab/" },
       { path: "/tools", number: "04", label: "الأدوات", command: "ls tools/" },
       { path: "/about", number: "05", label: "عنّي", command: "cat resume.md" },
@@ -167,7 +167,7 @@ export const localeCopy = {
       status:
         "sys.status: أشتغل على People Analytics ومنتجات AI، وأحوّل الأفكار الصعبة إلى أشياء يستخدمها الناس",
       navLinks: [
-        { href: "/blog", label: "(01) المقالات // أفكار وتجارب مكتوبة" },
+        { href: "/blog", label: "(01) الدفتر // أفكاري وملاحظاتي" },
         { href: "/lab", label: "(02) المعمل // خربشات وتجارب وقت الفراغ" },
         { href: "/tools", label: "(03) الأدوات // أشياء صغيرة تنفع وقت الحاجة" },
         { href: "/about", label: "(04) عنّي // الخبرة وطريقة العمل" },
@@ -176,29 +176,29 @@ export const localeCopy = {
       executiveTitle: "ما وراء الواجهة",
       executiveCopy:
         "الواجهة بطابع Terminal، لكن خلفها عمل جاد: People Analytics، منتجات AI، تحول مؤسسي، وتجارب وصلت للاستخدام لا للعروض.",
-      recentEntries: "أحدث المقالات",
+      recentEntries: "أحدث ما في الدفتر",
       latest: "الأحدث",
       readTime: "د",
     },
     blog: {
-      title: "المقالات",
+      title: "الدفتر",
       description:
-        "كتابة عن المنتج، التقنية، التحول، وما يحدث عندما تتحول الفكرة من كلام مرتب إلى شيء يعمل.",
+        "دفتر أفكاري وملاحظاتي: أكتب فيه عن المنتج، التقنية، التحول، وما أتعلمه وأنا أحاول تحويل الأفكار إلى شيء يعمل.",
       searchLabel: "بحث",
       searchMeta: "grep archive",
       searchPlaceholder: "اكتب موضوعًا أو عبارة أو أداة",
       searchButton: "ابحث",
-      allPosts: "كل المقالات",
+      allPosts: "كل الملاحظات",
       hideInsights: "إخفاء اللوحة",
       showInsights: "إظهار اللوحة",
       featured: "مختار",
       read: "اقرأ",
-      noPosts: "لا توجد نتيجة بهذا البحث. جرّب كلمة أخرى أو ارجع لكل المقالات.",
+      noPosts: "لا توجد نتيجة بهذا البحث. جرّب كلمة أخرى أو ارجع لكل الدفتر.",
       clearFilter: "مسح الفلتر",
     },
     post: {
-      back: "العودة للمقالات",
-      entryType: "مقال",
+      back: "العودة للدفتر",
+      entryType: "ملاحظة",
       begin: "بداية النص",
       eof: "انتهى النص",
       tags: "الوسوم:",
@@ -207,9 +207,9 @@ export const localeCopy = {
       newsletterTitle: "$ subscribe --no-spam --pinky-promise",
       newsletterMeta: "النشرة",
       newsletterLead:
-        "أكتب عن بناء المنتجات، قيادة الفرق، وعن الأفكار التي لا تتضح إلا بعد التجربة.",
+        "أكتب من الدفتر عن بناء المنتجات، قيادة الفرق، وعن الأفكار التي لا تتضح إلا بعد التجربة.",
       newsletterCopy:
-        "تنبيه خفيف عند نشر مقال جديد. لا بريد متكرر، ولا وعود نشرة أسبوعية لا أحد يلتزم بها.",
+        "تنبيه خفيف عند إضافة ملاحظة جديدة. لا بريد متكرر، ولا وعود نشرة أسبوعية لا أحد يلتزم بها.",
       newsletterFooter: "بريدك عندك. أستخدمه فقط للتنبيه.",
     },
     reading: {
@@ -222,7 +222,7 @@ export const localeCopy = {
       focus: "وضع التركيز",
       focusOnCopy: "اضغط لإرجاع واجهة Terminal",
       focusCopy: "خلّ النص في الوسط واترك الباقي على جنب",
-      info: "معلومات المقال",
+      info: "معلومات الملاحظة",
       sections: "الأقسام",
       words: "الكلمات تقريبًا",
       themes: {
@@ -240,14 +240,14 @@ export const localeCopy = {
       title: "مستعجل؟ خذ الزبدة",
       meta: "قراءة سريعة",
       intro:
-        "لو وصلت هنا وقلت: المختصر المفيد؟ هذه النسخة لك: أهم ما في المقال، بلا ما ترسله لأحد يلخّصه.",
+        "لو وصلت هنا وقلت: المختصر المفيد؟ هذه النسخة لك: أهم ما في الملاحظة، بلا ما ترسلها لأحد يلخّصها.",
       cards: [
         { label: "الزبدة", helper: "الفكرة الأساسية في دقيقة." },
         { label: "لا تنسَ", helper: "نقاط تستحق تبقى معك." },
         { label: "اقفز إلى", helper: "أماكن تبدأ منها لو وقتك ضيق." },
-        { label: "ثلاث كلمات", helper: "كلمات تحفظ روح المقال." },
+        { label: "ثلاث كلمات", helper: "كلمات تحفظ روح الملاحظة." },
       ],
-      empty: "هذا المقال قصير بما يكفي لقراءته مباشرة.",
+      empty: "هذه الملاحظة قصيرة بما يكفي لقراءتها مباشرة.",
       fullRead: "قراءة كاملة",
       savedTime: "وفّرتها لو اكتفيت بالزبدة",
     },

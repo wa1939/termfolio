@@ -24,7 +24,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params
   const post = await getPostBySlug(slug)
-  if (!post) return { title: "المقال غير موجود" }
+  if (!post) return { title: "الملاحظة غير موجودة" }
 
   return {
     title: `${post.title} - ${siteArabic.name}`,

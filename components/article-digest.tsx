@@ -227,7 +227,7 @@ export default function ArticleDigest({ post, locale = "en" }: ArticleDigestProp
       </div>
       <div className="mt-4 flex items-center gap-2 text-xs leading-6 text-term-gray">
         <BookOpen className="h-4 w-4 text-term-cyan" />
-        <span>{locale === "ar" ? "الخلاصة مولّدة من نص المقال نفسه، لا من خدمة خارجية." : "Digest generated from the post text itself, not an external service."}</span>
+        <span>{locale === "ar" ? "الخلاصة مولّدة من نص الملاحظة نفسها، لا من خدمة خارجية." : "Digest generated from the post text itself, not an external service."}</span>
       </div>
     </section>
   )
