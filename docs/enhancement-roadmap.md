@@ -12,7 +12,7 @@ Current pass:
 - Keep terminal copy and terminal commands in English across languages.
 - Add article digest cards for skim-first readers.
 - Add a lab bench for experiments instead of presenting them as polished client projects.
-- Add a practical no-login splitter tool as a reason to return.
+- Add practical no-login tools as a reason to return, without adding a database or account layer.
 
 ## Enhancement Roadmap
 
@@ -21,7 +21,8 @@ Current pass:
    - Avoid over-explaining. Use short proof signals: People Lab, AI products, analytics, shipped outcomes.
 
 2. Improve reading experience
-   - Add skim cards above each article: the point, the map, and three words.
+   - Replace decorative skim cards with a "lazy read" digest that gives the point, key sentences, section jumps, and a memory hook.
+   - Make the voice honest and a little funny: useful for people who want the idea without sending the post to ChatGPT.
    - Keep full reading controls: focus mode, theme, font size, spacing, progress, and table of contents.
    - Add Arabic UI labels and Arabic typography while respecting the article's original language.
 
@@ -36,14 +37,20 @@ Current pass:
 
 5. Polish quality tells
    - Remove heavy side-tab borders.
-   - Reduce repetitive AI-ish copy cadence.
+   - Rewrite Arabic copy as natural Arabic, not literal translation.
+   - Keep terms like Terminal, AI, People Analytics, vCard, QR, and GitHub in English where translation would feel forced.
    - Strengthen typography hierarchy with mono UI, serif reading, and Thmanyah Arabic surfaces.
 
 ## Feature Roadmap
 
 1. Useful public tools
-   - Bill splitter, shipped in this pass.
-   - Next candidates: meeting note cleaner, Saudi salary/benefits calculator, Arabic PDF text cleaner, decision matrix, and quick Arabic word cloud generator.
+   - Bill splitter: already shipped.
+   - QR generator: turn any link, note, phone, or Wi-Fi text into a downloadable QR.
+   - Short link: create a compact public link through a no-login shortener, while storing nothing in this site.
+   - WhatsApp link: generate a click-to-chat link with a ready message.
+   - Calendar file: create a small `.ics` file that opens in Apple Calendar, Google Calendar, or Outlook.
+   - Image shrinker: resize/compress a local image in the browser before sending it.
+   - Share card maker: turn a quote or announcement into a clean image for social sharing.
 
 2. Return hooks without accounts
    - Save tool state locally.
@@ -54,10 +61,12 @@ Current pass:
    - Let terminal commands open tools.
    - Keep tools discoverable from home and lab, not hidden behind a portfolio-only nav.
    - Make each tool useful even if the visitor does not care about the portfolio yet.
+   - Avoid tools that feel too corporate or rarely used by normal people, such as salary calculators, decision matrices, unit converters, generic text counters, and password generators.
 
 4. Arabic-first expansions
    - Add original Arabic articles rather than only translating chrome.
-   - Add Arabic-specific tools that fit the site: OCR cleanup, PDF extraction, Arabic word-cloud generation.
+   - Keep Arabic concise, sharp, and editorial. The target is clear Arabic in the spirit of Thmanyah's product writing, not padded formal translation.
+   - Add Arabic-specific tools only when they are immediately useful to everyday visitors.
 
 5. Proof without over-claiming
    - Add a "systems shipped" strip with concise outcomes.

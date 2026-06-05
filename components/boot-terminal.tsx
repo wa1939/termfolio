@@ -24,7 +24,14 @@ const COMMANDS: { cmd: string; desc: string; action: string; icon: string }[] = 
   { cmd: "about", desc: "open the dossier", action: "/about", icon: "📋" },
   { cmd: "blog", desc: "read the journal", action: "/blog", icon: "📝" },
   { cmd: "lab", desc: "browse public experiments", action: "/lab", icon: "⌁" },
+  { cmd: "tools", desc: "open no-login tools", action: "/tools", icon: "▦" },
   { cmd: "split", desc: "split a bill", action: "/tools/splitter", icon: "÷" },
+  { cmd: "short", desc: "shorten or clean a link", action: "/tools/short-link", icon: "↗" },
+  { cmd: "qr", desc: "make a QR code", action: "/tools/qr", icon: "▣" },
+  { cmd: "wa", desc: "make a WhatsApp link", action: "/tools/whatsapp", icon: "wa" },
+  { cmd: "event", desc: "make a calendar file", action: "/tools/event", icon: "cal" },
+  { cmd: "image", desc: "shrink an image", action: "/tools/image", icon: "img" },
+  { cmd: "sharecard", desc: "make a share card", action: "/tools/share-card", icon: "▤" },
   { cmd: "card", desc: "open digital card", action: "/card", icon: "▣" },
   { cmd: "contact", desc: "book a conversation", action: "/contact", icon: "✉" },
   { cmd: "skills", desc: "cat skills.txt", action: "skills", icon: "⚡" },
@@ -444,8 +451,17 @@ export default function BootTerminal() {
               {" "}to switch colors
             </div>
             <div className="text-term-gray text-xs mb-1">
-              tools{" "}
-              {["split", "json", "base64", "wordcount", "uuid", "epoch"].map((cmd, i) => (
+              site tools{" "}
+              {["tools", "split", "short", "qr", "wa", "event", "image", "sharecard"].map((cmd, i) => (
+                <span key={cmd}>
+                  {i > 0 && " · "}
+                  <button onClick={() => execCommand(cmd)} className="text-term-cyan hover:underline cursor-pointer">{cmd}</button>
+                </span>
+              ))}
+            </div>
+            <div className="text-term-gray text-xs mb-1">
+              terminal tools{" "}
+              {["json", "base64", "wordcount", "uuid", "epoch"].map((cmd, i) => (
                 <span key={cmd}>
                   {i > 0 && " · "}
                   <button onClick={() => execCommand(cmd)} className="text-term-cyan hover:underline cursor-pointer">{cmd}</button>

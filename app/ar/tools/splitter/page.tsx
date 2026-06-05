@@ -29,9 +29,9 @@ export default function ArabicSplitterPage() {
 
       <main className="flex-grow pt-24 pb-12">
         <div className="container mx-auto px-4 max-w-6xl">
-          <Link href={getLocalePath("/lab", "ar")} className="mb-8 inline-flex items-center gap-2 text-term-gray transition-colors hover:text-term-cyan">
+          <Link href={getLocalePath("/tools", "ar")} className="mb-8 inline-flex items-center gap-2 text-term-gray transition-colors hover:text-term-cyan">
             <ArrowLeft className="h-4 w-4" />
-            {copy.lab.title}
+            {copy.tools.title}
           </Link>
 
           <header className="mb-8 max-w-3xl">

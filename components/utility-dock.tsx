@@ -1,15 +1,36 @@
 import Link from "next/link"
-import { ArrowUpRight, Calculator } from "lucide-react"
+import {
+  ArrowUpRight,
+  Calculator,
+  CalendarPlus,
+  ImageIcon,
+  MessageCircle,
+  QrCode,
+  ScanLine,
+  SquarePen,
+} from "lucide-react"
 import { utilityTools } from "@/content/lab"
 import { getLocalePath, localeCopy, type Locale } from "@/content/locale"
 
 interface UtilityDockProps {
   locale?: Locale
   compact?: boolean
+  limit?: number
 }
 
-export default function UtilityDock({ locale = "en", compact = false }: UtilityDockProps) {
+const toolIcons = {
+  splitter: Calculator,
+  qr: QrCode,
+  whatsapp: MessageCircle,
+  "short-link": ScanLine,
+  event: CalendarPlus,
+  image: ImageIcon,
+  "share-card": SquarePen,
+} as const
+
+export default function UtilityDock({ locale = "en", compact = false, limit }: UtilityDockProps) {
   const copy = localeCopy[locale]
+  const visibleTools = utilityTools.slice(0, limit ?? (compact ? 4 : utilityTools.length))
 
   return (
     <section className="space-y-4">
@@ -27,8 +48,10 @@ export default function UtilityDock({ locale = "en", compact = false }: UtilityD
         </div>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2">
-        {utilityTools.map((tool) => (
+      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+        {visibleTools.map((tool) => {
+          const Icon = toolIcons[tool.slug] ?? Calculator
+          return (
           <Link
             key={tool.slug}
             href={getLocalePath(tool.href, locale)}
@@ -36,7 +59,7 @@ export default function UtilityDock({ locale = "en", compact = false }: UtilityD
           >
             <div className="flex items-start gap-4">
               <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md border border-term-line bg-term-black text-term-cyan">
-                <Calculator className="h-5 w-5" />
+                <Icon className="h-5 w-5" />
               </span>
               <div className="min-w-0 flex-1">
                 <div className="text-[10px] uppercase tracking-[0.16em] text-term-gray" dir="ltr">
@@ -52,8 +75,19 @@ export default function UtilityDock({ locale = "en", compact = false }: UtilityD
               <ArrowUpRight className="h-4 w-4 shrink-0 text-term-gray group-hover:text-term-cyan" />
             </div>
           </Link>
-        ))}
+          )
+        })}
       </div>
+
+      {visibleTools.length < utilityTools.length && (
+        <Link
+          href={getLocalePath("/tools", locale)}
+          className="inline-flex items-center gap-2 text-sm text-term-cyan hover:text-term-cyan-bright"
+        >
+          {copy.tools.allTools}
+          <ArrowUpRight className="h-4 w-4" />
+        </Link>
+      )}
     </section>
   )
 }

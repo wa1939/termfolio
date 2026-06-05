@@ -36,7 +36,7 @@ export default function ArabicContactPage() {
           <section className="cli-frame overflow-hidden">
             <div className="flex items-center justify-between border-b border-term-line px-4 py-3 text-xs uppercase tracking-[0.16em] text-term-gray">
               <span dir="ltr">contact.txt</span>
-              <span>قناة مفتوحة</span>
+              <span>باب مفتوح</span>
             </div>
 
             <div className="grid gap-8 p-5 md:grid-cols-[0.9fr_1.1fr] md:p-6">
@@ -53,8 +53,8 @@ export default function ArabicContactPage() {
 
                 <div className="overflow-hidden border border-term-line">
                   <div className="grid gap-4 border-b border-term-line px-4 py-3 text-xs uppercase tracking-[0.16em] text-term-gray md:grid-cols-[120px_minmax(0,1fr)]">
-                    <span>الحقل</span>
-                    <span>القيمة</span>
+                    <span>البند</span>
+                    <span>التفاصيل</span>
                   </div>
                   <div className="space-y-0 text-sm">
                     {[
@@ -86,7 +86,7 @@ export default function ArabicContactPage() {
                   <div className="cli-topline">أسباب جيدة للتواصل</div>
                   <div className="mt-3 space-y-2 text-sm leading-7 text-term-gray">
                     <p>- تحول مؤسسي يحتاج تنفيذًا أوضح</p>
-                    <p>- فكرة منتج أو خدمة تحتاج نموذج تشغيل أذكى</p>
+                    <p>- فكرة منتج أو خدمة تحتاج طريقة تشغيل أوضح</p>
                     <p>- أدوات داخلية مدعومة بالذكاء الاصطناعي</p>
                     <p>- استشارة، حديث، أو جلسة استراتيجية مركزة</p>
                   </div>

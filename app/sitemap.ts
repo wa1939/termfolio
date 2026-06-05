@@ -1,11 +1,25 @@
 import type { MetadataRoute } from "next"
 import { getAllPosts } from "@/lib/posts"
+import { utilityTools } from "@/content/lab"
 import { siteConfig } from "@/content/site"
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const siteUrl =
     process.env.NEXT_PUBLIC_SITE_URL || siteConfig.siteUrl
   const posts = await getAllPosts()
+  const toolEntries: MetadataRoute.Sitemap = utilityTools.map((tool) => ({
+    url: `${siteUrl}${tool.href}`,
+    lastModified: new Date(),
+    changeFrequency: "monthly",
+    priority: 0.7,
+  }))
+
+  const arabicToolEntries: MetadataRoute.Sitemap = utilityTools.map((tool) => ({
+    url: `${siteUrl}/ar${tool.href}`,
+    lastModified: new Date(),
+    changeFrequency: "monthly",
+    priority: 0.65,
+  }))
 
   const blogEntries: MetadataRoute.Sitemap = posts.map((post) => ({
     url: `${siteUrl}/blog/${post.slug}`,
@@ -53,7 +67,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.7,
     },
     {
-      url: `${siteUrl}/tools/splitter`,
+      url: `${siteUrl}/tools`,
       lastModified: new Date(),
       changeFrequency: "monthly",
       priority: 0.7,
@@ -95,7 +109,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.65,
     },
     {
-      url: `${siteUrl}/ar/tools/splitter`,
+      url: `${siteUrl}/ar/tools`,
       lastModified: new Date(),
       changeFrequency: "monthly",
       priority: 0.65,
@@ -106,6 +120,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: "monthly",
       priority: 0.45,
     },
+    ...toolEntries,
+    ...arabicToolEntries,
     ...blogEntries,
     ...arabicBlogEntries,
   ]

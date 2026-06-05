@@ -1,26 +1,25 @@
 import type { Metadata } from "next"
 import Link from "next/link"
 import { ArrowLeft } from "lucide-react"
-import LabBench from "@/components/lab-bench"
-import UtilityDock from "@/components/utility-dock"
 import MinimalNav from "@/components/minimal-nav"
 import TerminalFooter from "@/components/terminal-footer"
+import UtilityDock from "@/components/utility-dock"
 import { getLocalePath, localeCopy, siteArabic } from "@/content/locale"
 import { siteConfig } from "@/content/site"
 
 export const metadata: Metadata = {
-  title: `التجارب - ${siteArabic.name}`,
-  description: localeCopy.ar.lab.description,
+  title: `الأدوات - ${siteArabic.name}`,
+  description: localeCopy.ar.tools.indexDescription,
   openGraph: {
-    title: `التجارب - ${siteArabic.name}`,
-    description: localeCopy.ar.lab.description,
-    url: `${siteConfig.siteUrl}/ar/lab`,
+    title: `الأدوات - ${siteArabic.name}`,
+    description: localeCopy.ar.tools.indexDescription,
+    url: `${siteConfig.siteUrl}/ar/tools`,
     siteName: siteArabic.name,
     type: "website",
   },
 }
 
-export default function ArabicLabPage() {
+export default function ArabicToolsPage() {
   const copy = localeCopy.ar
 
   return (
@@ -37,13 +36,18 @@ export default function ArabicLabPage() {
 
           <section className="cli-frame overflow-hidden rounded-xl">
             <div className="flex items-center justify-between border-b border-term-line px-4 py-3 text-xs uppercase tracking-[0.16em] text-term-gray">
-              <span dir="ltr">lab.md</span>
-              <span>{copy.lab.disclaimer}</span>
+              <span dir="ltr">tools.md</span>
+              <span>بلا تسجيل · بلا قاعدة بيانات</span>
             </div>
-
-            <div className="space-y-10 p-5 md:p-6">
-              <LabBench locale="ar" showViewAll={false} />
-              <div className="cli-rule" />
+            <div className="space-y-8 p-5 md:p-6">
+              <header className="max-w-3xl">
+                <h1 className="text-4xl font-bold tracking-tight text-term-white md:text-5xl">
+                  {copy.tools.indexTitle}
+                </h1>
+                <p className="mt-4 text-lg leading-8 text-term-gray">
+                  {copy.tools.indexDescription}
+                </p>
+              </header>
               <UtilityDock locale="ar" />
             </div>
           </section>
