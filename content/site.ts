@@ -1,15 +1,17 @@
 export const siteConfig = {
   // ── Identity ──────────────────────────────────────────────────────
   name: "Waleed Alhamed",
+  professionalName: "Waleed H. Alghamdi",
   handle: "waok",
-  title: "Problem Solver · Product Builder · Strategy to Execution",
-  headline: "I build products, lead teams, and turn strategy into execution.",
-  tagline: "strategy · systems · journal",
+  title: "Head of People Analytics & Research · Transformation Consultant",
+  headline: "I turn enterprise people data into decisions, predictive intelligence, and measurable impact.",
+  tagline: "people analytics · research · transformation",
   description:
-    "A terminal-first personal site and journal by Waleed Alhamed, covering strategy, systems, and digital transformation.",
+    "The personal site of Waleed Alhamed, Head of People Analytics & Research, covering people analytics, AI-enabled transformation, organizational research, and product building.",
   bio: [
-    "I solve hard problems. Whether it's building AI-powered products, leading data science teams, or launching new departments from zero — I move from idea to shipped outcome. I've built people analytics platforms, predictive dashboards, AI capabilities, and transformation frameworks across 20+ organizations.",
-    "My work sits where innovation meets execution: designing products people actually use, leading cross-functional teams, and deploying data-driven strategies that create measurable impact. I don't just consult — I build, ship, and iterate.",
+    "I lead People Analytics & Research at Elm Company, where I am building an AI-enabled People Lab that turns fragmented enterprise data into scalable intelligence for better decisions.",
+    "Across 20+ organizations in MENA, I have led AI-driven HR products, M&A integrations, culture and employee-experience transformations, and operating-model work. My focus is practical: connect the data, clarify the decision, and build systems that create measurable impact.",
+    "I am a certified PMP®, PMI-RMP®, and Prosci® practitioner, and I am completing an MBA at the University of Illinois Urbana-Champaign's Gies College of Business.",
   ],
 
   // ── Visuals ───────────────────────────────────────────────────────
@@ -18,6 +20,7 @@ export const siteConfig = {
   // ── Contact & Links ───────────────────────────────────────────────
   location: "Saudi Arabia",
   email: "waok@outlook.sa",
+  phone: "+966561714943",
   siteUrl: "https://walhamed.com",
   twitterHandle: "@walalhamed",
   calUrl: "https://cal.com/walhamed/30min",
@@ -61,14 +64,14 @@ export const siteConfig = {
   },
 
   whoami: {
-    focus: "strategy, systems, digital transformation",
-    status: "building things that matter",
+    focus: "people analytics, research, AI-enabled transformation",
+    status: "head of people analytics & research at Elm",
   },
 
   terminalSkills: [
-    "change management  // project leadership  // product thinking",
-    "python             // ai integration      // dashboards",
-    "customer-centered  // problem solving     // systems design",
+    "people analytics   // organizational research // predictive models",
+    "ai integration     // python                  // power bi",
+    "transformation     // project leadership      // change management",
   ],
 
   // ── Attribution (for open-source forks) ───────────────────────────
@@ -81,64 +84,119 @@ export const siteConfig = {
 
   // ── Professional ──────────────────────────────────────────────────
   stats: [
-    { label: "products built", value: "10+" },
     { label: "organizations impacted", value: "20+" },
-    { label: "hackathon wins", value: "3" },
-    { label: "approach", value: "build \u00D7 ship \u00D7 iterate" },
+    { label: "employees in scope", value: "~7,000" },
+    { label: "value delivered", value: "SAR 1M+" },
+    { label: "hackathon podiums", value: "3" },
   ],
   experience: [
     {
-      period: "Apr 2026 - present",
-      role: "People Lab Section Head \u2014 People Analytics & Research",
+      period: "Jun 2026 - present",
+      role: "Manager, People Lab (Head of People Analytics & Research)",
       company: "Elm Company (PIF subsidiary)",
       summary:
-        "Leading Elm's People Lab \u2014 a centralized, AI-enabled data engine unifying scattered enterprise data into one decision platform. Shipping predictive models that forecast burnout, turnover, and engagement drops before they happen. Establishing a research hub with top Saudi universities to publish deep HR research, enrich Arabic content, and pursue global awards. Turning culture and EX from gut-feel into evidence-backed strategy.",
+        "Leading Elm's People Analytics & Research function and the People Lab mandate: a centralized, AI-enabled data platform that connects enterprise people data, predictive intelligence, organizational research, culture, and employee experience to business decisions.",
     },
     {
-      period: "2025 - Apr 2026",
-      role: "Culture & Employee Experience Lead",
+      period: "Apr 2026 - Jun 2026",
+      role: "People Lab Lead (People Analytics & Research)",
       company: "Elm Company (PIF subsidiary)",
       summary:
-        "Built and shipped an AI product that saved SAR 1M+ and cut ticket volume by 48%. Led EX for ~7,000 employees. Drove M&A integration across ~3,000 employees \u2014 building the playbooks, teams, and systems from scratch.",
+        "Built the foundation for a centralized People Lab, unifying scattered data into a scalable decision engine. Developed predictive analytics for burnout, turnover, and engagement risk; established university research partnerships; and moved culture and EX toward evidence-backed strategy.",
     },
     {
-      period: "2023 - 2025",
+      period: "May 2025 - Apr 2026",
+      role: "Culture & Employee Experience Assistant Manager",
+      company: "Elm Company (PIF subsidiary)",
+      summary:
+        "Led culture, engagement, change, and IP governance across Elm and its subsidiaries, shaping the experience of approximately 7,000 employees. Led the HR workstream of the Elm-Thiqah merger for approximately 3,000 employees and managed Najd 2.0 as it moved from an internal AI solution to a sellable product after reducing HR tickets by 48%.",
+    },
+    {
+      period: "Oct 2023 - May 2025",
       role: "Culture & Employee Experience Consultant",
-      company: "Elm Company",
+      company: "Elm Company (PIF subsidiary)",
       summary:
-        "Built people analytics dashboards, prediction models, and AI capability programs. Led a data science team to deliver workforce insights and launched multiple internal products from zero.",
+        "Directed Najd, Elm's first fully Saudi, on-premise AI HR assistant integrated with Microsoft Teams and powered by RAG. The internally built product saved approximately SAR 1 million and became a marketable solution. Also designed the M&A playbook and due-diligence framework, refined values and competencies, and improved employee-experience journeys.",
     },
     {
-      period: "2022 - 2023",
-      role: "Consultant & Business Analyst",
+      period: "Sep 2023 - Oct 2023",
+      role: "Consultant",
       company: "Baseqat Arabia Consulting",
       summary:
-        "Shipped 15+ transformation projects for STC Group, Mobily, SANS, and GEA. Built strategy execution frameworks, led cross-functional teams, and delivered data-driven solutions end-to-end.",
+        "Led Denison organizational-culture work across MENA, leadership-competency assessments for major Saudi clients, process and experience improvements, business development, and stakeholder relationships.",
     },
     {
-      period: "2021 - 2022",
-      role: "Independent Consultant (SME)",
-      company: "Freelance & partner-led engagements",
+      period: "Jul 2022 - Jul 2023",
+      role: "Business Analyst",
+      company: "Baseqat Arabia Consulting",
       summary:
-        "Built Power BI dashboards and analytics products for RCJY. Authored operations systems for SSC/HRSD. Solved complex process problems with data-first approaches.",
+        "Delivered 15+ culture-transformation projects for organizations including STC Group, Mobily, SANS, and GEA with Denison Consulting. Designed change plans, HR strategy and operating models, competency frameworks, process architecture, client journeys, CRM operations, and the end-to-end sales cycle.",
+    },
+    {
+      period: "Jan 2020 - Jul 2022",
+      role: "Training Coordinator",
+      company: "Naf3 Training Company",
+      summary:
+        "Led the development, delivery, and evaluation of training programs. Standardized training processes, introduced outcome measurement, and designed workflows aligned with organizational goals.",
+    },
+    {
+      period: "May 2021 - Aug 2021",
+      role: "Mechanical Engineering Intern",
+      company: "Jeddah Municipality",
+      summary:
+        "Designed an FM200 fire-suppression system for an Al-Salam station facility and followed delivery progress for the Al-Asala rainwater-drainage project and Al-Salam station.",
+    },
+  ],
+  engagements: [
+    {
+      period: "Nov 2024 - Jan 2025",
+      role: "Senior Consultant (SME)",
+      company: "Cornerstone Consulting",
+      summary:
+        "Created an interactive operations manual for the Sectoral Skills Councils initiative under HRSD and resolved workflow bottlenecks to improve implementation speed and organizational output.",
+    },
+    {
+      period: "Jan 2024 - Dec 2024",
+      role: "Senior Consultant (SME)",
+      company: "HR Leaders Consulting & Baseqat Arabia Consulting",
+      summary:
+        "Built a Power BI turnover dashboard for the Royal Commission for Jubail and Yanbu across four cities, contributed to manpower planning, and advised strategic projects on process optimization and cultural transformation.",
+    },
+  ],
+  hackathons: [
+    {
+      place: "3rd place",
+      name: "Elm Hackathon",
+      summary: "Led a team that built an AI platform simplifying airport car-rental processes.",
+    },
+    {
+      place: "3rd place",
+      name: "Emdad Hackathon",
+      summary: "Built Khadom, an AI chatbot that automates ERP system requests.",
+    },
+    {
+      place: "1st place",
+      name: "Consultants Hackathon (Baseqat)",
+      summary: "Built an application that automates technical and financial proposal creation.",
     },
   ],
   skills: [
-    "product building",
-    "ai & ml products",
     "people analytics",
     "predictive analytics",
     "organizational research",
-    "research hubs",
-    "predictive dashboards",
-    "strategy execution",
-    "team leadership",
-    "python & automation",
-    "data science",
+    "project management",
+    "organizational culture",
+    "change management",
+    "digital transformation",
+    "ai integration",
+    "python",
+    "data analysis",
     "power bi",
     "problem solving",
-    "digital transformation",
-    "innovation",
+    "business development",
+    "process optimization",
+    "stakeholder management",
+    "advanced excel & powerpoint",
   ],
   certifications: [
     {
@@ -155,28 +213,53 @@ export const siteConfig = {
     },
     {
       name: "Prosci",
-      desc: "Change Management Certified",
+      desc: "Certified Change Practitioner",
       image:
         "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Prosci_certified-Fa1e2a7tYuuhabGDjBC0jm7zE2O5PY.webp",
     },
     {
+      name: "Denison",
+      desc: "Certified Change Culture Leader",
+      mark: "DCCL",
+    },
+    {
+      name: "ECS",
+      desc: "Occupational Safety and Health Administration",
+      mark: "ECS",
+    },
+    {
       name: "Lean Six Sigma",
-      desc: "Green Belt Certified",
+      desc: "Green Belt - Kaizen Institute Global",
       image:
         "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/green-belt-formation-ZxLReO0r1CWlV2q8PPKXx8JOfVRAft.webp",
     },
     {
+      name: "Strategic Innovation",
+      desc: "University of Illinois",
+      mark: "UIUC",
+    },
+    {
+      name: "Design-Led Strategy",
+      desc: "Sydney Business School",
+      mark: "DBS",
+    },
+    {
       name: "McKinsey Forward",
-      desc: "McKinsey Leadership Program",
+      desc: "McKinsey & Company",
       image:
         "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-fAxr6RxvxxnXpcQ3dWEApFWLimfkdp.webp",
+    },
+    {
+      name: "Misk Startup School",
+      desc: "Misk Entrepreneurship",
+      mark: "MISK",
     },
   ],
   credentials: [
     {
       name: "MBA (in progress)",
       icon: "\uD83C\uDF93",
-      desc: "UIUC Gies College of Business",
+      desc: "UIUC Gies College of Business · May 2025 - Jan 2028",
       image: "/University-Wordmark-Full-Color-RGB-1.png",
     },
     {

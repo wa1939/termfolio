@@ -55,14 +55,14 @@ export default function AboutPage() {
               <aside className="space-y-6">
                 <div className="overflow-hidden rounded-xl border border-[var(--term-line)] bg-[var(--term-darker)]">
                   <div className="relative aspect-[4/4.8]">
-                    <Image src={siteConfig.avatar} alt={siteConfig.name} fill priority className="object-cover" />
+                    <Image src={siteConfig.avatar} alt={siteConfig.professionalName} fill priority className="object-cover" />
                   </div>
                 </div>
 
                 <div className="space-y-3 text-sm leading-7 text-[var(--term-gray)]">
                   <div>
                     <div className="text-[10px] uppercase tracking-widest text-[var(--term-gray)] mb-1">name</div>
-                    <div className="text-[var(--term-white)]">{siteConfig.name}</div>
+                    <div className="text-[var(--term-white)]">{siteConfig.professionalName}</div>
                   </div>
                   <div>
                     <div className="text-[10px] uppercase tracking-widest text-[var(--term-gray)] mb-1">location</div>
@@ -72,6 +72,9 @@ export default function AboutPage() {
                     <div className="text-[10px] uppercase tracking-widest text-[var(--term-gray)] mb-1">contact</div>
                     <a href={`mailto:${siteConfig.email}`} className="text-[var(--term-cyan)] hover:underline">
                       {siteConfig.email}
+                    </a>
+                    <a href={`tel:${siteConfig.phone}`} className="mt-1 block text-[var(--term-cyan)] hover:underline">
+                      {siteConfig.phone}
                     </a>
                   </div>
                   <div>
@@ -89,7 +92,7 @@ export default function AboutPage() {
                 {/* CV Download */}
                 <a
                   href="/cv.pdf"
-                  download="waleed-alhamed-cv.pdf"
+                  download="waleed-h-alghamdi-cv.pdf"
                   className="flex items-center gap-3 rounded-lg border border-[var(--term-line)] bg-[var(--term-darker)] px-4 py-3 hover:border-[var(--term-cyan)] hover:bg-[var(--term-cyan)]/5 transition-all group"
                 >
                   <div className="text-sm text-[var(--term-gray)] group-hover:text-[var(--term-cyan)] transition-colors">
@@ -145,6 +148,42 @@ export default function AboutPage() {
                 </div>
                 </AnimateOnScroll>
 
+                {/* Independent engagements */}
+                <AnimateOnScroll>
+                <div className="rounded-lg border border-[var(--term-line)] bg-[var(--term-darker)] px-4 py-5 whitespace-pre-wrap font-mono text-sm leading-[1.8] text-[var(--term-gray)]">
+                  <div className="text-[var(--term-white)] mb-4">
+                    <span className="text-[var(--term-green)]">$</span> tree ./advisory-engagements
+                  </div>
+                  <div className="text-[var(--term-white)]">./advisory-engagements</div>
+                  {siteConfig.engagements.map((item, idx) => {
+                    const isLast = idx === siteConfig.engagements.length - 1
+                    return (
+                      <div key={`${item.period}-${item.role}`}>
+                        <div>{isLast ? "└──" : "├──"} <span className="text-[var(--term-gray)]">[{item.period}]</span> <span className="text-[var(--term-cyan)] uppercase tracking-wider text-xs">{item.company}</span></div>
+                        <div>{isLast ? "    " : "│   "} └── <span className="text-[var(--term-white)]">{item.role}</span></div>
+                        <div>{isLast ? "    " : "│   "}     <span className="text-[var(--term-gray)] whitespace-normal inline-block max-w-2xl align-top text-sm leading-6 mt-1 mb-4">{item.summary}</span></div>
+                      </div>
+                    )
+                  })}
+                </div>
+                </AnimateOnScroll>
+
+                {/* Hackathons */}
+                <AnimateOnScroll>
+                <div>
+                  <div className="text-[10px] uppercase tracking-widest text-[var(--term-gray)] mb-3">Hackathon achievements</div>
+                  <div className="grid gap-3 md:grid-cols-3">
+                    {siteConfig.hackathons.map((item) => (
+                      <div key={item.name} className="rounded-lg border border-[var(--term-line)] bg-[var(--term-darker)] p-4">
+                        <div className="text-[10px] uppercase tracking-widest text-[var(--term-amber)]">{item.place}</div>
+                        <div className="mt-2 text-sm font-bold text-[var(--term-white)]">{item.name}</div>
+                        <p className="mt-2 text-xs leading-6 text-[var(--term-gray)]">{item.summary}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                </AnimateOnScroll>
+
                 {/* Skills */}
                 <AnimateOnScroll>
                 <div className="rounded-lg border border-[var(--term-line)] bg-[var(--term-darker)] px-4 py-4">
@@ -163,18 +202,25 @@ export default function AboutPage() {
                 <AnimateOnScroll>
                 <div>
                   <div className="text-[10px] uppercase tracking-widest text-[var(--term-gray)] mb-3">Certifications</div>
-                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 pb-2">
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 pb-2">
                     {siteConfig.certifications.map((badge) => (
                       <div key={badge.name} className="group text-center">
-                        <div className="aspect-square rounded-xl border border-[var(--term-line)] bg-[var(--term-darker)] overflow-hidden hover:border-[var(--term-cyan)] transition-all duration-300">
-                          {/* eslint-disable-next-line @next/next/no-img-element */}
-                          <img
-                            src={badge.image}
-                            alt={badge.name}
-                            className="w-full h-full object-contain p-2 transition-transform duration-300 group-hover:scale-110"
-                          />
+                        <div className="flex aspect-square items-center justify-center overflow-hidden rounded-xl border border-[var(--term-line)] bg-[var(--term-darker)] hover:border-[var(--term-cyan)] transition-all duration-300">
+                          {"image" in badge && badge.image ? (
+                            /* eslint-disable-next-line @next/next/no-img-element */
+                            <img
+                              src={badge.image}
+                              alt={badge.name}
+                              className="w-full h-full object-contain p-2 transition-transform duration-300 group-hover:scale-110"
+                            />
+                          ) : (
+                            <span className="px-3 text-lg font-bold text-[var(--term-cyan)]">
+                              {"mark" in badge ? badge.mark : ""}
+                            </span>
+                          )}
                         </div>
-                        <div className="mt-2 text-[10px] font-bold text-[var(--term-gray)] group-hover:text-[var(--term-cyan)] transition-colors">{badge.name}</div>
+                        <div className="mt-2 text-[10px] font-bold text-[var(--term-white)] group-hover:text-[var(--term-cyan)] transition-colors">{badge.name}</div>
+                        <div className="mt-1 text-[9px] leading-4 text-[var(--term-gray)]">{badge.desc}</div>
                       </div>
                     ))}
                   </div>

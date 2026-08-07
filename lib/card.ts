@@ -65,7 +65,7 @@ export function getCard(): DigitalCard {
     name: data.name || siteConfig.name,
     title: data.title || siteConfig.title,
     company: data.company || "",
-    location: data.location || siteConfig.location,
+    location: data.location ?? siteConfig.location,
     avatar: data.avatar || siteConfig.avatar,
     bio: data.bio || siteConfig.headline,
     links: Array.isArray(data.links) ? data.links : [],

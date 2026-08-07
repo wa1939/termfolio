@@ -1,10 +1,10 @@
 ---
-name: "Waleed Alhamed"
-title: "Co-founder & CPO, Neuravisor | People Lab Section Head, ELM"
-company: "Neuravisor · Elm Company"
-location: "Riyadh, Saudi Arabia"
+name: "Waleed H. Alghamdi"
+title: "Head of People Analytics & Research at Elm Company"
+company: "Elm Company"
+location: ""
 avatar: "/profile.jpg"
-bio: "Co-founder & CPO, Neuravisor | People Lab Section Head — People Analytics & Research, ELM. Building AI-driven analytics, predictive models, and research that turn culture and EX into evidence-backed strategy."
+bio: "Head of People Analytics & Research at Elm Company. Building AI-enabled people analytics, predictive models, and organizational research that turn enterprise data into better decisions."
 
 # ── Links ── Browsable profiles & websites ──
 links:
@@ -20,10 +20,6 @@ links:
   - label: "Portfolio"
     url: "https://walhamed.com"
     icon: "website"
-  - label: "Neuravisor"
-    url: "https://www.neuravisor.com/"
-    icon: "website"
-
 # ── Contacts ── Direct contact methods ──
 contacts:
   - type: email

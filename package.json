@@ -36,7 +36,8 @@
     "remark-parse": "^11.0.0",
     "remark-rehype": "^11.1.2",
     "resend": "^6.9.4",
-    "unified": "^11.0.5"
+    "unified": "^11.0.5",
+    "ux-araby": "^1.0.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.5",
